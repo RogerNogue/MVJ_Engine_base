@@ -40,11 +40,11 @@ bool            ModuleProgram::Init() {
 	}
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-
+	/*
 	glShaderSource(vs, 1, &dataVertex, 0);
 	glShaderSource(fs, 1, &dataFragment, 0);
 	glCompileShader(vs);
-
+	*/
 	GLint params;
 
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
