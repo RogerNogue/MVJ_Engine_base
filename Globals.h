@@ -14,8 +14,8 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 800
 #define FULLSCREEN false
 #define VSYNC true
 #define TITLE "Super Awesome Engine"
