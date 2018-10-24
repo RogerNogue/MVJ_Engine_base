@@ -1,4 +1,3 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleMenu.h"
@@ -9,6 +8,7 @@
 #include "GL/glew.h"
 #include <stdio.h>
 #include <SDL.h>
+#include "ModuleRenderExercise.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -86,57 +86,41 @@ update_status ModuleMenu::Update() {
 		//module window
 		if (ImGui::CollapsingHeader("Window"))
 		{
-			
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module menu
 		if (ImGui::CollapsingHeader("Menu"))
 		{
-
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module render
 		if (ImGui::CollapsingHeader("Render"))
 		{
-
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module textures
 		if (ImGui::CollapsingHeader("Textures"))
 		{
-
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module input
 		if (ImGui::CollapsingHeader("Input"))
 		{
-
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module render exercise
 		if (ImGui::CollapsingHeader("Render Exercise"))
 		{
-
+			ImGui::Text("Cam declarations:");
+			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->exercise->cam.x, App->exercise->cam.y, App->exercise->cam.z);
+			ImGui::BulletText("vrp position = ( %f, %f, %f )", App->exercise->vrp.x, App->exercise->vrp.y, App->exercise->vrp.z);
+			ImGui::BulletText("up directions = ( %f, %f, %f )", App->exercise->up.x, App->exercise->up.y, App->exercise->up.z);
 		}
 		//module program
 		if (ImGui::CollapsingHeader("Program"))
 		{
-
+			ImGui::Text("Not much to be shown about this module yet.");
 		}
-		/*
-		static float f = 0.0f;
-		static int counter = 0;
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		*/
 		
 	}
 	

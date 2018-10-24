@@ -17,6 +17,10 @@ public:
 	//void lookAt(const math::float3);
 
 	//variables
+	math::float3 cam;
+	math::float3 vrp;
+	math::float3 up;
+
 	math::float4x4 model;
 	math::float4x4 view;
 	math::float4x4 projection;

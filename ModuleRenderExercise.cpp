@@ -20,9 +20,9 @@ bool ModuleRenderExercise::Init()
 	model = math::float4x4::identity;
 
 	//view matrix
-	math::float3 cam = math::float3(0, 5, 3);
-	math::float3 vrp = math::float3(0, 0, 0);
-	math::float3 up = math::float3(0, 1, 0);
+	cam = math::float3(0, 5, 3);
+	vrp = math::float3(0, 0, 0);
+	up = math::float3(0, 1, 0);
 
 	math::float3 forward = (vrp - cam);
 	forward.Normalize();

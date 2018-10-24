@@ -1,6 +1,7 @@
 #ifndef __ModuleMenu_h__
 #define __ModuleMenu_h__
 #include "Module.h"
+#include "Globals.h"
 
 class ModuleMenu :
 	public Module
