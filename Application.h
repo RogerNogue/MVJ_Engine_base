@@ -31,7 +31,6 @@ public:
     ModuleRenderExercise* exercise = nullptr;
 	ModuleProgram* shaderProgram = nullptr;
 	ModuleMenu* menu = nullptr;
-
 private:
 
 	std::list<Module*> modules;
