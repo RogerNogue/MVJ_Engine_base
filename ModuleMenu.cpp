@@ -35,10 +35,10 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
-	/*
+	
 	bool show_demo_window = true;
 	ImGui::ShowDemoWindow(&show_demo_window);
-	*/
+	
 	/*
 	{
 		static float f = 0.0f;
