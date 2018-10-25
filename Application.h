@@ -3,6 +3,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include <time.h>
 
 class ModuleRender;
 class ModuleWindow;
@@ -22,6 +23,8 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	double currentTimeMS();
+	int currentTimeS();
 
 public:
 	ModuleRender* renderer = nullptr;
@@ -32,7 +35,7 @@ public:
 	ModuleProgram* shaderProgram = nullptr;
 	ModuleMenu* menu = nullptr;
 private:
-
+	clock_t startingTime;
 	std::list<Module*> modules;
 
 };

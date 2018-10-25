@@ -10,6 +10,7 @@
 #include <SDL.h>
 #include "ModuleRenderExercise.h"
 
+
 ModuleMenu::ModuleMenu()
 {
 }
@@ -24,7 +25,33 @@ bool ModuleMenu::Init() {
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
+	//setting up the vars for the logs
+	logMSIterator = 0;
+	logFPSIterator = 0;
+	fps_log = new float[50];
+	ms_log = new float[50];
+	lastFrameTime = App->currentTimeMS();
+	lastSecondTime = App->currentTimeMS();
 	return true;
+}
+void ModuleMenu::updateFramerates() {
+	
+	//ms calculation
+	ms_log[logMSIterator] = (int)((App->currentTimeMS() - lastFrameTime) * 1000);
+	lastFrameTime = App->currentTimeMS();
+	//fps calculation
+	double timeElapsed = App->currentTimeMS() - lastSecondTime;
+	if (timeElapsed >= 1000.0) {
+		lastSecondTime = App->currentTimeMS();
+		fps_log[logFPSIterator] = frames;
+		frames = 0;
+		++logFPSIterator;
+		if (logFPSIterator > 49) logFPSIterator = 0;
+	}
+	else ++frames;
+	//iterator increase
+	++logMSIterator;
+	if (logMSIterator > 49) logMSIterator = 0;
 }
 
 update_status ModuleMenu::PreUpdate() {
@@ -35,7 +62,6 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
-
 	bool show_demo_window = false;
 	if (show_demo_window)ImGui::ShowDemoWindow(&show_demo_window);
 	
@@ -45,11 +71,20 @@ update_status ModuleMenu::Update() {
 		{
 			if (ImGui::BeginMenu("Menu"))
 			{
+				ImGui::Text("Menu");
 				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("Help"))
 			{
-				
+				if (ImGui::Button("Documentation")) {
+					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/wiki", NULL, NULL, SW_SHOWNORMAL);
+				}
+				if (ImGui::Button("Download latest")) {
+					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/releases", NULL, NULL, SW_SHOWNORMAL);
+				}
+				if (ImGui::Button("Report a bug")) {
+					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/issues", NULL, NULL, SW_SHOWNORMAL);
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -61,19 +96,38 @@ update_status ModuleMenu::Update() {
 			ImGui::Text("Description");
 			ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
 			ImGui::Text("Authors");
-			ImGui::BulletText("Roger Nogué Ballbé.");
+			ImGui::BulletText("Roger Nogue Ballbe.");
 			ImGui::Text("Libraries");
 			ImGui::BulletText("SDL.");
 			ImGui::BulletText("IMGUI.");
 			ImGui::BulletText("GLEW.");
 			ImGui::Text("Licenses");
-			ImGui::BulletText("SDL: https://www.libsdl.org/license.php");
-			ImGui::BulletText("IMGUI: https://github.com/ocornut/imgui/blob/master/LICENSE.txt");
-			ImGui::BulletText("GLEW: https://www.opengl.org/about/#11");
+			if (ImGui::Button("SDL")) {
+				ShellExecute(NULL, "open", "https://www.libsdl.org/license.php", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::Button("IMGUI")) {
+				ShellExecute(NULL, "open", "https://github.com/ocornut/imgui/blob/master/LICENSE.txt", NULL, NULL, SW_SHOWNORMAL);
+			}
+			if (ImGui::Button("GLEW")) {
+				ShellExecute(NULL, "open", "https://www.opengl.org/about/#11", NULL, NULL, SW_SHOWNORMAL);
+			}
 			ImGui::Separator();
 		}
 		
 		//going over all the menus
+		//App info
+		if (ImGui::CollapsingHeader("Application details"))
+		{
+			ImGui::Text("Application Time = %d", App->currentTimeS());
+			char title[25];
+			
+			//sprintf_s(title, 25, "Framerate %.1f", fps_log[logFPSIterator]);
+			ImGui::PlotHistogram("", fps_log, 50, 0, "", 0.0f, 100.0f, ImVec2(350, 100));
+			//sprintf_s(title, 25, "Milliseconds %.1f", ms_log[logMSIterator]);
+			ImGui::PlotHistogram("", ms_log, 50, 0, "", 0.0f, 100.0f, ImVec2(350, 100));
+			
+			updateFramerates();
+		}
 		//global variables
 		if (ImGui::CollapsingHeader("Globals"))
 		{
@@ -139,6 +193,8 @@ bool ModuleMenu::CleanUp() {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	delete fps_log;
+	delete ms_log;
 	return true;
 }
 

@@ -20,6 +20,9 @@ Application::Application()
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(exercise = new ModuleRenderExercise());
 	modules.push_back(shaderProgram = new ModuleProgram());
+
+	startingTime = clock();
+
 }
 
 Application::~Application()
@@ -28,6 +31,15 @@ Application::~Application()
     {
         delete *it;
     }
+}
+
+double Application::currentTimeMS() {
+	//return time(nullptr) - startingTime;
+	return ((double)startingTime / CLOCKS_PER_SEC / 1000);
+}
+
+int Application::currentTimeS() {
+	return (int)clock()/CLOCKS_PER_SEC;
 }
 
 bool Application::Init()
