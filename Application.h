@@ -3,7 +3,6 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
-#include <time.h>
 
 class ModuleRender;
 class ModuleWindow;
@@ -12,6 +11,7 @@ class ModuleInput;
 class ModuleRenderExercise;
 class ModuleProgram;
 class ModuleMenu;
+class ModuleCamera;
 
 class Application
 {
@@ -23,8 +23,6 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
-	double currentTimeMS();
-	int currentTimeS();
 
 public:
 	ModuleRender* renderer = nullptr;
@@ -34,8 +32,8 @@ public:
     ModuleRenderExercise* exercise = nullptr;
 	ModuleProgram* shaderProgram = nullptr;
 	ModuleMenu* menu = nullptr;
+	ModuleCamera* camera = nullptr;
 private:
-	clock_t startingTime;
 	std::list<Module*> modules;
 
 };

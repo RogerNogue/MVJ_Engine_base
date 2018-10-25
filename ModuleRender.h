@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "MathGeoLib.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;

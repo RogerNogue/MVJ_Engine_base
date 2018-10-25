@@ -30,25 +30,20 @@ bool ModuleMenu::Init() {
 	logFPSIterator = 0;
 	fps_log = new float[50];
 	ms_log = new float[50];
-	lastFrameTime = App->currentTimeMS();
-	lastSecondTime = App->currentTimeMS();
+	lastFrameTime = SDL_GetTicks();
+	lastSecondTime = SDL_GetTicks();
 	return true;
 }
 void ModuleMenu::updateFramerates() {
-	
-	//ms calculation
-	ms_log[logMSIterator] = (int)((App->currentTimeMS() - lastFrameTime) * 1000);
-	lastFrameTime = App->currentTimeMS();
+	double timeElapsed = SDL_GetTicks() - lastSecondTime;
 	//fps calculation
-	double timeElapsed = App->currentTimeMS() - lastSecondTime;
-	if (timeElapsed >= 1000.0) {
-		lastSecondTime = App->currentTimeMS();
-		fps_log[logFPSIterator] = frames;
-		frames = 0;
-		++logFPSIterator;
-		if (logFPSIterator > 49) logFPSIterator = 0;
-	}
-	else ++frames;
+	lastSecondTime = SDL_GetTicks();
+	fps_log[logFPSIterator] = 1000/timeElapsed;
+	++logFPSIterator;
+	if (logFPSIterator > 49) logFPSIterator = 0;
+	//ms calculation
+	ms_log[logMSIterator] = timeElapsed;
+	lastFrameTime = SDL_GetTicks();
 	//iterator increase
 	++logMSIterator;
 	if (logMSIterator > 49) logMSIterator = 0;
@@ -67,7 +62,7 @@ update_status ModuleMenu::Update() {
 	
 	else{
 		// Menu
-		if (ImGui::BeginMenuBar())
+		if (ImGui::BeginMainMenuBar())
 		{
 			if (ImGui::BeginMenu("Menu"))
 			{
@@ -87,7 +82,10 @@ update_status ModuleMenu::Update() {
 				}
 				ImGui::EndMenu();
 			}
-			ImGui::EndMenuBar();
+			if (ImGui::BeginMenu("Exit")) {
+				return UPDATE_STOP;
+			}
+			ImGui::EndMainMenuBar();
 		}
 		ImGui::Spacing();
 		if (ImGui::CollapsingHeader("About"))
@@ -118,15 +116,13 @@ update_status ModuleMenu::Update() {
 		//App info
 		if (ImGui::CollapsingHeader("Application details"))
 		{
-			ImGui::Text("Application Time = %d", App->currentTimeS());
-			char title[25];
-			
-			//sprintf_s(title, 25, "Framerate %.1f", fps_log[logFPSIterator]);
-			ImGui::PlotHistogram("", fps_log, 50, 0, "", 0.0f, 100.0f, ImVec2(350, 100));
-			//sprintf_s(title, 25, "Milliseconds %.1f", ms_log[logMSIterator]);
-			ImGui::PlotHistogram("", ms_log, 50, 0, "", 0.0f, 100.0f, ImVec2(350, 100));
-			
+			ImGui::Text("Application Time = %d", SDL_GetTicks()/1000);
+			char* title = new char[50];
 			updateFramerates();
+			sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
+			ImGui::PlotHistogram("", fps_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+			sprintf_s(title, 50, "Milliseconds %.1f", ms_log[logMSIterator]);
+			ImGui::PlotHistogram("", ms_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
 		}
 		//global variables
 		if (ImGui::CollapsingHeader("Globals"))

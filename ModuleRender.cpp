@@ -5,6 +5,7 @@
 #include "SDL.h"
 #include "GL/glew.h"
 #include "MathGeoLib.h"
+#include "ModuleRenderExercise.h"
 
 ModuleRender::ModuleRender()
 {
@@ -83,3 +84,5 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
     glViewport(0, 0, width, height); 
 }
+
+

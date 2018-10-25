@@ -6,6 +6,7 @@
 #include "GL/glew.h"
 #include "SDL.h"
 #include "MathGeoLib.h"
+#include "ModuleCamera.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -20,22 +21,18 @@ bool ModuleRenderExercise::Init()
 	model = math::float4x4::identity;
 
 	//view matrix
-	cam = math::float3(0, 5, 3);
+	cam = math::float3(1, 5, 3);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
 
-	math::float3 forward = (vrp - cam);
-	forward.Normalize();
-	math::float3 side = (forward.Cross(up));
-	math::float3 newUp = (side.Cross(forward));
-	//now that we have all the values, we generate the view matrix
-	view[0][0] = side.x; view[0][1] = side.y; view[0][2] = side.z; view[3][0] = 0;
-	view[1][0] = newUp.x; view[1][1] = newUp.y; view[1][2] = newUp.z; view[3][1] = 0;
-	view[2][0] = forward.x; view[2][1] = forward.y; view[2][2] = forward.z; view[3][2] = 0;
-	view[0][3] = -side.Dot(cam); view[1][3] = -newUp.Dot(cam); view[2][3] = forward.Dot(cam); view[3][3] = 1;
+    return true;
+}
+
+update_status ModuleRenderExercise::Update()
+{
+	App->camera->lookAt(cam, vrp, up);
 
 	//projection matrix
-
 	Frustum frustum;
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.pos = float3::zero;
@@ -44,11 +41,11 @@ bool ModuleRenderExercise::Init()
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 100.0f;
 	frustum.verticalFov = math::pi / 4.0f;
-	float aspect = SCREEN_WIDTH/ SCREEN_HEIGHT;
+	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
 
 	projection = frustum.ProjectionMatrix();;
-	
+
 	//points of the triangle declaration
 	math::float4 point1 = math::float4(-1.0f, -1.0f, 0.0f, 1);
 	math::float4 point2 = math::float4(1.0f, -1.0f, 0.0f, 1);
@@ -63,25 +60,33 @@ bool ModuleRenderExercise::Init()
 		point2.x / point2.w, point2.y / point2.w, point2.z / point2.w,
 		point3.x / point3.w,  point3.y / point3.w, point2.z / point3.w,
 	};
-	/*
-	float vertex_buffer_data[] = {
-        -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
-        0.0f,  1.0f, 0.0f,
-	};
-	*/
+	
+	/*float vertex_buffer_data[] = {
+	-1.0f, -1.0f, 0.0f,
+	1.0f, -1.0f, 0.0f,
+	0.0f,  1.0f, 0.0f,
+	};*/
 
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//lines
+	glLineWidth(1.0f);
 
-    return vbo;
-}
+	glBegin(GL_LINES);
+	float d = 200.f;
 
-update_status ModuleRenderExercise::Update()
-{
+	for (float i = -d; i <= d; i += 1.0f) {
+		//projection * view * model * math::float4(i, 0.0f, -d, 1);
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
+
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(

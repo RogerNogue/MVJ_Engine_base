@@ -7,6 +7,7 @@
 #include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
 #include "ModuleMenu.h"
+#include "ModuleCamera.h"
 
 using namespace std;
 
@@ -20,8 +21,7 @@ Application::Application()
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(exercise = new ModuleRenderExercise());
 	modules.push_back(shaderProgram = new ModuleProgram());
-
-	startingTime = clock();
+	modules.push_back(camera = new ModuleCamera());
 
 }
 
@@ -31,15 +31,6 @@ Application::~Application()
     {
         delete *it;
     }
-}
-
-double Application::currentTimeMS() {
-	//return time(nullptr) - startingTime;
-	return ((double)startingTime / CLOCKS_PER_SEC / 1000);
-}
-
-int Application::currentTimeS() {
-	return (int)clock()/CLOCKS_PER_SEC;
 }
 
 bool Application::Init()
