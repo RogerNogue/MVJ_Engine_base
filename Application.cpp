@@ -19,8 +19,8 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(input = new ModuleInput());
-	modules.push_back(exercise = new ModuleRenderExercise());
 	modules.push_back(shaderProgram = new ModuleProgram());
+	modules.push_back(exercise = new ModuleRenderExercise());
 	modules.push_back(camera = new ModuleCamera());
 
 }

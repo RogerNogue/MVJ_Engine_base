@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "ModuleRenderExercise.h"
+#include "ModuleProgram.h"
 #include "ModuleWindow.h"
 
 #include "GL/glew.h"
@@ -24,7 +25,7 @@ bool ModuleRenderExercise::Init()
 	cam = math::float3(1, 5, 3);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
-
+	
     return true;
 }
 
@@ -44,28 +45,21 @@ update_status ModuleRenderExercise::Update()
 	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
 
-	projection = frustum.ProjectionMatrix();;
+	projection = frustum.ProjectionMatrix();
 
-	//points of the triangle declaration
-	math::float4 point1 = math::float4(-1.0f, -1.0f, 0.0f, 1);
-	math::float4 point2 = math::float4(1.0f, -1.0f, 0.0f, 1);
-	math::float4 point3 = math::float4(0.0f, 1.0f, 0.0f, 1);
-
-	point1 = projection * view * model * point1;
-	point2 = projection * view * model * point2;
-	point3 = projection * view * model * point3;
-
-	float vertex_buffer_data[] = {
-		point1.x / point1.w, point1.y / point1.w, point1.z / point1.w,
-		point2.x / point2.w, point2.y / point2.w, point2.z / point2.w,
-		point3.x / point3.w,  point3.y / point3.w, point2.z / point3.w,
-	};
 	
-	/*float vertex_buffer_data[] = {
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+		"model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+		"view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+		"proj"), 1, GL_TRUE, &projection[0][0]);
+	
+	float vertex_buffer_data[] = {
 	-1.0f, -1.0f, 0.0f,
 	1.0f, -1.0f, 0.0f,
 	0.0f,  1.0f, 0.0f,
-	};*/
+	};
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -79,7 +73,6 @@ update_status ModuleRenderExercise::Update()
 	float d = 200.f;
 
 	for (float i = -d; i <= d; i += 1.0f) {
-		//projection * view * model * math::float4(i, 0.0f, -d, 1);
 		glVertex3f(i, 0.0f, -d);
 		glVertex3f(i, 0.0f, d);
 		glVertex3f(-d, 0.0f, i);

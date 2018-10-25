@@ -23,12 +23,12 @@ update_status   ModuleCamera::Update() {
 	//const Uint8 *keyboard = NULL;
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		App->exercise->cam.y += 0.1;
-		App->exercise->vrp.y += 0.1;
+		App->exercise->cam += App->exercise->up;
+		App->exercise->vrp += App->exercise->up;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		App->exercise->cam.y -= 0.1;
-		App->exercise->vrp.y -= 0.1;
+		App->exercise->cam -= App->exercise->up;
+		App->exercise->vrp -= App->exercise->up;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
 		App->exercise->cam.z += 0.1;//no esta be, he d agafar front, no suamr z
