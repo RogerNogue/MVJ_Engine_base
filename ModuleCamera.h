@@ -17,6 +17,7 @@ public:
 	void setFoV(float fov);//changes vertical Fov
 	void SetAspectRatio(float aspect);//changes horizontal Fov
 	//variables
+	float movementSpeed;
 
 };
 

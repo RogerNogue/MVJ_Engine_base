@@ -16,6 +16,7 @@ ModuleCamera::~ModuleCamera()
 }
 
 bool            ModuleCamera::Init() {
+	movementSpeed = 0.1;
 	return true;
 }
 update_status   ModuleCamera::Update() {
@@ -23,29 +24,33 @@ update_status   ModuleCamera::Update() {
 	//const Uint8 *keyboard = NULL;
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		App->exercise->cam += App->exercise->up*0.1;
-		App->exercise->vrp += App->exercise->up*0.1;
+		App->exercise->cam += App->exercise->up*movementSpeed;
+		App->exercise->vrp += App->exercise->up*movementSpeed;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		App->exercise->cam -= App->exercise->up*0.1;
-		App->exercise->vrp -= App->exercise->up*0.1;
+		App->exercise->cam -= App->exercise->up*movementSpeed;
+		App->exercise->vrp -= App->exercise->up*movementSpeed;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
-		App->exercise->cam += App->exercise->fwd*0.1;
-		App->exercise->vrp += App->exercise->fwd*0.1;
+		App->exercise->cam += App->exercise->fwd*movementSpeed;
+		App->exercise->vrp += App->exercise->fwd*movementSpeed;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
-		App->exercise->cam -= App->exercise->side*0.1;
-		App->exercise->vrp -= App->exercise->side*0.1;
+		App->exercise->cam -= App->exercise->side*movementSpeed;
+		App->exercise->vrp -= App->exercise->side*movementSpeed;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
-		App->exercise->cam -= App->exercise->fwd*0.1;
-		App->exercise->vrp -= App->exercise->fwd*0.1;
+		App->exercise->cam -= App->exercise->fwd*movementSpeed;
+		App->exercise->vrp -= App->exercise->fwd*movementSpeed;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
-		App->exercise->cam += App->exercise->side*0.1;
-		App->exercise->vrp += App->exercise->side*0.1;
+		App->exercise->cam += App->exercise->side*movementSpeed;
+		App->exercise->vrp += App->exercise->side*movementSpeed;
 	}
+	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
+		movementSpeed = 2;
+	}
+	else movementSpeed = 0.1;
 	return UPDATE_CONTINUE;
 }
 bool            ModuleCamera::CleanUp() {
