@@ -19,5 +19,8 @@ public:
 	//variables
 	float movementSpeed;
 
+private:
+	bool cameraChanged;
+
 };
 

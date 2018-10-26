@@ -2,14 +2,12 @@
 #include "ModuleWindow.h"
 #include "ModuleMenu.h"
 #include "ModuleRender.h"
-#include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include "GL/glew.h"
 #include <stdio.h>
 #include <SDL.h>
 #include "ModuleRenderExercise.h"
-
 
 ModuleMenu::ModuleMenu()
 {
@@ -32,6 +30,8 @@ bool ModuleMenu::Init() {
 	ms_log = new float[50];
 	lastFrameTime = SDL_GetTicks();
 	lastSecondTime = SDL_GetTicks();
+	console.AddLog("Console log:\n");
+	
 	return true;
 }
 void ModuleMenu::updateFramerates() {
@@ -173,7 +173,7 @@ update_status ModuleMenu::Update() {
 		}
 		
 	}
-	
+	console.Draw("Console");
 
 	//ImGui::End();
 	return UPDATE_CONTINUE;
