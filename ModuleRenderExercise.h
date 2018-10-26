@@ -20,6 +20,8 @@ public:
 	math::float3 cam;
 	math::float3 vrp;
 	math::float3 up;
+	math::float3 fwd;
+	math::float3 side;
 
 	math::float4x4 model;
 	math::float4x4 view;

@@ -23,28 +23,28 @@ update_status   ModuleCamera::Update() {
 	//const Uint8 *keyboard = NULL;
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		App->exercise->cam += App->exercise->up;
-		App->exercise->vrp += App->exercise->up;
+		App->exercise->cam += App->exercise->up*0.1;
+		App->exercise->vrp += App->exercise->up*0.1;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		App->exercise->cam -= App->exercise->up;
-		App->exercise->vrp -= App->exercise->up;
+		App->exercise->cam -= App->exercise->up*0.1;
+		App->exercise->vrp -= App->exercise->up*0.1;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
-		App->exercise->cam.z += 0.1;//no esta be, he d agafar front, no suamr z
-		App->exercise->vrp.z += 0.1;
+		App->exercise->cam += App->exercise->fwd*0.1;
+		App->exercise->vrp += App->exercise->fwd*0.1;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
-		App->exercise->cam.x -= 0.1;
-		App->exercise->vrp.x -= 0.1;
+		App->exercise->cam -= App->exercise->side*0.1;
+		App->exercise->vrp -= App->exercise->side*0.1;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
-		App->exercise->cam.z -= 0.1;
-		App->exercise->vrp.z -= 0.1;
+		App->exercise->cam -= App->exercise->fwd*0.1;
+		App->exercise->vrp -= App->exercise->fwd*0.1;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
-		App->exercise->cam.x += 0.1;
-		App->exercise->vrp.x += 0.1;
+		App->exercise->cam += App->exercise->side*0.1;
+		App->exercise->vrp += App->exercise->side*0.1;
 	}
 	return UPDATE_CONTINUE;
 }
@@ -64,6 +64,10 @@ void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, cons
 	view[2][0] = forward.x; view[2][1] = forward.y; view[2][2] = forward.z; view[3][2] = 0;
 	view[0][3] = -side.Dot(obs); view[1][3] = -newUp.Dot(obs); view[2][3] = forward.Dot(obs); view[3][3] = 1;
 	App->exercise->view = view;
+	//updating cam values
+	App->exercise->up = newUp;
+	App->exercise->fwd = forward;
+	App->exercise->side = side;
 }
 
 void ModuleCamera::setFoV(float fov){
