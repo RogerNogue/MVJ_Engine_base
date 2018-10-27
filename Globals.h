@@ -17,6 +17,8 @@ enum update_status
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 800
 #define FULLSCREEN false
+#define BORDERLESS false
+#define RESIZABLE_WINDOW true
 #define VSYNC true
 #define TITLE "Super Awesome Engine"
 #define GLSL_VERSION "#version 330"
