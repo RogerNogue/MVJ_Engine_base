@@ -59,6 +59,9 @@ bool            ModuleCamera::Init() {
 	cam = math::float3(0, 2, 3);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
+	Xaxis = math::float3(1, 0, 0);
+	Yaxis = math::float3(0, 1, 0);
+	Zaxis = math::float3(0, 0, 1);
 	distCamVrp = sqrt(pow((cam.x - vrp.x), 2) + pow((cam.y - vrp.y), 2) + pow((cam.z - vrp.z), 2));
 	return true;
 }
@@ -67,33 +70,33 @@ update_status   ModuleCamera::Update() {
 	//const Uint8 *keyboard = NULL;
 	//keyboard listeners
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		cam += up*movementSpeed;
-		vrp += up*movementSpeed;
+		cam += Yaxis*movementSpeed;
+		vrp += Yaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		cam -= up*movementSpeed;
-		vrp -= up*movementSpeed;
+		cam -= Yaxis*movementSpeed;
+		vrp -= Yaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
-		cam += fwd*movementSpeed;
-		vrp += fwd*movementSpeed;
+		cam -= Zaxis*movementSpeed;
+		vrp -= Zaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
-		cam -= side*movementSpeed;
-		vrp -= side*movementSpeed;
+		cam -= Xaxis*movementSpeed;
+		vrp -= Xaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
-		cam -= fwd*movementSpeed;
-		vrp -= fwd*movementSpeed;
+		cam += Zaxis *movementSpeed;
+		vrp += Zaxis *movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
-		cam += side*movementSpeed;
-		vrp += side*movementSpeed;
+		cam += Xaxis *movementSpeed;
+		vrp += Xaxis *movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
@@ -103,25 +106,25 @@ update_status   ModuleCamera::Update() {
 
 	//arrows to rotate the camera
 	if (App->input->keyboard[SDL_SCANCODE_UP]) {
-		rotationX(up, -0.05);
+		rotationX(up, 0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd*distCamVrp;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
-		rotationX(up, 0.05);
+		rotationX(up, -0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd * distCamVrp;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_LEFT]) {
-		rotationY(side, 0.05);
+		rotationY(side, -0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd * distCamVrp;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
-		rotationY(side, -0.05);
+		rotationY(side, 0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd * distCamVrp;
 		cameraChanged = true;

@@ -29,6 +29,9 @@ public:
 	math::float3 up;
 	math::float3 fwd;
 	math::float3 side;
+	math::float3 Xaxis;
+	math::float3 Yaxis;
+	math::float3 Zaxis;
 	float movementSpeed;
 
 private:
