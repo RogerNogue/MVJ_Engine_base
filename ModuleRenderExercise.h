@@ -13,7 +13,7 @@ public:
 	bool            Init    ();
 	update_status   Update  ();
 	bool            CleanUp ();
-
+	void reCalculateVRP(math::float3 p);
 	//void lookAt(const math::float3);
 
 	//variables

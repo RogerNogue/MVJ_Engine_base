@@ -16,6 +16,43 @@ ModuleCamera::~ModuleCamera()
 {
 }
 
+math::float3 ModuleCamera::transformation(math::float3 point, math::float3 transf) {
+	math::float4x4 transfMat = math::float4x4::identity;
+	transfMat[0][3] = transf.x; transfMat[1][3] = transf.y; transfMat[2][3] = transf.z;
+	math::float4 point4; point4[0] = point.x; point4[1] = point.y; point4[2] = point.z; point4[3] = 1;
+
+	point4 = transfMat * point4;
+	math::float3 res; res[0] = point4.x; res[1] = point4.y; res[2] = point4.z;
+	return res;
+}
+
+void ModuleCamera::rotationX(math::float3& p, float angle) {
+	math::float3x3 rotX;
+	rotX[0][0] = 1; rotX[0][1] = 0;					rotX[0][2] = 0;
+	rotX[1][0] = 0; rotX[1][1] = SDL_cos(angle);	rotX[1][2] = -SDL_sin(angle);
+	rotX[2][0] = 0; rotX[2][1] = SDL_sin(angle);	rotX[2][2] = SDL_cos(angle);
+
+	p = p * rotX;
+	//p = transformation(p, App->exercise->cam);
+	
+}
+
+void ModuleCamera::rotationY(math::float3& p, float angle) {
+	math::float3x3 rotY;
+	rotY[0][0] = math::Cos(angle);	rotY[0][1] = 0;					rotY[0][2] = math::Sin(angle);
+	rotY[1][0] = 0;					rotY[1][1] = 1;					rotY[1][2] = 0;
+	rotY[2][0] = -math::Sin(angle);	rotY[2][1] = 0;					rotY[2][2] = math::Cos(angle);
+	p = rotY * p;
+}
+
+void ModuleCamera::rotationZ(math::float3& p, float angle) {
+	math::float3x3 rotZ;
+	rotZ[0][0] = math::Cos(angle);	rotZ[0][1] = -math::Sin(angle);	rotZ[0][2] = 0;
+	rotZ[1][0] = math::Sin(angle);	rotZ[1][1] = math::Cos(angle);	rotZ[1][2] = 0;
+	rotZ[2][0] = 0;					rotZ[2][1] = 0;					rotZ[2][2] = 1;
+	p = rotZ * p;
+}
+
 bool            ModuleCamera::Init() {
 	cameraChanged = false;
 	movementSpeed = 0.1;
@@ -59,6 +96,37 @@ update_status   ModuleCamera::Update() {
 		movementSpeed = 2;
 	}
 	else movementSpeed = 0.1;
+
+	//arrows to rotate the camera
+	if (App->input->keyboard[SDL_SCANCODE_UP]) {
+		rotationX(App->exercise->up, -0.005);
+		//App->exercise->up.Normalize();
+		App->exercise->vrp = transformation(App->exercise->vrp, -App->exercise->cam); 
+		rotationX(App->exercise->vrp, -0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, App->exercise->cam);
+		cameraChanged = true;
+	}
+	if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
+		rotationX(App->exercise->up, 0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, -App->exercise->cam); 
+		rotationX(App->exercise->vrp, 0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, App->exercise->cam);
+		cameraChanged = true;
+	}
+	if (App->input->keyboard[SDL_SCANCODE_LEFT]) {
+		rotationY(App->exercise->side, 0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, -App->exercise->cam);
+		rotationY(App->exercise->vrp, -0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, App->exercise->cam);
+		cameraChanged = true;
+	}
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
+		rotationY(App->exercise->side, -0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, -App->exercise->cam);
+		rotationY(App->exercise->vrp, -0.005);
+		App->exercise->vrp = transformation(App->exercise->vrp, App->exercise->cam);
+		cameraChanged = true;
+	}
 
 	//mouse listeners
 	/*static SDL_Event event;
@@ -115,9 +183,9 @@ void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, cons
 	view[0][3] = -side.Dot(obs); view[1][3] = -newUp.Dot(obs); view[2][3] = forward.Dot(obs); view[3][3] = 1;
 	App->exercise->view = view;
 	//updating cam values
-	App->exercise->up = newUp;
-	App->exercise->fwd = forward;
-	App->exercise->side = side;
+	App->exercise->up = newUp.Normalized();
+	App->exercise->fwd = forward.Normalized();
+	App->exercise->side = side.Normalized();
 }
 
 void ModuleCamera::setFoV(float fov){

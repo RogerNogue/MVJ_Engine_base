@@ -109,3 +109,7 @@ bool ModuleRenderExercise::CleanUp()
 	return true;
 }
 
+void ModuleRenderExercise::reCalculateVRP(math::float3 p) {
+
+	vrp += p * sqrt(pow(vrp.x-cam.x, 2)+ pow(vrp.y - cam.y, 2) + pow(vrp.z - cam.z, 2));
+}

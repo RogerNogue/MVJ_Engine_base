@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "MathGeoLib.h"
+
 class ModuleCamera :
 	public Module
 {
@@ -13,6 +14,11 @@ public:
 	bool            Init();
 	update_status   Update();
 	bool            CleanUp();
+	math::float3 transformation(math::float3 point, math::float3 transf);
+	void rotationX(math::float3& p, float angle);
+	void rotationY(math::float3& p, float angle);
+	void rotationZ(math::float3& p, float angle);
+
 
 	void setFoV(float fov);//changes vertical Fov
 	void SetAspectRatio(float aspect);//changes horizontal Fov
