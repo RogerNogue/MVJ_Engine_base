@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <SDL.h>
 #include "ModuleRenderExercise.h"
+#include "ModuleCamera.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -159,12 +160,15 @@ update_status ModuleMenu::Update() {
 			ImGui::Text("Not much to be shown about this module yet.");
 		}
 		//module render exercise
-		if (ImGui::CollapsingHeader("Render Exercise"))
+		if (ImGui::CollapsingHeader("Camera"))
 		{
 			ImGui::Text("Cam declarations:");
-			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->exercise->cam.x, App->exercise->cam.y, App->exercise->cam.z);
-			ImGui::BulletText("vrp position = ( %f, %f, %f )", App->exercise->vrp.x, App->exercise->vrp.y, App->exercise->vrp.z);
-			ImGui::BulletText("up directions = ( %f, %f, %f )", App->exercise->up.x, App->exercise->up.y, App->exercise->up.z);
+			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->cam.x, App->camera->cam.y, App->camera->cam.z);
+			ImGui::BulletText("VRP position = ( %f, %f, %f )", App->camera->vrp.x, App->camera->vrp.y, App->camera->vrp.z);
+			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->up.x, App->camera->up.y, App->camera->up.z);
+			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->fwd.x, App->camera->fwd.y, App->camera->fwd.z);
+			ImGui::BulletText("Side directions = ( %f, %f, %f )", App->camera->side.x, App->camera->side.y, App->camera->side.z);
+			ImGui::BulletText("Distance between camera and VRP = %f", App->camera->distCamVrp);
 		}
 		//module program
 		if (ImGui::CollapsingHeader("Program"))

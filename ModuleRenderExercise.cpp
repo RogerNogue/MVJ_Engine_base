@@ -20,18 +20,13 @@ ModuleRenderExercise::~ModuleRenderExercise()
 bool ModuleRenderExercise::Init()
 {
 	model = math::float4x4::identity;
-
-	//view matrix
-	cam = math::float3(1, 5, 3);
-	vrp = math::float3(0, 0, 0);
-	up = math::float3(0, 1, 0);
 	
     return true;
 }
 
 update_status ModuleRenderExercise::Update()
 {
-	App->camera->lookAt(cam, vrp, up);
+	App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
 
 	//projection matrix
 	Frustum frustum;
@@ -55,6 +50,10 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
 		"proj"), 1, GL_TRUE, &projection[0][0]);
 	
+	int zAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	float white[4] = { 1, 1, 1, 1 };
+	glUniform4fv(zAxis, 1, white);
+
 	float vertex_buffer_data[] = {
 	-1.0f, -1.0f, 0.0f,
 	1.0f, -1.0f, 0.0f,
@@ -109,11 +108,6 @@ bool ModuleRenderExercise::CleanUp()
     }
 
 	return true;
-}
-
-void ModuleRenderExercise::reCalculateVRP(math::float3 p) {
-
-	vrp += p * sqrt(pow(vrp.x-cam.x, 2)+ pow(vrp.y - cam.y, 2) + pow(vrp.z - cam.z, 2));
 }
 
 void ModuleRenderExercise::drawAxis() {

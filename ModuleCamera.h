@@ -9,7 +9,7 @@ public:
 	ModuleCamera();
 	~ModuleCamera();
 
-	void lookAt(const math::float3& obs, const math::float3& vrp, const math::float3& up);
+	void lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up);
 
 	bool            Init();
 	update_status   Update();
@@ -23,6 +23,12 @@ public:
 	void setFoV(float fov);//changes vertical Fov
 	void SetAspectRatio(float aspect);//changes horizontal Fov
 	//variables
+	float distCamVrp;
+	math::float3 cam;
+	math::float3 vrp;
+	math::float3 up;
+	math::float3 fwd;
+	math::float3 side;
 	float movementSpeed;
 
 private:
