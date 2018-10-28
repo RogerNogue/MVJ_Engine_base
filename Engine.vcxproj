@@ -205,8 +205,6 @@
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Default.fs" />
-    <None Include="Default.vs" />
     <None Include="Game\Default.fs" />
     <None Include="Game\Default.vs" />
     <None Include="IMGUI\.travis.yml" />

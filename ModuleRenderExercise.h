@@ -14,6 +14,7 @@ public:
 	update_status   Update  ();
 	bool            CleanUp ();
 	void reCalculateVRP(math::float3 p);
+	void drawAxis();
 	//void lookAt(const math::float3);
 
 	//variables

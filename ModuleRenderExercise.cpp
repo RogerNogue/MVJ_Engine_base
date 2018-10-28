@@ -96,6 +96,8 @@ update_status ModuleRenderExercise::Update()
     glDisableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	drawAxis();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -112,4 +114,33 @@ bool ModuleRenderExercise::CleanUp()
 void ModuleRenderExercise::reCalculateVRP(math::float3 p) {
 
 	vrp += p * sqrt(pow(vrp.x-cam.x, 2)+ pow(vrp.y - cam.y, 2) + pow(vrp.z - cam.z, 2));
+}
+
+void ModuleRenderExercise::drawAxis() {
+	//x, red
+	int xAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	float red[4] = { 1, 0, 0, 1 };
+	glUniform4fv(xAxis, 1, red);
+	glLineWidth(2.5);
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(5, 0, 0);
+	glEnd();
+
+	//y green
+	int yAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	float green[4] = { 0, 1, 0, 1 };
+	glUniform4fv(yAxis, 1, green);
+
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(0, 5, 0);
+	glEnd();
+
+	//z blue
+	int zAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	float blue[4] = { 0, 0, 1, 1 };
+	glUniform4fv(zAxis, 1, blue);
+
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
+	glEnd();
 }
