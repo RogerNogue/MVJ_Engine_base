@@ -47,7 +47,7 @@ bool            ModuleProgram::Init() {
 	
 	//case compilation error vs
 	GLint params = GL_TRUE;
-	glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
+	glGetShaderiv(vs, GL_INFO_LOG_LENGTH, &params);
 	GLint maxLength = 0;
 	if (params == GL_FALSE) {
 		std::vector<GLchar> infoLog(maxLength);
@@ -61,7 +61,7 @@ bool            ModuleProgram::Init() {
 	params = GL_TRUE;
 	maxLength = 0;
 	//case compilation error fs
-	glGetShaderiv(fs, GL_COMPILE_STATUS, &params);
+	glGetShaderiv(fs, GL_INFO_LOG_LENGTH, &params);
 	if (params == GL_FALSE) {
 		std::vector<GLchar> infoLog(maxLength);
 		glGetShaderInfoLog(fs, maxLength, &maxLength, &infoLog[0]);
@@ -94,8 +94,6 @@ bool            ModuleProgram::Init() {
 
 	glDeleteShader(GL_VERTEX_SHADER);
 	glDeleteShader(GL_FRAGMENT_SHADER);
-
-	glUseProgram(program);
 	
 	return true;
 }

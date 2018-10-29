@@ -1,13 +1,10 @@
 #include "Globals.h"
-#include "Application.h"
-#include "ModuleRender.h"
 #include "ModuleTextures.h"
-#include "SDL/include/SDL.h"
 
-#include "SDL_image/include/SDL_image.h"
-#pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
+#include <GL/glew.h>
 
-using namespace std;
+#include <IL/il.h>
+#include <IL/ilut.h>
 
 ModuleTextures::ModuleTextures()
 {
@@ -16,65 +13,86 @@ ModuleTextures::ModuleTextures()
 // Destructor
 ModuleTextures::~ModuleTextures()
 {
-	IMG_Quit();
 }
 
 // Called before render is available
 bool ModuleTextures::Init()
 {
-	LOG("Init Image library");
-	bool ret = true;
+	ilInit();
+	iluInit();
+	ilutInit();
 
-	// load support for the PNG image format
-	int flags = IMG_INIT_PNG;
-	int init = IMG_Init(flags);
-
-	if((init & flags) != flags)
-	{
-		LOG("Could not initialize Image lib. IMG_Init: %s", IMG_GetError());
-		ret = false;
-	}
-
-	return ret;
+	return true;
 }
 
 // Called before quitting
 bool ModuleTextures::CleanUp()
 {
-	LOG("Freeing textures and Image library");
-
-	for(list<SDL_Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
-		SDL_DestroyTexture(*it);
-
-	textures.clear();
 	return true;
 }
 
 // Load new texture from file path
-SDL_Texture* const ModuleTextures::Load(const char* path)
+unsigned ModuleTextures::Load(const char* path, bool mipmaps)
 {
-	SDL_Texture* texture = NULL;
-	SDL_Surface* surface = IMG_Load(path);
+	ILuint imageId;
+	ilGenImages(1, &imageId);
+	ilBindImage(imageId);
 
-	if(surface == NULL)
+	if (ilLoadImage(path))
 	{
-		LOG("Could not load surface with path: %s. IMG_Load: %s", path, IMG_GetError());
-	}
-	else
-	{
-		//texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
+		GLuint textureId = 0;
+		glGenTextures(1, &textureId);
 
-		if(texture == NULL)
+		glBindTexture(GL_TEXTURE_2D, textureId);
+
+		ILinfo ImageInfo;
+		iluGetImageInfo(&ImageInfo);
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 		{
-			LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
+			iluFlipImage();
+		}
+
+		int channels = ilGetInteger(IL_IMAGE_CHANNELS);
+		if (channels == 3)
+		{
+			ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+		}
+		else if (channels == 4)
+		{
+			ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+		}
+
+		ILubyte* data = ilGetData();
+		int width = ilGetInteger(IL_IMAGE_WIDTH);
+		int height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), width, height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, data);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		if (mipmaps)
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else
 		{
-			textures.push_back(texture);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		}
 
-		SDL_FreeSurface(surface);
+		ilDeleteImages(1, &imageId);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		return textureId;
 	}
 
-	return texture;
+	return 0;
+}
+
+void ModuleTextures::Unload(unsigned id)
+{
+	if (id != 0)
+	{
+		glDeleteTextures(1, &id);
+	}
 }
