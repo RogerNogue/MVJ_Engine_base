@@ -32,6 +32,7 @@ public:
 	math::float3 Xaxis;
 	math::float3 Yaxis;
 	math::float3 Zaxis;
+	math::float4x4 camera;
 	float movementSpeed;
 
 private:

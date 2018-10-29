@@ -31,7 +31,6 @@ void ModuleCamera::rotationX(math::float3& p, float angle) {
 	rotX[0][0] = 1; rotX[0][1] = 0;					rotX[0][2] = 0;
 	rotX[1][0] = 0; rotX[1][1] = SDL_cos(angle);	rotX[1][2] = -SDL_sin(angle);
 	rotX[2][0] = 0; rotX[2][1] = SDL_sin(angle);	rotX[2][2] = SDL_cos(angle);
-
 	p = p * rotX;
 	//p = transformation(p, cam);
 	
@@ -106,13 +105,13 @@ update_status   ModuleCamera::Update() {
 
 	//arrows to rotate the camera
 	if (App->input->keyboard[SDL_SCANCODE_UP]) {
-		rotationX(up, 0.05);
+		rotationX(up, -0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd*distCamVrp;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
-		rotationX(up, -0.05);
+		rotationX(up, 0.05);
 		fwd = up.Cross(side);
 		vrp = cam + fwd * distCamVrp;
 		cameraChanged = true;
