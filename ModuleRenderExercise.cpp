@@ -42,7 +42,7 @@ bool ModuleRenderExercise::Init()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	texture = true;
+	texture = false;
 
 	texture0 = App->textures->Load(activeTexture, false);
     return true;
