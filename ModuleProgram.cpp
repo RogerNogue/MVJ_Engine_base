@@ -14,6 +14,8 @@ ModuleProgram::~ModuleProgram()
 }
 
 bool            ModuleProgram::Init() {
+
+
 	char* dataVertex = nullptr;
 	FILE* file = nullptr;
 	fopen_s(&file, "Default.vs", "rb");

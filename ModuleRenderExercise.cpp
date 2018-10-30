@@ -21,6 +21,18 @@ ModuleRenderExercise::~ModuleRenderExercise()
 bool ModuleRenderExercise::Init()
 {
 	model = math::float4x4::identity;
+	//projection matrix
+	frustum.type = FrustumType::PerspectiveFrustum;
+	frustum.pos = float3::zero;
+	frustum.front = -float3::unitZ;
+	frustum.up = float3::unitY;
+	frustum.nearPlaneDistance = 0.1f;
+	frustum.farPlaneDistance = 100.0f;
+	frustum.verticalFov = math::pi / 4.0f;
+	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
+	projection = frustum.ProjectionMatrix();
+	
 	float vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
@@ -50,21 +62,9 @@ bool ModuleRenderExercise::Init()
 
 update_status ModuleRenderExercise::Update()
 {
-	App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
+	//App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
+	App->camera->lookAt(App->camera->cam, App->camera->up);
 
-	//projection matrix
-	Frustum frustum;
-	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = App->camera->cam;
-	frustum.front = App->camera->fwd;
-	frustum.up = App->camera->up;
-	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 100.0f;
-	frustum.verticalFov = math::pi / 4.0f;
-	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
-
-	projection = frustum.ProjectionMatrix();
 	glUseProgram(App->shaderProgram->program);
 	
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
@@ -83,7 +83,7 @@ update_status ModuleRenderExercise::Update()
 	glUniform4fv(zAxis, 1, white);
 	
 	//lines
-	/*
+	
 	glLineWidth(1.0f);
 
 	glBegin(GL_LINES);
@@ -96,7 +96,7 @@ update_status ModuleRenderExercise::Update()
 		glVertex3f(d, 0.0f, i);
 	}
 	glEnd();
-	*/
+	
     glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -124,7 +124,7 @@ update_status ModuleRenderExercise::Update()
 		//addTexture();
 	}
 
-	//drawAxis();
+	drawAxis();
 
 	glUseProgram(0);
 

@@ -32,7 +32,6 @@ void ModuleCamera::rotationX(math::float3& p, float angle) {
 	rotX[1][0] = 0; rotX[1][1] = SDL_cos(angle);	rotX[1][2] = -SDL_sin(angle);
 	rotX[2][0] = 0; rotX[2][1] = SDL_sin(angle);	rotX[2][2] = SDL_cos(angle);
 	p = p * rotX;
-	//p = transformation(p, cam);
 	
 }
 
@@ -41,7 +40,7 @@ void ModuleCamera::rotationY(math::float3& p, float angle) {
 	rotY[0][0] = math::Cos(angle);	rotY[0][1] = 0;					rotY[0][2] = math::Sin(angle);
 	rotY[1][0] = 0;					rotY[1][1] = 1;					rotY[1][2] = 0;
 	rotY[2][0] = -math::Sin(angle);	rotY[2][1] = 0;					rotY[2][2] = math::Cos(angle);
-	p = rotY * p;
+	p = p * rotY;
 }
 
 void ModuleCamera::rotationZ(math::float3& p, float angle) {
@@ -49,7 +48,7 @@ void ModuleCamera::rotationZ(math::float3& p, float angle) {
 	rotZ[0][0] = math::Cos(angle);	rotZ[0][1] = -math::Sin(angle);	rotZ[0][2] = 0;
 	rotZ[1][0] = math::Sin(angle);	rotZ[1][1] = math::Cos(angle);	rotZ[1][2] = 0;
 	rotZ[2][0] = 0;					rotZ[2][1] = 0;					rotZ[2][2] = 1;
-	p = rotZ * p;
+	p = p * rotZ;
 }
 
 bool            ModuleCamera::Init() {
@@ -62,6 +61,7 @@ bool            ModuleCamera::Init() {
 	Yaxis = math::float3(0, 1, 0);
 	Zaxis = math::float3(0, 0, 1);
 	distCamVrp = sqrt(pow((cam.x - vrp.x), 2) + pow((cam.y - vrp.y), 2) + pow((cam.z - vrp.z), 2));
+	fwd = (vrp - cam);
 	return true;
 }
 update_status   ModuleCamera::Update() {
@@ -69,33 +69,33 @@ update_status   ModuleCamera::Update() {
 	//const Uint8 *keyboard = NULL;
 	//keyboard listeners
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		cam += Yaxis*movementSpeed;
-		vrp += Yaxis*movementSpeed;
+		cam -= up*movementSpeed;
+		//vrp -= Yaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		cam -= Yaxis*movementSpeed;
-		vrp -= Yaxis*movementSpeed;
+		cam += up *movementSpeed;
+		//vrp += Yaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
-		cam -= Zaxis*movementSpeed;
-		vrp -= Zaxis*movementSpeed;
+		cam += fwd*movementSpeed;
+		//vrp -= Zaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
-		cam -= Xaxis*movementSpeed;
-		vrp -= Xaxis*movementSpeed;
+		cam -= side*movementSpeed;
+		//vrp -= Xaxis*movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
-		cam += Zaxis *movementSpeed;
-		vrp += Zaxis *movementSpeed;
+		cam -= fwd *movementSpeed;
+		//vrp += Zaxis *movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
-		cam += Xaxis *movementSpeed;
-		vrp += Xaxis *movementSpeed;
+		cam += side *movementSpeed;
+		//vrp += Xaxis *movementSpeed;
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
@@ -105,27 +105,33 @@ update_status   ModuleCamera::Update() {
 
 	//arrows to rotate the camera
 	if (App->input->keyboard[SDL_SCANCODE_UP]) {
+		//rotationX(cam, -0.05);
+		/*rotationX(up, -0.05);
+		rotationX(fwd, -0.05);
+		vrp = cam + fwd;
+		*/
+		
 		rotationX(up, -0.05);
 		fwd = up.Cross(side);
-		vrp = cam + fwd*distCamVrp;
+		rotationX(cam, -0.05);
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
 		rotationX(up, 0.05);
 		fwd = up.Cross(side);
-		vrp = cam + fwd * distCamVrp;
+		rotationX(cam, 0.05);
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_LEFT]) {
 		rotationY(side, -0.05);
 		fwd = up.Cross(side);
-		vrp = cam + fwd * distCamVrp;
+		rotationY(cam, -0.05);
 		cameraChanged = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
 		rotationY(side, 0.05);
 		fwd = up.Cross(side);
-		vrp = cam + fwd * distCamVrp;
+		rotationY(cam, 0.05);
 		cameraChanged = true;
 	}
 
@@ -175,8 +181,7 @@ bool            ModuleCamera::CleanUp() {
 	return true;
 }
 
-void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up) {
-	fwd = (vrp - obs);
+void ModuleCamera::lookAt(const math::float3& obs, math::float3& up) {
 	fwd.Normalize();
 	side = (fwd.Cross(up));
 	math::float3 newUp = (side.Cross(fwd));
@@ -186,9 +191,28 @@ void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, math
 	view[1][0] = newUp.x; view[1][1] = newUp.y; view[1][2] = newUp.z; view[3][1] = 0;
 	view[2][0] = fwd.x; view[2][1] = fwd.y; view[2][2] = fwd.z; view[3][2] = 0;
 	view[0][3] = -side.Dot(obs); view[1][3] = -newUp.Dot(obs); view[2][3] = fwd.Dot(obs); view[3][3] = 1;
+
 	App->exercise->view = view;
 	//updating cam values
-	up = newUp.Normalized();
+	App->camera->up = newUp.Normalized();
+	fwd = fwd.Normalized();
+	side = side.Normalized();
+}
+
+void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up) {
+	fwd = math::float3(vrp - obs); fwd.Normalize();
+	side = (fwd.Cross(up));
+	math::float3 newUp = (side.Cross(fwd));
+	math::float4x4 view;
+	//now that we have all the values, we generate the view matrix
+	view[0][0] = side.x; view[0][1] = side.y; view[0][2] = side.z; view[3][0] = 0;
+	view[1][0] = newUp.x; view[1][1] = newUp.y; view[1][2] = newUp.z; view[3][1] = 0;
+	view[2][0] = fwd.x; view[2][1] = fwd.y; view[2][2] = fwd.z; view[3][2] = 0;
+	view[0][3] = -side.Dot(obs); view[1][3] = -newUp.Dot(obs); view[2][3] = fwd.Dot(obs); view[3][3] = 1;
+
+	App->exercise->view = view;
+	//updating cam values
+	App->camera->up = newUp.Normalized();
 	fwd = fwd.Normalized();
 	side = side.Normalized();
 }

@@ -25,6 +25,7 @@ public:
 	char* activeTexture = "Lenna.png";
 	unsigned texture0;
 	bool texture;
+	Frustum frustum;
 
 private:
     unsigned vbo        = 0;

@@ -9,6 +9,7 @@ public:
 	ModuleCamera();
 	~ModuleCamera();
 
+	void lookAt(const math::float3& obs, math::float3& up);
 	void lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up);
 
 	bool            Init();
