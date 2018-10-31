@@ -65,20 +65,17 @@ update_status ModuleRenderExercise::Update()
 	//App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
 	App->camera->lookAt();
 
-	glUseProgram(App->shaderProgram->program);
-	
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+	//geometry program
+	glUseProgram(App->shaderProgram->programGeometry);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
 		"model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
 		"view"), 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->program,
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
 		"proj"), 1, GL_TRUE, &projection[0][0]);
-	
-	glActiveTexture(GL_TEXTURE0);
 
-	glUniform1i(glGetUniformLocation(App->shaderProgram->program, "texture0"), 0);
-
-	int zAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float white[4] = { 1, 1, 1, 1 };
 	glUniform4fv(zAxis, 1, white);
 	
@@ -96,9 +93,11 @@ update_status ModuleRenderExercise::Update()
 		glVertex3f(d, 0.0f, i);
 	}
 	glEnd();
+
+	drawAxis();
 	
     glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(
             0,                  // attribute 0
@@ -108,23 +107,33 @@ update_status ModuleRenderExercise::Update()
             0,                  // stride
             (void*)0            // array buffer offset
             );
+	
+	//texture program
+	glUseProgram(App->shaderProgram->programTexture);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+		"model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+		"view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+		"proj"), 1, GL_TRUE, &projection[0][0]);
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
 		(void*)(sizeof(float) * 3 * 6) // buffer offset
 	);
-    glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
-    glDisableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
+
+	glDisableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableVertexAttribArray(1);
 	glBindTexture(GL_TEXTURE_2D, texture0);
-
-	//drawing texture
-	if (texture) {
-		//addTexture();
-	}
-
-	drawAxis();
 
 	glUseProgram(0);
 
@@ -141,19 +150,6 @@ bool ModuleRenderExercise::CleanUp()
 	return true;
 }
 
-void ModuleRenderExercise::addTexture() {
-	unsigned texture0 = App->textures->Load(activeTexture, false);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
-		(void*)(sizeof(float)*3*6) // buffer offset
-	);
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(glGetUniformLocation(App->shaderProgram->program, "texture0"), 0);
-	glDisableVertexAttribArray(1);
-	glBindTexture(GL_TEXTURE_2D, texture0);
-	texture = false;
-}
-
 void ModuleRenderExercise::activateTextures(char* name) {
 	texture = true;
 	activeTexture = name;
@@ -161,7 +157,7 @@ void ModuleRenderExercise::activateTextures(char* name) {
 
 void ModuleRenderExercise::drawAxis() {
 	//x, red
-	int xAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	int xAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float red[4] = { 1, 0, 0, 1 };
 	glUniform4fv(xAxis, 1, red);
 	glLineWidth(2.5);
@@ -170,7 +166,7 @@ void ModuleRenderExercise::drawAxis() {
 	glEnd();
 
 	//y green
-	int yAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	int yAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float green[4] = { 0, 1, 0, 1 };
 	glUniform4fv(yAxis, 1, green);
 
@@ -179,7 +175,7 @@ void ModuleRenderExercise::drawAxis() {
 	glEnd();
 
 	//z blue
-	int zAxis = glGetUniformLocation(App->shaderProgram->program, "newColor");
+	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float blue[4] = { 0, 0, 1, 1 };
 	glUniform4fv(zAxis, 1, blue);
 

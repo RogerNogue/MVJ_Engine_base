@@ -12,6 +12,9 @@ public:
 	update_status   Update();
 	bool            CleanUp();
 
-	GLuint program;
+	GLuint loadShaders(char* dataVertex, char* dataFragment);
+
+	GLuint programTexture;
+	GLuint programGeometry;
 };
 

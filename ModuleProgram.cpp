@@ -13,12 +13,10 @@ ModuleProgram::~ModuleProgram()
 {
 }
 
-bool            ModuleProgram::Init() {
-
-
+GLuint ModuleProgram::loadShaders(char* vertexFile, char* fragmentFile) {
 	char* dataVertex = nullptr;
 	FILE* file = nullptr;
-	fopen_s(&file, "Default.vs", "rb");
+	fopen_s(&file, vertexFile, "rb");
 	if (file)
 	{
 		fseek(file, 0, SEEK_END);
@@ -32,7 +30,7 @@ bool            ModuleProgram::Init() {
 
 	char* dataFragment = nullptr;
 	file = nullptr;
-	fopen_s(&file, "Default.fs", "rb");
+	fopen_s(&file, fragmentFile, "rb");
 	if (file)
 	{
 		fseek(file, 0, SEEK_END);
@@ -46,7 +44,7 @@ bool            ModuleProgram::Init() {
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vs, 1, &dataVertex, 0);
 	glCompileShader(vs);
-	
+
 	//case compilation error vs
 	GLint params = GL_TRUE;
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
@@ -56,7 +54,7 @@ bool            ModuleProgram::Init() {
 		glGetShaderInfoLog(vs, maxLength, &maxLength, &infoLog[0]);
 		glDeleteShader(vs);
 	}
-	
+
 	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fs, 1, &dataFragment, 0);
 	glCompileShader(fs);
@@ -70,7 +68,7 @@ bool            ModuleProgram::Init() {
 		glDeleteShader(fs);
 	}
 
-	program = glCreateProgram();
+	GLuint program = glCreateProgram();
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
@@ -96,6 +94,15 @@ bool            ModuleProgram::Init() {
 
 	glDeleteShader(GL_VERTEX_SHADER);
 	glDeleteShader(GL_FRAGMENT_SHADER);
+
+	return program;
+}
+
+bool            ModuleProgram::Init() {
+
+	programTexture = loadShaders("Default.vs", "Default.fs");
+	programGeometry = loadShaders("lineVertex.vs", "lineFragment.fs");
+	
 	
 	return true;
 }

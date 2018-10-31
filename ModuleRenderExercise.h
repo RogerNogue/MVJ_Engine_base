@@ -14,7 +14,6 @@ public:
 	update_status   Update  ();
 	bool            CleanUp ();
 	void drawAxis();
-	void addTexture();
 	void activateTextures(char* name);
 	//void lookAt(const math::float3);
 
