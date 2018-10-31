@@ -16,7 +16,7 @@ public:
 	update_status   Update();
 	update_status   PostUpdate();
 	bool            CleanUp();
-	void consoleLog(char* str);
+	void consoleLog(const char* str);
 	struct ExampleAppLog
 	{
 		ImGuiTextBuffer     Buf;
