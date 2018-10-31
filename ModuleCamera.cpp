@@ -69,9 +69,9 @@ update_status   ModuleCamera::Update() {
 	
 	//keyboard listeners
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
-		movementSpeed = 2;
+		movementSpeed = 5;
 	}
-	else movementSpeed = 0.5;
+	else movementSpeed = 1;
 	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
@@ -112,7 +112,7 @@ update_status   ModuleCamera::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
 		camRotationY(movementSpeed * 0.25);
 	}
-
+	cam = { camTransf[3][0], camTransf[3][1], camTransf[3][2] };
 	//mouse listeners
 	/*static SDL_Event event;
 	while (SDL_PollEvent(&event) != 0)
