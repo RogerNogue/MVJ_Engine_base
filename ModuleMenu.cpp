@@ -196,3 +196,10 @@ bool ModuleMenu::CleanUp() {
 	return true;
 }
 
+void ModuleMenu::consoleLog(char* str) {
+	char* b = new char[50];
+	sprintf(b, str);
+	App->menu->console.AddLog(b);
+	delete b;
+}
+
