@@ -183,3 +183,9 @@ void ModuleRenderExercise::drawAxis() {
 	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
 	glEnd();
 }
+
+void ModuleRenderExercise::aspectRatioChanged(const unsigned width, const unsigned height) {
+	float aspect = width / height;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
+	projection = frustum.ProjectionMatrix();
+}

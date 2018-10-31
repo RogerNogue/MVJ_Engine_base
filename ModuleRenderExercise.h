@@ -15,6 +15,7 @@ public:
 	bool            CleanUp ();
 	void drawAxis();
 	void activateTextures(char* name);
+	void aspectRatioChanged(const unsigned width, const unsigned height);
 	//void lookAt(const math::float3);
 
 	//variables
