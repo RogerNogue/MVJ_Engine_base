@@ -35,6 +35,7 @@ public:
 	math::float3 Yaxis;
 	math::float3 Zaxis;
 	math::float4x4 camera;
+	double timeLastFrame;
 	float movementSpeed;
 
 private:

@@ -59,12 +59,10 @@ bool            ModuleCamera::Init() {
 	cam = math::float3(0, 2, 3);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
-	Xaxis = math::float3(1, 0, 0);
-	Yaxis = math::float3(0, 1, 0);
-	Zaxis = math::float3(0, 0, 1);
 	fwd = (vrp - cam);
 	fwd.Normalize();
 	camSetUp();
+	timeLastFrame = SDL_GetTicks();
 	return true;
 }
 update_status   ModuleCamera::Update() {
@@ -73,7 +71,8 @@ update_status   ModuleCamera::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
 		movementSpeed = 2;
 	}
-	else movementSpeed = 0.1;
+	else movementSpeed = 0.5;
+	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
 		up.x = camTransf[1][0]; up.y = camTransf[1][1]; up.z = camTransf[1][2];
@@ -102,16 +101,16 @@ update_status   ModuleCamera::Update() {
 
 	//arrows to rotate the camera
 	if (App->input->keyboard[SDL_SCANCODE_UP]) {
-		camRotationX(-0.05);
+		camRotationX(-movementSpeed * 0.25);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
-		camRotationX(0.05);
+		camRotationX(movementSpeed * 0.25);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_LEFT]) {
-		camRotationY(-0.05);
+		camRotationY(-movementSpeed * 0.25);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
-		camRotationY(0.05);
+		camRotationY(movementSpeed * 0.25);
 	}
 
 	//mouse listeners
