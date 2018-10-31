@@ -63,7 +63,7 @@ bool ModuleRenderExercise::Init()
 update_status ModuleRenderExercise::Update()
 {
 	//App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
-	App->camera->lookAt(App->camera->cam, App->camera->up);
+	App->camera->lookAt();
 
 	glUseProgram(App->shaderProgram->program);
 	

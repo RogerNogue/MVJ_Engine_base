@@ -9,22 +9,23 @@ public:
 	ModuleCamera();
 	~ModuleCamera();
 
-	void lookAt(const math::float3& obs, math::float3& up);
+	void lookAt();
 	void lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up);
 
 	bool            Init();
 	update_status   Update();
 	bool            CleanUp();
-	math::float3 transformation(math::float3 point, math::float3 transf);
-	void rotationX(math::float3& p, float angle);
-	void rotationY(math::float3& p, float angle);
-	void rotationZ(math::float3& p, float angle);
-
+	
+	void camTransformation(math::float3 pos);
+	void camRotationX(float angle);
+	void camRotationY(float angle);
+	void camRotationZ(float angle);
 
 	void setFoV(float fov);//changes vertical Fov
 	void SetAspectRatio(float aspect);//changes horizontal Fov
 	//variables
 	float distCamVrp;
+	math::float4x4 camTransf;
 	math::float3 cam;
 	math::float3 vrp;
 	math::float3 up;
@@ -37,7 +38,7 @@ public:
 	float movementSpeed;
 
 private:
-	bool cameraChanged;
+	void camSetUp();
 
 };
 

@@ -163,12 +163,10 @@ update_status ModuleMenu::Update() {
 		if (ImGui::CollapsingHeader("Camera"))
 		{
 			ImGui::Text("Cam declarations:");
-			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->cam.x, App->camera->cam.y, App->camera->cam.z);
-			ImGui::BulletText("VRP position = ( %f, %f, %f )", App->camera->vrp.x, App->camera->vrp.y, App->camera->vrp.z);
-			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->up.x, App->camera->up.y, App->camera->up.z);
-			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->fwd.x, App->camera->fwd.y, App->camera->fwd.z);
-			ImGui::BulletText("Side directions = ( %f, %f, %f )", App->camera->side.x, App->camera->side.y, App->camera->side.z);
-			ImGui::BulletText("Distance between camera and VRP = %f", App->camera->distCamVrp);
+			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->camTransf[0][3], App->camera->camTransf[1][3], App->camera->camTransf[2][3]);
+			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->camTransf[1][0], App->camera->camTransf[1][1], App->camera->camTransf[1][2]);
+			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->camTransf[2][0], App->camera->camTransf[2][1], App->camera->camTransf[2][2]);
+			ImGui::BulletText("Side directions = ( %f, %f, %f )", App->camera->camTransf[0][0], App->camera->camTransf[0][1], App->camera->camTransf[0][2]);
 		}
 		//module program
 		if (ImGui::CollapsingHeader("Program"))
