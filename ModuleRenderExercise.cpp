@@ -4,6 +4,7 @@
 #include "ModuleProgram.h"
 #include "ModuleWindow.h"
 #include "ModuleTextures.h"
+#include "ModuleModelLoader.h"
 
 #include "GL/glew.h"
 #include "SDL.h"
@@ -32,6 +33,7 @@ bool ModuleRenderExercise::Init()
 	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
 	projection = frustum.ProjectionMatrix();
+
 	
 	float vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
@@ -50,10 +52,12 @@ bool ModuleRenderExercise::Init()
 		1, 1
 	};
 
-	glGenBuffers(1, &vbo);
+	/*glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+
+	App->modelLoader->loadModel();
 	texture = false;
 
 	texture0 = App->textures->Load(activeTexture, false);
@@ -79,6 +83,8 @@ update_status ModuleRenderExercise::Update()
 	float white[4] = { 1, 1, 1, 1 };
 	glUniform4fv(zAxis, 1, white);
 	
+	App->modelLoader->drawModel();
+
 	//lines
 	
 	glLineWidth(1.0f);
@@ -98,7 +104,7 @@ update_status ModuleRenderExercise::Update()
 	
     glEnableVertexAttribArray(0);
 	
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    /*glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(
             0,                  // attribute 0
             3,                  // number of componentes (3 floats)
@@ -106,10 +112,10 @@ update_status ModuleRenderExercise::Update()
             GL_FALSE,           // should be normalized?
             0,                  // stride
             (void*)0            // array buffer offset
-            );
+            );*/
 	
 	//texture program
-	glUseProgram(App->shaderProgram->programTexture);
+	/*glUseProgram(App->shaderProgram->programTexture);
 
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
 		"model"), 1, GL_TRUE, &model[0][0]);
@@ -125,15 +131,15 @@ update_status ModuleRenderExercise::Update()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0,
 		(void*)(sizeof(float) * 3 * 6) // buffer offset
-	);
+	);*/
 
-	glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	//glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glDisableVertexAttribArray(1);
-	glBindTexture(GL_TEXTURE_2D, texture0);
+	/*glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, texture0);*/
 
 	glUseProgram(0);
 
