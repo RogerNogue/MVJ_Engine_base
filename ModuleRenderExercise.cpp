@@ -82,8 +82,6 @@ update_status ModuleRenderExercise::Update()
 	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float white[4] = { 1, 1, 1, 1 };
 	glUniform4fv(zAxis, 1, white);
-	
-	App->modelLoader->drawModel();
 
 	//lines
 	
@@ -101,8 +99,10 @@ update_status ModuleRenderExercise::Update()
 	glEnd();
 
 	drawAxis();
+
+	App->modelLoader->drawModel();
 	
-    glEnableVertexAttribArray(0);
+   // glEnableVertexAttribArray(0);
 	
     /*glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(
@@ -135,13 +135,13 @@ update_status ModuleRenderExercise::Update()
 
 	//glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
-	glDisableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glDisableVertexAttribArray(0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	/*glDisableVertexAttribArray(1);
 	glBindTexture(GL_TEXTURE_2D, texture0);*/
 
-	glUseProgram(0);
+	//glUseProgram(0);
 
 	return UPDATE_CONTINUE;
 }
