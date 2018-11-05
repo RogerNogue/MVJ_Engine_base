@@ -19,7 +19,7 @@ ModuleCamera::~ModuleCamera()
 void ModuleCamera::camTransformation(math::float3 pos) {
 	math::float4x4 transfMat = math::float4x4::identity;
 	transfMat[0][3] = pos.x; transfMat[1][3] = pos.y; transfMat[2][3] = pos.z;
-	camTransf = transfMat * camTransf;
+	camTransf = camTransf * transfMat;
 }
 void ModuleCamera::camRotationX(float angle) {
 	math::float4x4 rotX = math::float4x4::identity;
@@ -56,7 +56,7 @@ void ModuleCamera::camSetUp() {
 
 bool            ModuleCamera::Init() {
 	movementSpeed = 0.1;
-	cam = math::float3(0, 2, 3);
+	cam = math::float3(0, -2, 3);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
 	fwd = (vrp - cam);
@@ -84,19 +84,19 @@ update_status   ModuleCamera::Update() {
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {
 		fwd.x = camTransf[2][0]; fwd.y = camTransf[2][1]; fwd.z = camTransf[2][2];
-		camTransformation(-fwd * movementSpeed);
+		camTransformation(fwd * movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
 		side.x = camTransf[0][0]; side.y = camTransf[0][1]; side.z = camTransf[0][2];
-		camTransformation(side * movementSpeed);
+		camTransformation(-side * movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
 		fwd.x = camTransf[2][0]; fwd.y = camTransf[2][1]; fwd.z = camTransf[2][2];
-		camTransformation(fwd * movementSpeed);
+		camTransformation(-fwd * movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
 		side.x = camTransf[0][0]; side.y = camTransf[0][1]; side.z = camTransf[0][2];
-		camTransformation(-side * movementSpeed);
+		camTransformation(side * movementSpeed);
 	}
 
 	//arrows to rotate the camera
