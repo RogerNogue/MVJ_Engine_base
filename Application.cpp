@@ -9,6 +9,7 @@
 #include "ModuleMenu.h"
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
+#include "ModuleTimer.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ Application::Application()
 	
 	modules.push_back(modelLoader = new ModuleModelLoader());
 	modules.push_back(exercise = new ModuleRenderExercise());
-
+	modules.push_back(timer = new ModuleTimer());
 }
 
 Application::~Application()
@@ -49,12 +50,16 @@ bool Application::Init()
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+	
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
 
+	
+
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->Update();
+
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PostUpdate();

@@ -66,7 +66,6 @@ bool            ModuleCamera::Init() {
 	return true;
 }
 update_status   ModuleCamera::Update() {
-	
 	//keyboard listeners
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
 		movementSpeed = 5;
@@ -75,11 +74,9 @@ update_status   ModuleCamera::Update() {
 	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		up.x = camTransf[1][0]; up.y = camTransf[1][1]; up.z = camTransf[1][2];
 		camTransformation(up*movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		up.x = camTransf[1][0]; up.y = camTransf[1][1]; up.z = camTransf[1][2];
 		camTransformation(-up * movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_W]) {

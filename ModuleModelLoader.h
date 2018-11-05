@@ -24,7 +24,7 @@ public:
 	struct myMaterial {
 		unsigned texture0 = 0;
 	};
-
+	std::vector<unsigned> indices;
 	std::vector<myMesh> meshes;
 	std::vector<myMaterial> materials;
 	//variables

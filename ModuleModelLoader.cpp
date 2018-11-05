@@ -99,7 +99,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	}
 
 	//unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
-	std::vector<unsigned> indices;
+	
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
 		assert(mesh->mFaces[i].mNumIndices == 3);

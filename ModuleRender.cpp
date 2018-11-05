@@ -100,7 +100,7 @@ update_status ModuleRender::Update()
 			0,                  // stride
 			(void*)0            // array buffer offset
 		);
-		glDrawArrays(GL_TRIANGLES, 0, App->modelLoader->meshes[i].numVertices);
+		//glDrawArrays(GL_TRIANGLES, 0, App->modelLoader->meshes[i].numVertices);
 		//texture shaders
 		glUseProgram(App->shaderProgram->programTexture);
 
@@ -125,8 +125,8 @@ update_status ModuleRender::Update()
 			0,                  // stride
 			(void*)(sizeof(float) * App->modelLoader->meshes[i].numVertices * 3)            // array buffer offset
 		);
-		//glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, &indices[0]);
-		glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, &App->modelLoader->indices[0]);
+		//glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
