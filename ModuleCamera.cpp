@@ -88,7 +88,7 @@ update_status   ModuleCamera::Update() {
 	}
 	if (App->input->keyboard[SDL_SCANCODE_A]) {
 		side.x = camTransf[0][0]; side.y = camTransf[0][1]; side.z = camTransf[0][2];
-		camTransformation(-side * movementSpeed);
+		camTransformation(side * movementSpeed);
 	}
 	if (App->input->keyboard[SDL_SCANCODE_S]) {
 		fwd.x = camTransf[2][0]; fwd.y = camTransf[2][1]; fwd.z = camTransf[2][2];
@@ -96,7 +96,7 @@ update_status   ModuleCamera::Update() {
 	}
 	if (App->input->keyboard[SDL_SCANCODE_D]) {
 		side.x = camTransf[0][0]; side.y = camTransf[0][1]; side.z = camTransf[0][2];
-		camTransformation(side * movementSpeed);
+		camTransformation(-side * movementSpeed);
 	}
 
 	//arrows to rotate the camera
