@@ -5,7 +5,9 @@
 #include "SDL.h"
 #include "GL/glew.h"
 #include "MathGeoLib.h"
-#include "ModuleRenderExercise.h"
+#include "ModuleModelLoader.h"
+#include "ModuleProgram.h"
+#include "ModuleCamera.h"
 
 ModuleRender::ModuleRender()
 {
@@ -46,6 +48,20 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
+	//drawing matrices
+	model = math::float4x4::identity;
+	//projection matrix
+	frustum.type = FrustumType::PerspectiveFrustum;
+	frustum.pos = float3::zero;
+	frustum.front = -float3::unitZ;
+	frustum.up = float3::unitY;
+	frustum.nearPlaneDistance = 0.1f;
+	frustum.farPlaneDistance = 100.0f;
+	frustum.verticalFov = math::pi / 4.0f;
+	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
+	projection = frustum.ProjectionMatrix();
+
 	return true;
 }
 
@@ -59,6 +75,99 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
+	App->camera->lookAt();
+	//drawing the model
+	unsigned numMeshes = App->modelLoader->meshes.size();
+	for (unsigned i = 0; i < numMeshes; ++i) {
+		//geometry shaders
+		glUseProgram(App->shaderProgram->programGeometry);
+
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+			"model"), 1, GL_TRUE, &model[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+			"view"), 1, GL_TRUE, &view[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+			"proj"), 1, GL_TRUE, &projection[0][0]);
+
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->meshes[i].vbo);
+		glVertexAttribPointer(
+			0,                  // attribute 0
+			3,                  // number of componentes (3 floats)
+			GL_FLOAT,           // data type
+			GL_FALSE,           // should be normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
+		);
+		glDrawArrays(GL_TRIANGLES, 0, App->modelLoader->meshes[i].numVertices);
+		//texture shaders
+		glUseProgram(App->shaderProgram->programTexture);
+
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			"model"), 1, GL_TRUE, &model[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			"view"), 1, GL_TRUE, &view[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			"proj"), 1, GL_TRUE, &projection[0][0]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[i].texture0);
+		glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+		glEnableVertexAttribArray(1);
+		//tex coordinates
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->meshes[i].vio);
+		glVertexAttribPointer(
+			1,                  // attribute 0
+			2,                  // number of componentes (3 floats)
+			GL_FLOAT,           // data type
+			GL_FALSE,           // should be normalized?
+			0,                  // stride
+			(void*)(sizeof(float) * App->modelLoader->meshes[i].numVertices * 3)            // array buffer offset
+		);
+		//glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, &indices[0]);
+		glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+	}
+	
+	//drawing axis and grid
+	glUseProgram(App->shaderProgram->programGeometry);
+
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+		"model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+		"view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
+		"proj"), 1, GL_TRUE, &projection[0][0]);
+
+	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
+	float white[4] = { 1, 1, 1, 1 };
+	glUniform4fv(zAxis, 1, white);
+
+	//lines
+
+	glLineWidth(1.0f);
+
+	glBegin(GL_LINES);
+	float d = 200.f;
+
+	for (float i = -d; i <= d; i += 1.0f) {
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
+
+	drawAxis();
+
+	glUseProgram(0);
 
 	return UPDATE_CONTINUE;
 }
@@ -85,4 +194,31 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
     glViewport(0, 0, width, height); 
 }
 
+void ModuleRender::drawAxis() {
+	//x, red
+	int xAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
+	float red[4] = { 1, 0, 0, 1 };
+	glUniform4fv(xAxis, 1, red);
+	glLineWidth(2.5);
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(5, 0, 0);
+	glEnd();
 
+	//y green
+	int yAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
+	float green[4] = { 0, 1, 0, 1 };
+	glUniform4fv(yAxis, 1, green);
+
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(0, 5, 0);
+	glEnd();
+
+	//z blue
+	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
+	float blue[4] = { 0, 0, 1, 1 };
+	glUniform4fv(zAxis, 1, blue);
+
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
+	glEnd();
+}

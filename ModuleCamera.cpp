@@ -1,7 +1,7 @@
 #include "ModuleCamera.h"
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleRenderExercise.h"
+#include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleMenu.h"
 #include "SDL.h"
@@ -160,7 +160,7 @@ bool            ModuleCamera::CleanUp() {
 }
 
 void ModuleCamera::lookAt() {
-	App->exercise->view = camTransf;
+	App->renderer->view = camTransf;
 }
 
 void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up) {
@@ -174,7 +174,7 @@ void ModuleCamera::lookAt(const math::float3& obs, const math::float3& vrp, math
 	view[2][0] = fwd.x; view[2][1] = fwd.y; view[2][2] = fwd.z; view[3][2] = 0;
 	view[0][3] = -side.Dot(obs); view[1][3] = -newUp.Dot(obs); view[2][3] = fwd.Dot(obs); view[3][3] = 1;
 
-	App->exercise->view = view;
+	App->renderer->view = view;
 	//updating cam values
 	App->camera->up = newUp.Normalized();
 	fwd = fwd.Normalized();

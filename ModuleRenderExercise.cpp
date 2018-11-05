@@ -67,40 +67,11 @@ bool ModuleRenderExercise::Init()
 update_status ModuleRenderExercise::Update()
 {
 	//App->camera->lookAt(App->camera->cam, App->camera->vrp, App->camera->up);
-	App->camera->lookAt();
+	//App->camera->lookAt();
 
-	//geometry program
-	glUseProgram(App->shaderProgram->programGeometry);
 
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"view"), 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"proj"), 1, GL_TRUE, &projection[0][0]);
 
-	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float white[4] = { 1, 1, 1, 1 };
-	glUniform4fv(zAxis, 1, white);
-
-	//lines
-	
-	glLineWidth(1.0f);
-
-	glBegin(GL_LINES);
-	float d = 200.f;
-
-	for (float i = -d; i <= d; i += 1.0f) {
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
-
-	drawAxis();
-
-	App->modelLoader->drawModel();
+	//App->modelLoader->drawModel();
 	
    // glEnableVertexAttribArray(0);
 	
@@ -159,35 +130,6 @@ bool ModuleRenderExercise::CleanUp()
 void ModuleRenderExercise::activateTextures(char* name) {
 	texture = true;
 	activeTexture = name;
-}
-
-void ModuleRenderExercise::drawAxis() {
-	//x, red
-	int xAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float red[4] = { 1, 0, 0, 1 };
-	glUniform4fv(xAxis, 1, red);
-	glLineWidth(2.5);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(5, 0, 0);
-	glEnd();
-
-	//y green
-	int yAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float green[4] = { 0, 1, 0, 1 };
-	glUniform4fv(yAxis, 1, green);
-
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(0, 5, 0);
-	glEnd();
-
-	//z blue
-	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float blue[4] = { 0, 0, 1, 1 };
-	glUniform4fv(zAxis, 1, blue);
-
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
-	glEnd();
 }
 
 void ModuleRenderExercise::aspectRatioChanged(const unsigned width, const unsigned height) {
