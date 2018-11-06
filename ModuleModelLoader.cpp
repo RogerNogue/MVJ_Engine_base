@@ -89,17 +89,33 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh.vbo);
 
 	glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), &mesh->mVertices);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * mesh->mNumVertices * 3, mesh->mVertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), mesh->mVertices);
+	//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * mesh->mNumVertices * 3, mesh->mVertices);
 	
 	//buffer for the faces (vio)
 	math::float2* textureCoords = (math::float2*) glMapBufferRange(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(float), mesh->mNumVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
 		textureCoords[i] = math::float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 	}
-
-	//unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
 	
+	glUnmapBuffer(GL_ARRAY_BUFFER);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &newMesh.vio);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh.vio);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
+													sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
+
+	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
+	{
+		assert(mesh->mFaces[i].mNumIndices == 3);
+
+		*(indices++) = mesh->mFaces[i].mIndices[0];
+		*(indices++) = mesh->mFaces[i].mIndices[1];
+		*(indices++) = mesh->mFaces[i].mIndices[2];
+	}
+	/*
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
 		assert(mesh->mFaces[i].mNumIndices == 3);
@@ -108,12 +124,9 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 		indices.push_back(mesh->mFaces[i].mIndices[1]);
 		indices.push_back(mesh->mFaces[i].mIndices[2]);
 	}
-
-
-	glUnmapBuffer(GL_ARRAY_BUFFER);
-	glGenBuffers(1, &newMesh.vio);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh.vio);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*mesh->mNumFaces * 3, &indices[0], GL_STATIC_DRAW);
+	*/
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	newMesh.material = mesh->mMaterialIndex;
 	newMesh.numIndices = mesh->mNumFaces;
@@ -124,11 +137,11 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 
 void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 	myMaterial newMat;
-	aiString texture("models/baker_house/BakerHouse.png");
+	aiString file;
 	aiTextureMapping mapping;
 	unsigned uvindex = 0;
-	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture, &mapping, &uvindex)) {
-		newMat.texture0 = texture0;
+	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex)) {
+		newMat.texture0 = App->textures->Load(file.data, false);
 	}
 	materials.push_back(newMat);
 }

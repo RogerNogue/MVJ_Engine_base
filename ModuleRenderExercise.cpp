@@ -20,7 +20,7 @@ ModuleRenderExercise::~ModuleRenderExercise()
 }
 
 bool ModuleRenderExercise::Init()
-{
+{/*
 	model = math::float4x4::identity;
 	//projection matrix
 	frustum.type = FrustumType::PerspectiveFrustum;
@@ -34,7 +34,7 @@ bool ModuleRenderExercise::Init()
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
 	projection = frustum.ProjectionMatrix();
 
-	
+	*/
 	float vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
@@ -57,10 +57,10 @@ bool ModuleRenderExercise::Init()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
-	App->modelLoader->loadModel();
-	texture = false;
+	
+	//texture = false;
 
-	texture0 = App->textures->Load(activeTexture, false);
+	//texture0 = App->textures->Load(activeTexture, false);
     return true;
 }
 
@@ -128,8 +128,8 @@ bool ModuleRenderExercise::CleanUp()
 }
 
 void ModuleRenderExercise::activateTextures(char* name) {
-	texture = true;
-	activeTexture = name;
+	//texture = true;
+	//activeTexture = name;
 }
 
 void ModuleRenderExercise::aspectRatioChanged(const unsigned width, const unsigned height) {
