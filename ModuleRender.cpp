@@ -146,7 +146,7 @@ update_status ModuleRender::Update()
 	glEnd();
 
 	drawAxis();
-
+	
 	glUseProgram(0);
 
 	return UPDATE_CONTINUE;

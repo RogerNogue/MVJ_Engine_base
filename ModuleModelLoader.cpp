@@ -60,8 +60,9 @@ bool           ModuleModelLoader::CleanUp(){
 }
 
 void ModuleModelLoader::loadModel() {
-	scene = aiImportFile("models/baker_house/BakerHouse.fbx", 0);
-	texture0 = App->textures->Load("models/baker_house/BakerHouse.png", false);
+	//scene = aiImportFile("models/baker_house/BakerHouse.fbx", 0);
+	scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	//texture0 = App->textures->Load("models/baker_house/Baker_house.png", false);
 	//scene = aiImportFile("models/gnome/mano.fbx", 0);
 	//scene = aiImportFile("models/sword/sword_fbx.fbx", 0);
 	
@@ -115,16 +116,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 		*(indices++) = mesh->mFaces[i].mIndices[1];
 		*(indices++) = mesh->mFaces[i].mIndices[2];
 	}
-	/*
-	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
-	{
-		assert(mesh->mFaces[i].mNumIndices == 3);
 
-		indices.push_back(mesh->mFaces[i].mIndices[0]);
-		indices.push_back(mesh->mFaces[i].mIndices[1]);
-		indices.push_back(mesh->mFaces[i].mIndices[2]);
-	}
-	*/
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -137,11 +129,16 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 
 void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 	myMaterial newMat;
-	aiString file;
+	aiString file("models/baker_house/Baker_house.png");
 	aiTextureMapping mapping;
 	unsigned uvindex = 0;
-	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex)) {
+	/*if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex)) {
 		newMat.texture0 = App->textures->Load(file.data, false);
 	}
+	else {
+		LOG("Texture not loaded\n");
+	}*/
+	newMat.texture0 = App->textures->Load("models/baker_house/Baker_house.png", false);
+	
 	materials.push_back(newMat);
 }

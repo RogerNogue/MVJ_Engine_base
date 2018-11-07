@@ -33,10 +33,9 @@ private:
 	void GenerateMeshData(const aiMesh* mesh);
 	void GenerateMaterialData(const aiMaterial* mat);
 	//variables
-
+	const aiScene* scene;
 	unsigned texture0;
 	int numV;
-	const aiScene* scene;
 	unsigned vbo = 0;
 	unsigned vio = 0;
 };
