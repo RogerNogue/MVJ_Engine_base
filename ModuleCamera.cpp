@@ -56,7 +56,7 @@ void ModuleCamera::camSetUp() {
 
 bool            ModuleCamera::Init() {
 	movementSpeed = 0.1;
-	cam = math::float3(0, -2, 3);
+	cam = math::float3(0, 4, -7);
 	vrp = math::float3(0, 0, 0);
 	up = math::float3(0, 1, 0);
 	fwd = (vrp - cam);
