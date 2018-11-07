@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "ModuleProgram.h"
-#include "ModuleRenderExercise.h"
 
 #include <vector>
 

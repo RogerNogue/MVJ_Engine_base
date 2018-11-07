@@ -150,7 +150,6 @@
     <ClInclude Include="ModuleModelLoader.h" />
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
-    <ClInclude Include="ModuleRenderExercise.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleTimer.h" />
     <ClInclude Include="ModuleWindow.h" />
@@ -204,7 +203,6 @@
     <ClCompile Include="ModuleModelLoader.cpp" />
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
-    <ClCompile Include="ModuleRenderExercise.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleTimer.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />

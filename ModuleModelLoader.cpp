@@ -1,7 +1,6 @@
 #include "ModuleModelLoader.h"
 #include "Application.h"
 #include "ModuleMenu.h"
-#include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
 #include "ModuleTextures.h"
 #include <assimp/cimport.h>
@@ -9,6 +8,7 @@
 #include "GL/glew.h"
 #include <assimp/material.h>
 #include <assimp/mesh.h>
+#include "MathGeoLib.h"
 
 ModuleModelLoader::ModuleModelLoader()
 {

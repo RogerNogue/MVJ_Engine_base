@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleRenderExercise.h"
 
 ModuleWindow::ModuleWindow()
 {
@@ -75,7 +74,6 @@ update_status ModuleWindow::Update()
 		case SDL_WINDOWEVENT:
 			if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 				App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-				App->exercise->aspectRatioChanged(sdlEvent.window.data1, sdlEvent.window.data2);
 			}
 			break;
 		}

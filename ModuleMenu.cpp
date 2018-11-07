@@ -7,7 +7,6 @@
 #include "GL/glew.h"
 #include <stdio.h>
 #include <SDL.h>
-#include "ModuleRenderExercise.h"
 #include "ModuleCamera.h"
 
 ModuleMenu::ModuleMenu()
