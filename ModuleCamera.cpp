@@ -48,7 +48,7 @@ void ModuleCamera::camSetUp() {
 	up = (side.Cross(fwd));
 	camTransf[0][0] = side.x;			camTransf[0][1] = side.y;			camTransf[0][2] = side.z;			camTransf[3][0] = 0;
 	camTransf[1][0] = up.x;				camTransf[1][1] = up.y;				camTransf[1][2] = up.z;				camTransf[3][1] = 0;
-	camTransf[2][0] = fwd.x;			camTransf[2][1] = fwd.y;			camTransf[2][2] = fwd.z;			camTransf[3][2] = 0;
+	camTransf[2][0] = -fwd.x;			camTransf[2][1] = -fwd.y;			camTransf[2][2] = -fwd.z;			camTransf[3][2] = 0;
 	camTransf[0][3] = -side.Dot(cam);	camTransf[1][3] = -up.Dot(cam);		camTransf[2][3] = fwd.Dot(cam);		camTransf[3][3] = 1;
 	up.Normalize();
 	side.Normalize();
