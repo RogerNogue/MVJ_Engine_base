@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleMenu.h"
+#include "ModuleCamera.h"
 
 ModuleWindow::ModuleWindow()
 {
@@ -62,22 +64,6 @@ bool ModuleWindow::Init()
 
 update_status ModuleWindow::Update()
 {
-	SDL_Event sdlEvent;
-	if (SDL_PollEvent(&sdlEvent) != 0) {
-		// Esc button is pressed
-		switch (sdlEvent.type)
-		{
-		case SDL_QUIT:
-			return UPDATE_STOP;
-			break;
-
-		case SDL_WINDOWEVENT:
-			if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-				App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-			}
-			break;
-		}
-	}
 	return UPDATE_CONTINUE;
 }
 
