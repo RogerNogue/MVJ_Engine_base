@@ -60,9 +60,7 @@ bool           ModuleModelLoader::CleanUp(){
 }
 
 void ModuleModelLoader::loadModel() {
-	//scene = aiImportFile("models/baker_house/BakerHouse.fbx", 0);
 	scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
-	//texture0 = App->textures->Load("models/baker_house/Baker_house.png", false);
 	//scene = aiImportFile("models/gnome/mano.fbx", 0);
 	//scene = aiImportFile("models/sword/sword_fbx.fbx", 0);
 	
@@ -89,7 +87,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	glGenBuffers(1, &newMesh.vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh.vbo);
 
-	glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*mesh->mNumVertices, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), mesh->mVertices);
 	//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * mesh->mNumVertices * 3, mesh->mVertices);
 	
@@ -129,16 +127,12 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 
 void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 	myMaterial newMat;
-	aiString file("models/baker_house/Baker_house.png");
+	aiString file;
 	aiTextureMapping mapping;
 	unsigned uvindex = 0;
-	/*if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex)) {
+	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMat.texture0 = App->textures->Load(file.data, false);
 	}
-	else {
-		LOG("Texture not loaded\n");
-	}*/
-	newMat.texture0 = App->textures->Load("models/baker_house/Baker_house.png", false);
 	
 	materials.push_back(newMat);
 }
