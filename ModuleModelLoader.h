@@ -24,11 +24,11 @@ public:
 	struct myMaterial {
 		unsigned texture0 = 0;
 	};
-	//unsigned* indices;
-	//std::vector<unsigned> indices;
+	//variables
 	std::vector<myMesh> meshes;
 	std::vector<myMaterial> materials;
-	//variables
+	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
+	
 private:
 	void GenerateMeshData(const aiMesh* mesh);
 	void GenerateMaterialData(const aiMaterial* mat);

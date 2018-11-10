@@ -48,20 +48,6 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	//drawing matrices
-	model = math::float4x4::identity;
-	//projection matrix
-	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3::zero;
-	frustum.front = -float3::unitZ;
-	frustum.up = float3::unitY;
-	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 100.0f;
-	frustum.verticalFov = math::pi / 4.0f;
-	float aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
-	projection = frustum.ProjectionMatrix();
-
 	App->modelLoader->loadModel();
 	App->modelLoader->drawModel();
 
@@ -78,7 +64,7 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	App->camera->lookAt();
+	//App->camera->lookAt();
 	//drawing the model
 	unsigned numMeshes = App->modelLoader->meshes.size();
 	for (unsigned i = 0; i < numMeshes; ++i) {
@@ -86,11 +72,11 @@ update_status ModuleRender::Update()
 
 		glUseProgram(App->shaderProgram->programTexture);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"model"), 1, GL_TRUE, &model[0][0]);
+			"model"), 1, GL_TRUE, &App->camera->model[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"view"), 1, GL_TRUE, &view[0][0]);
+			"view"), 1, GL_TRUE, &App->camera->view[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"proj"), 1, GL_TRUE, &projection[0][0]);
+			"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->meshes[i].material].texture0);
@@ -120,11 +106,11 @@ update_status ModuleRender::Update()
 	glUseProgram(App->shaderProgram->programGeometry);
 
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"model"), 1, GL_TRUE, &model[0][0]);
+		"model"), 1, GL_TRUE, &App->camera->model[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"view"), 1, GL_TRUE, &view[0][0]);
+		"view"), 1, GL_TRUE, &App->camera->view[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"proj"), 1, GL_TRUE, &projection[0][0]);
+		"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
 	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
 	float white[4] = { 1, 1, 1, 1 };
@@ -171,7 +157,8 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-    glViewport(0, 0, width, height); 
+    glViewport(0, 0, width, height); //diagonal resize not working
+	App->camera->SetAspectRatio(width, height);
 }
 
 void ModuleRender::drawAxis() {

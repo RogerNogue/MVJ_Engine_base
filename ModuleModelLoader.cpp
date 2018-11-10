@@ -24,13 +24,6 @@ bool ModuleModelLoader::Init() {
 	return true;
 }
 update_status   ModuleModelLoader::Update() {
-	/*
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	*/
 	return UPDATE_CONTINUE;
 }
 bool           ModuleModelLoader::CleanUp(){
@@ -71,6 +64,9 @@ void ModuleModelLoader::loadModel() {
 }
 
 void ModuleModelLoader::drawModel() {
+	minX = maxX = scene->mMeshes[0]->mVertices[0].x;
+	minY = maxY = scene->mMeshes[0]->mVertices[0].y;
+	minZ = maxZ = scene->mMeshes[0]->mVertices[0].z;
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		GenerateMeshData(scene->mMeshes[i]);
@@ -95,6 +91,25 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	math::float2* textureCoords = (math::float2*) glMapBufferRange(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(float), mesh->mNumVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
 		textureCoords[i] = math::float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+		//i use this loop to update the bounding box values
+		if (minX > mesh->mVertices[i].x) {
+			minX = mesh->mVertices[i].x;
+		}
+		else if (maxX < mesh->mVertices[i].x) {
+			maxX = mesh->mVertices[i].x;
+		}
+		if (minY > mesh->mVertices[i].y) {
+			minY = mesh->mVertices[i].y;
+		}
+		else if (maxY < mesh->mVertices[i].y) {
+			maxY = mesh->mVertices[i].y;
+		}
+		if (minZ > mesh->mVertices[i].z) {
+			minZ = mesh->mVertices[i].z;
+		}
+		else if (maxZ < mesh->mVertices[i].z) {
+			maxZ = mesh->mVertices[i].z;
+		}
 	}
 	
 	glUnmapBuffer(GL_ARRAY_BUFFER);

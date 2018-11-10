@@ -20,10 +20,6 @@ public:
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 	//variables
-	math::float4x4 model;
-	math::float4x4 view;
-	math::float4x4 projection;
-	Frustum frustum;
 	void* context;
 private:
 	void drawAxis();

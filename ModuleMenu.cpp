@@ -174,6 +174,8 @@ update_status ModuleMenu::Update() {
 		}
 		
 	}
+	//ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + 650, main_viewport_pos.y + 20), ImGuiCond_FirstUseEver);
+	//ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 	console.Draw("Console");
 
 	//ImGui::End();
