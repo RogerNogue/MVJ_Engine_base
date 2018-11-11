@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleTimer_H__
+#define __ModuleTimer_H__
+
 #include "Module.h"
 class ModuleTimer :
 	public Module
@@ -23,3 +25,4 @@ private:
 	
 };
 
+#endif

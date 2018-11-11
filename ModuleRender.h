@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleRender_H__
+#define __ModuleRender_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib.h"
@@ -24,3 +26,5 @@ public:
 private:
 	void drawAxis();
 };
+
+#endif

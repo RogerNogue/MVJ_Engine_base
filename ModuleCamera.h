@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleCamera_H__
+#define __ModuleCamera_H__
+
 #include "Module.h"
 #include "MathGeoLib.h"
 
@@ -50,3 +52,4 @@ private:
 
 };
 
+#endif

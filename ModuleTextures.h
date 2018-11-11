@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleTextures_H__
+#define __ModuleTextures_H__
+
 #include<list>
 #include "Module.h"
 #include "Globals.h"
@@ -19,3 +21,5 @@ public:
 
 private:
 };
+
+#endif

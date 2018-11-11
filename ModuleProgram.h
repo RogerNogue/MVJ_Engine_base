@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleProgram_H__
+#define __ModuleProgram_H__
+
 #include "Module.h"
 #include "GL/glew.h"
 class ModuleProgram :
@@ -18,3 +20,4 @@ public:
 	GLuint programGeometry;
 };
 
+#endif

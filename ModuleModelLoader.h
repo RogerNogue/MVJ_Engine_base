@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleModelLoader_H__
+#define __ModuleModelLoader_H__
+
 #include "Module.h"
 #include <assimp/scene.h>
 #include <vector>
@@ -40,3 +42,4 @@ private:
 	unsigned vio = 0;
 };
 
+#endif

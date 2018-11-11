@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __TimerClass_H__
+#define __TimerClass_H__
+
 #include"SDL.h"
 class timerClass
 {
@@ -44,3 +46,4 @@ private:
 	bool highRunning;
 };
 
+#endif
