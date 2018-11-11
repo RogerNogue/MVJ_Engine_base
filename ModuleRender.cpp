@@ -64,7 +64,6 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	//App->camera->lookAt();
 	//drawing the model
 	unsigned numMeshes = App->modelLoader->meshes.size();
 	for (unsigned i = 0; i < numMeshes; ++i) {
@@ -156,7 +155,7 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-    glViewport(0, 0, width, height); //diagonal resize not working
+    glViewport(0, 0, width, height);
 	App->camera->SetAspectRatio(width, height);
 }
 

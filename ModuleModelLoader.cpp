@@ -72,7 +72,6 @@ void ModuleModelLoader::loadModel(unsigned model) {
 
 	
 	if (scene == nullptr) {
-		//App->menu->consoleLog(aiGetErrorString());
 		LOG(aiGetErrorString());
 	}
 	char* b = new char[100];

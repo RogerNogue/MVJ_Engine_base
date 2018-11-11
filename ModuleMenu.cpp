@@ -58,161 +58,155 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
-	bool show_demo_window = false;
-	if (show_demo_window)ImGui::ShowDemoWindow(&show_demo_window);
-	
-	else{
-		// Menu
-		if (ImGui::BeginMainMenuBar())
+	// Menu
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("Menu"))
 		{
-			if (ImGui::BeginMenu("Menu"))
-			{
-				ImGui::Text("Menu");
-				ImGui::EndMenu();
+			ImGui::Text("Menu");
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::Button("Documentation")) {
+				ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/wiki", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::BeginMenu("Help"))
-			{
-				if (ImGui::Button("Documentation")) {
-					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/wiki", NULL, NULL, SW_SHOWNORMAL);
-				}
-				if (ImGui::Button("Download latest")) {
-					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/releases", NULL, NULL, SW_SHOWNORMAL);
-				}
-				if (ImGui::Button("Report a bug")) {
-					ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/issues", NULL, NULL, SW_SHOWNORMAL);
-				}
-				ImGui::EndMenu();
+			if (ImGui::Button("Download latest")) {
+				ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/releases", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::BeginMenu("About")) {
-				ImGui::BulletText("Engine name: DESPACITO 2");
-				ImGui::Text("Description");
-				ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
-				ImGui::Text("Authors");
-				ImGui::BulletText("Roger Nogue Ballbe.");
-				ImGui::Text("Libraries");
-				ImGui::BulletText("SDL.");
-				ImGui::BulletText("IMGUI.");
-				ImGui::BulletText("GLEW.");
-				ImGui::Text("Licenses");
-				if (ImGui::Button("SDL")) {
-					ShellExecute(NULL, "open", "https://www.libsdl.org/license.php", NULL, NULL, SW_SHOWNORMAL);
-				}
-				if (ImGui::Button("IMGUI")) {
-					ShellExecute(NULL, "open", "https://github.com/ocornut/imgui/blob/master/LICENSE.txt", NULL, NULL, SW_SHOWNORMAL);
-				}
-				if (ImGui::Button("GLEW")) {
-					ShellExecute(NULL, "open", "https://www.opengl.org/about/#11", NULL, NULL, SW_SHOWNORMAL);
-				}
-				ImGui::EndMenu();
+			if (ImGui::Button("Report a bug")) {
+				ShellExecute(NULL, "open", "https://github.com/RogerNogue/MVJ_Engine_base/issues", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::BeginMenu("Exit")) {
-				return UPDATE_STOP;
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("About")) {
+			ImGui::BulletText("Engine name: DESPACITO 2");
+			ImGui::Text("Description");
+			ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
+			ImGui::Text("Authors");
+			ImGui::BulletText("Roger Nogue Ballbe.");
+			ImGui::Text("Libraries");
+			ImGui::BulletText("SDL.");
+			ImGui::BulletText("IMGUI.");
+			ImGui::BulletText("GLEW.");
+			ImGui::Text("Licenses");
+			if (ImGui::Button("SDL")) {
+				ShellExecute(NULL, "open", "https://www.libsdl.org/license.php", NULL, NULL, SW_SHOWNORMAL);
 			}
-			ImGui::EndMainMenuBar();
-		}
-		ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - 300, 0));
-		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
-		bool displaying = true;
-		ImGui::Begin("Module Properties", &displaying);
-
-		//going over all the menus
-		//App info
-		if (ImGui::CollapsingHeader("Application details"))
-		{
-			ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
-			char* title = new char[50];
-			updateFramerates();
-			sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
-			ImGui::PlotHistogram("", fps_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
-			sprintf_s(title, 50, "Milliseconds %.1f", ms_log[logMSIterator]);
-			ImGui::PlotHistogram("", ms_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
-		}
-		//global variables
-		if (ImGui::CollapsingHeader("Globals"))
-		{
-			ImGui::Text("Screen Width = %.1f", App->camera->screenWidth);
-			ImGui::Text("Screen Height = %.1f", App->camera->screenHeight);
-			ImGui::Text("Fullscreen = %d", FULLSCREEN);
-			ImGui::Text("VSYNC = %d", VSYNC);
-			ImGui::Text("GLSL version = %s", GLSL_VERSION);
-		}
-		//module window
-		if (ImGui::CollapsingHeader("Window"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		//module menu
-		if (ImGui::CollapsingHeader("Menu"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		//module render
-		if (ImGui::CollapsingHeader("Render"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		//module textures
-		if (ImGui::CollapsingHeader("Textures"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		//module input
-		if (ImGui::CollapsingHeader("Input"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		//module render exercise
-		if (ImGui::CollapsingHeader("Camera"))
-		{
-			ImGui::Text("Cam declarations:");
-			ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
-			ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
-			ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
-			math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
-			ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
-		}
-		//module program
-		if (ImGui::CollapsingHeader("Program"))
-		{
-			ImGui::Text("Not much to be shown about this module.");
-		}
-		ImGui::End();
-
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
-		ImGui::Begin("3D properties", &displaying);
-
-		//going over all the menus
-		//App info
-		if (ImGui::CollapsingHeader("Model loader"))
-		{
-			if (ImGui::Button("House")) {
-				App->modelLoader->unloadModels();
-				App->modelLoader->loadModel(1);
-				App->modelLoader->drawModel();
+			if (ImGui::Button("IMGUI")) {
+				ShellExecute(NULL, "open", "https://github.com/ocornut/imgui/blob/master/LICENSE.txt", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::Button("Banana")) {
-				App->modelLoader->unloadModels();
-				App->modelLoader->loadModel(2);
-				App->modelLoader->drawModel();
+			if (ImGui::Button("GLEW")) {
+				ShellExecute(NULL, "open", "https://www.opengl.org/about/#11", NULL, NULL, SW_SHOWNORMAL);
 			}
-			if (ImGui::Button("Shield")) {
-				App->modelLoader->unloadModels();
-				App->modelLoader->loadModel(3);
-				App->modelLoader->drawModel();
-			}
-			ImGui::Text("Current model properties:");
-			ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);
-			ImGui::BulletText("Position = ( %.2f, %.2f, %.2f )", App->camera->modelCenter.x, App->camera->modelCenter.y, App->camera->modelCenter.z);
+			ImGui::EndMenu();
 		}
-		ImGui::End();
-		
+		if (ImGui::BeginMenu("Exit")) {
+			return UPDATE_STOP;
+		}
+		ImGui::EndMainMenuBar();
 	}
+	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - 300, 0));
+	ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
+	bool displaying = true;
+	ImGui::Begin("Module Properties", &displaying);
+
+	//going over all the menus
+	//App info
+	if (ImGui::CollapsingHeader("Application details"))
+	{
+		ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
+		char* title = new char[50];
+		updateFramerates();
+		sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
+		ImGui::PlotHistogram("", fps_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+		sprintf_s(title, 50, "Milliseconds %.1f", ms_log[logMSIterator]);
+		ImGui::PlotHistogram("", ms_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+	}
+	//global variables
+	if (ImGui::CollapsingHeader("Globals"))
+	{
+		ImGui::Text("Screen Width = %.1f", App->camera->screenWidth);
+		ImGui::Text("Screen Height = %.1f", App->camera->screenHeight);
+		ImGui::Text("Fullscreen = %d", FULLSCREEN);
+		ImGui::Text("VSYNC = %d", VSYNC);
+		ImGui::Text("GLSL version = %s", GLSL_VERSION);
+	}
+	//module window
+	if (ImGui::CollapsingHeader("Window"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	//module menu
+	if (ImGui::CollapsingHeader("Menu"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	//module render
+	if (ImGui::CollapsingHeader("Render"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	//module textures
+	if (ImGui::CollapsingHeader("Textures"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	//module input
+	if (ImGui::CollapsingHeader("Input"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	//module render exercise
+	if (ImGui::CollapsingHeader("Camera"))
+	{
+		ImGui::Text("Cam declarations:");
+		ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
+		ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
+		ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
+		math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
+		ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
+	}
+	//module program
+	if (ImGui::CollapsingHeader("Program"))
+	{
+		ImGui::Text("Not much to be shown about this module.");
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
+	ImGui::Begin("3D properties", &displaying);
+
+	//going over all the menus
+	//App info
+	if (ImGui::CollapsingHeader("Model loader"))
+	{
+		if (ImGui::Button("House")) {
+			App->modelLoader->unloadModels();
+			App->modelLoader->loadModel(1);
+			App->modelLoader->drawModel();
+		}
+		if (ImGui::Button("Banana")) {
+			App->modelLoader->unloadModels();
+			App->modelLoader->loadModel(2);
+			App->modelLoader->drawModel();
+		}
+		if (ImGui::Button("Shield")) {
+			App->modelLoader->unloadModels();
+			App->modelLoader->loadModel(3);
+			App->modelLoader->drawModel();
+		}
+		ImGui::Text("Current model properties:");
+		ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);
+		ImGui::BulletText("Position = ( %.2f, %.2f, %.2f )", App->camera->modelCenter.x, App->camera->modelCenter.y, App->camera->modelCenter.z);
+	}
+	ImGui::End();
+
 	ImGui::SetNextWindowPos(ImVec2(0, App->camera->screenHeight - 250));
 	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth, 250));
 	console.Draw("Console");
 
-	//ImGui::End();
 	return UPDATE_CONTINUE;
 }
 
