@@ -52,13 +52,24 @@ bool           ModuleModelLoader::CleanUp(){
 	}
 }
 
-void ModuleModelLoader::loadModel() {
-	scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
-	//scene = aiImportFile("models/gnome/mano.fbx", 0);
-	//scene = aiImportFile("models/sword/sword_fbx.fbx", 0);
+void ModuleModelLoader::loadModel(unsigned model) {
+	currentModel = model;
+	if (model == 1) {
+		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelGeometry = 0;
+	}
+	else if (model == 2) {
+		scene = aiImportFile("models/apple_fbx/apple_fbx/apple.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelGeometry = 1;
+	}
+	else if (model == 3) {
+		scene = aiImportFile("models/earth/Earth.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelGeometry = 2;
+	}
+
 	
 	if (scene == nullptr) {
-		App->menu->consoleLog(aiGetErrorString());
+		//App->menu->consoleLog(aiGetErrorString());
 		LOG(aiGetErrorString());
 	}
 }
@@ -134,7 +145,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	newMesh.material = mesh->mMaterialIndex;
-	newMesh.numIndices = mesh->mNumFaces;
+	newMesh.numIndices = mesh->mNumFaces*3;
 	newMesh.numVertices = mesh->mNumVertices;
 	meshes.push_back(newMesh);
 
@@ -148,6 +159,7 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMat.texture0 = App->textures->Load(file.data, false);
 	}
-	
+	if (currentModel == 2) newMat.texture0 = App->textures->Load("models/apple_fbx/textures/fin.jpg", false);
+	if(currentModel == 3) newMat.texture0 = App->textures->Load("models/earth/Earth_tex.tga", false);
 	materials.push_back(newMat);
 }

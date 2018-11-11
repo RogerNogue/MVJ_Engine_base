@@ -48,7 +48,7 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	App->modelLoader->loadModel();
+	App->modelLoader->loadModel(2);
 	App->modelLoader->drawModel();
 
 	return true;
@@ -87,12 +87,12 @@ update_status ModuleRender::Update()
 		glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->meshes[i].vbo);
 		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,(void*)0 );
 		glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,0,(void*)(sizeof(float) * App->modelLoader->meshes[i].numVertices * 3));
-		//glDrawArrays(GL_TRIANGLES, 0, App->modelLoader->meshes[i].numVertices);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->meshes[i].vio);
-		//glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, &App->modelLoader->indices[0]);
-		glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
-		//glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, &App->modelLoader->indices);
+
+		if (App->modelLoader->modelGeometry == 0)glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		else if (App->modelLoader->modelGeometry == 1)glDrawElements(GL_POLYGON, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		else if (App->modelLoader->modelGeometry == 2)glDrawElements(GL_POLYGON, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

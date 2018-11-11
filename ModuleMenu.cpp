@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <SDL.h>
 #include "ModuleCamera.h"
+#include "ModuleModelLoader.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -110,15 +111,15 @@ update_status ModuleMenu::Update() {
 			ImGui::EndMainMenuBar();
 		}
 		ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - 300, 0));
-		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight));
+		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
 		bool displaying = true;
 		ImGui::Begin("Module Properties", &displaying);
-		
+
 		//going over all the menus
 		//App info
 		if (ImGui::CollapsingHeader("Application details"))
 		{
-			ImGui::Text("Application Time = %d", SDL_GetTicks()/1000);
+			ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
 			char* title = new char[50];
 			updateFramerates();
 			sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
@@ -174,6 +175,29 @@ update_status ModuleMenu::Update() {
 		if (ImGui::CollapsingHeader("Program"))
 		{
 			ImGui::Text("Not much to be shown about this module yet.");
+		}
+		ImGui::End();
+
+		ImGui::SetNextWindowPos(ImVec2(0, 0));
+		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
+		ImGui::Begin("3D properties", &displaying);
+
+		//going over all the menus
+		//App info
+		if (ImGui::CollapsingHeader("Model loader"))
+		{
+			if (ImGui::Button("House")) {
+				App->modelLoader->loadModel(1);
+				App->modelLoader->drawModel();
+			}
+			if (ImGui::Button("Gnome")) {
+				App->modelLoader->loadModel(2);
+				App->modelLoader->drawModel();
+			}
+			if (ImGui::Button("Sword")) {
+				App->modelLoader->loadModel(3);
+				App->modelLoader->drawModel();
+			}
 		}
 		ImGui::End();
 		

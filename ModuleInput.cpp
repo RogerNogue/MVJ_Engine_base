@@ -25,13 +25,10 @@ bool ModuleInput::Init()
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-
+	cameraMoved = false;
 	return ret;
 }
-
-// Called every draw update
-update_status ModuleInput::Update()
-{
+update_status ModuleInput::PreUpdate() {
 	SDL_PumpEvents();
 
 	keyboard = SDL_GetKeyboardState(NULL);
@@ -78,25 +75,23 @@ update_status ModuleInput::Update()
 				y = sdlEvent.motion.y;
 				break;
 			}
-
-			App->camera->camRotationX(math::RadToDeg(sdlEvent.motion.y - y));
-			App->camera->camRotationY(math::RadToDeg(sdlEvent.motion.x - x));
+			cameraMoved = true;
+			xdiff = sdlEvent.motion.x - x;
+			ydiff = sdlEvent.motion.y - y;
+			//App->camera->camRotationX((sdlEvent.motion.y - y));
+			//App->camera->camRotationY((sdlEvent.motion.x - x));
 			x = sdlEvent.motion.x;
 			y = sdlEvent.motion.y;
-			char* b = new char[100];
+			/*char* b = new char[100];
 			sprintf(b, "Cam motion detected, values:\n");
 			App->menu->console.AddLog(b);
 			sprintf(b, "motion.x = %d, motion.y = %d, motion relative x = %d, motion relative y = %d; \n\n", sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel);
 			App->menu->console.AddLog(b);
-			delete b;
-
-			//mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
-			//mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
+			delete b;*/
 
 			break;
 		}
 	}
-
 	return UPDATE_CONTINUE;
 }
 

@@ -14,7 +14,7 @@ public:
 	bool            Init();
 	update_status   Update();
 	bool            CleanUp();
-	void loadModel();
+	void loadModel(unsigned model);
 	void drawModel();
 	struct myMesh {
 		unsigned vbo = 0;
@@ -27,6 +27,8 @@ public:
 		unsigned texture0 = 0;
 	};
 	//variables
+	unsigned currentModel;
+	unsigned modelGeometry;//0 = triangles, 1 = polygonal
 	std::vector<myMesh> meshes;
 	std::vector<myMaterial> materials;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box

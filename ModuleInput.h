@@ -14,11 +14,12 @@ public:
 	~ModuleInput();
 
 	bool Init();
-	update_status Update();
+	update_status PreUpdate();
 	bool CleanUp();
 	//vars
 	const Uint8 *keyboard = NULL;
-	int x, y;
+	int x, y, xdiff, ydiff;
+	bool cameraMoved;
 private:
 };
 
