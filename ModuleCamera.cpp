@@ -115,13 +115,18 @@ update_status   ModuleCamera::Update() {
 
 		App->input->cameraMoved = false;
 	}
-
+	//mousewheel
+	if (App->input->wheelScroll != 0) {
+		frustum.verticalFov -= 0.1 * App->input->wheelScroll;
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
+		App->input->wheelScroll = 0;
+		cameraMoved = true;
+	}
 	if (cameraMoved) {
 		projection = frustum.ProjectionMatrix();
 		view = frustum.ViewMatrix();
 		cameraMoved = false;
 	}
-
 	return UPDATE_CONTINUE;
 }
 bool            ModuleCamera::CleanUp() {

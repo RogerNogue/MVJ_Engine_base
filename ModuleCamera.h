@@ -23,6 +23,7 @@ public:
 
 	void SetAspectRatio(float w, float h);
 	void mewModelLoaded();
+	void zoom();
 	//variables
 	float aspectRatio;
 	float screenWidth;

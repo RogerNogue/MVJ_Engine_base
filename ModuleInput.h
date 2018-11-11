@@ -17,6 +17,7 @@ public:
 	update_status PreUpdate();
 	bool CleanUp();
 	//vars
+	int wheelScroll;
 	const Uint8 *keyboard = NULL;
 	int x, y, xdiff, ydiff;
 	bool cameraMoved;

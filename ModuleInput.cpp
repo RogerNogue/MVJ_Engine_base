@@ -26,6 +26,7 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 	cameraMoved = false;
+	wheelScroll = 0;
 	return ret;
 }
 update_status ModuleInput::PreUpdate() {
@@ -81,6 +82,9 @@ update_status ModuleInput::PreUpdate() {
 			x = sdlEvent.motion.x;
 			y = sdlEvent.motion.y;
 			break;
+
+		case SDL_MOUSEWHEEL:
+			wheelScroll = sdlEvent.wheel.y;
 		}
 	}
 	return UPDATE_CONTINUE;
