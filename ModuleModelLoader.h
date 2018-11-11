@@ -30,7 +30,6 @@ public:
 	};
 	//variables
 	unsigned currentModel;
-	unsigned modelGeometry;//0 = triangles, 1 = polygonal
 	std::vector<myMesh> meshes;
 	std::vector<myMaterial> materials;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box

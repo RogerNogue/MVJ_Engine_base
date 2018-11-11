@@ -22,6 +22,7 @@ public:
 	void camRotationY(float angle);
 
 	void SetAspectRatio(float w, float h);
+	void mewModelLoaded();
 	//variables
 	float aspectRatio;
 	float screenWidth;

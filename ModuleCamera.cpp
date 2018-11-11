@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include "ModuleModelLoader.h"
 #include "ModuleInput.h"
 #include "ModuleMenu.h"
 #include "SDL.h"
@@ -131,4 +132,18 @@ void ModuleCamera::SetAspectRatio(float w, float h) {
 	screenWidth = w;
 	screenHeight = h;
 	aspectRatio = w/h;
+}
+
+void ModuleCamera::mewModelLoaded() {
+	float3 center;
+	//not correct
+	center.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX)/2;
+	center.y = App->modelLoader->minY + (App->modelLoader->maxY - App->modelLoader->minY) / 2;
+	center.z = App->modelLoader->minZ;
+	vrp = center;
+	float horizontalDist = (App->modelLoader->maxY - App->modelLoader->minY)/2 / math::Tan(frustum.verticalFov/2);
+	float verticalDist = (App->modelLoader->maxX - App->modelLoader->minX) / 2 / math::Tan(frustum.horizontalFov / 2);
+
+	frustum.pos = center - (frustum.front * max(horizontalDist, verticalDist));
+	cameraMoved = true;
 }

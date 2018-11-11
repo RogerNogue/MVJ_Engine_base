@@ -3,6 +3,7 @@
 #include "ModuleMenu.h"
 #include "ModuleProgram.h"
 #include "ModuleTextures.h"
+#include "ModuleCamera.h"
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
 #include "GL/glew.h"
@@ -56,15 +57,14 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	currentModel = model;
 	if (model == 1) {
 		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
-		modelGeometry = 0;
 	}
 	else if (model == 2) {
-		scene = aiImportFile("models/apple_fbx/apple_fbx/apple.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
-		modelGeometry = 1;
+		/*scene = aiImportFile("models/apple_fbx/apple_fbx/apple.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelGeometry = 1;*/
+		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (model == 3) {
 		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
-		modelGeometry = 2;
 	}
 
 	
@@ -90,6 +90,7 @@ void ModuleModelLoader::drawModel() {
 	{
 		GenerateMaterialData(scene->mMaterials[i]);
 	}
+	App->camera->mewModelLoaded();
 }
 
 void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
@@ -163,7 +164,7 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMat.texture0 = App->textures->Load(file.data, false);
 	}
-	if (currentModel == 2) newMat.texture0 = App->textures->Load("models/apple_fbx/textures/fin.jpg", false);
+	if (currentModel == 2) newMat.texture0 = App->textures->Load("models/banana/banana.png", false);
 	if(currentModel == 3) newMat.texture0 = App->textures->Load("models/shield/tex.png", false);
 	materials.push_back(newMat);
 }
