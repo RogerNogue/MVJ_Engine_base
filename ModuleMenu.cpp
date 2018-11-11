@@ -82,35 +82,37 @@ update_status ModuleMenu::Update() {
 				}
 				ImGui::EndMenu();
 			}
+			if (ImGui::BeginMenu("About")) {
+				ImGui::BulletText("Engine name: DESPACITO 2");
+				ImGui::Text("Description");
+				ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
+				ImGui::Text("Authors");
+				ImGui::BulletText("Roger Nogue Ballbe.");
+				ImGui::Text("Libraries");
+				ImGui::BulletText("SDL.");
+				ImGui::BulletText("IMGUI.");
+				ImGui::BulletText("GLEW.");
+				ImGui::Text("Licenses");
+				if (ImGui::Button("SDL")) {
+					ShellExecute(NULL, "open", "https://www.libsdl.org/license.php", NULL, NULL, SW_SHOWNORMAL);
+				}
+				if (ImGui::Button("IMGUI")) {
+					ShellExecute(NULL, "open", "https://github.com/ocornut/imgui/blob/master/LICENSE.txt", NULL, NULL, SW_SHOWNORMAL);
+				}
+				if (ImGui::Button("GLEW")) {
+					ShellExecute(NULL, "open", "https://www.opengl.org/about/#11", NULL, NULL, SW_SHOWNORMAL);
+				}
+				ImGui::EndMenu();
+			}
 			if (ImGui::BeginMenu("Exit")) {
 				return UPDATE_STOP;
 			}
 			ImGui::EndMainMenuBar();
 		}
-		ImGui::Spacing();
-		if (ImGui::CollapsingHeader("About"))
-		{
-			ImGui::BulletText("Engine name: DESPACITO 2");
-			ImGui::Text("Description");
-			ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
-			ImGui::Text("Authors");
-			ImGui::BulletText("Roger Nogue Ballbe.");
-			ImGui::Text("Libraries");
-			ImGui::BulletText("SDL.");
-			ImGui::BulletText("IMGUI.");
-			ImGui::BulletText("GLEW.");
-			ImGui::Text("Licenses");
-			if (ImGui::Button("SDL")) {
-				ShellExecute(NULL, "open", "https://www.libsdl.org/license.php", NULL, NULL, SW_SHOWNORMAL);
-			}
-			if (ImGui::Button("IMGUI")) {
-				ShellExecute(NULL, "open", "https://github.com/ocornut/imgui/blob/master/LICENSE.txt", NULL, NULL, SW_SHOWNORMAL);
-			}
-			if (ImGui::Button("GLEW")) {
-				ShellExecute(NULL, "open", "https://www.opengl.org/about/#11", NULL, NULL, SW_SHOWNORMAL);
-			}
-			ImGui::Separator();
-		}
+		ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - 300, 0));
+		ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight));
+		bool displaying = true;
+		ImGui::Begin("Module Properties", &displaying);
 		
 		//going over all the menus
 		//App info
@@ -127,8 +129,8 @@ update_status ModuleMenu::Update() {
 		//global variables
 		if (ImGui::CollapsingHeader("Globals"))
 		{
-			ImGui::Text("Screen Width = %d", SCREEN_WIDTH);
-			ImGui::Text("Screen Height = %d", SCREEN_HEIGHT);
+			ImGui::Text("Screen Width = %.1f", App->camera->screenWidth);
+			ImGui::Text("Screen Height = %.1f", App->camera->screenHeight);
 			ImGui::Text("Fullscreen = %d", FULLSCREEN);
 			ImGui::Text("VSYNC = %d", VSYNC);
 			ImGui::Text("GLSL version = %s", GLSL_VERSION);
@@ -172,10 +174,11 @@ update_status ModuleMenu::Update() {
 		{
 			ImGui::Text("Not much to be shown about this module yet.");
 		}
+		ImGui::End();
 		
 	}
-	//ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + 650, main_viewport_pos.y + 20), ImGuiCond_FirstUseEver);
-	//ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowPos(ImVec2(0, App->camera->screenHeight - 250));
+	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth, 250));
 	console.Draw("Console");
 
 	//ImGui::End();
