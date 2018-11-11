@@ -32,7 +32,7 @@ void ModuleCamera::camRotationY(float angle) {
 
 
 bool            ModuleCamera::Init() {
-	movementSpeed = 0.1;
+	movementSpeed = 1;
 	vrp = math::float3(0, 0, 0);
 	timeLastFrame = SDL_GetTicks();
 	movementOn = false;
@@ -61,9 +61,9 @@ bool            ModuleCamera::Init() {
 update_status   ModuleCamera::Update() {
 	//keyboard listeners
 	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
-		movementSpeed = 5;
+		movementSpeed = 5.;
 	}
-	else movementSpeed = 1;
+	else movementSpeed = 1.;
 	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {

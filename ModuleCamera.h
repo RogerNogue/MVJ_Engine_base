@@ -21,7 +21,6 @@ public:
 	void SetAspectRatio(float w, float h);
 	void mewModelLoaded();
 	//variables
-	float mouseRotSpeed;
 	float aspectRatio;
 	float screenWidth;
 	float screenHeight;
@@ -30,6 +29,7 @@ public:
 	math::float4x4 camera;
 	double timeLastFrame;
 	float movementSpeed;
+	float mouseRotSpeed;
 	bool movementOn;
 	bool cameraMoved;
 	math::float4x4 model;
