@@ -11,9 +11,6 @@ public:
 	ModuleCamera();
 	~ModuleCamera();
 
-	void lookAt();
-	void lookAt(const math::float3& obs, const math::float3& vrp, math::float3& up);
-
 	bool            Init();
 	update_status   Update();
 	bool            CleanUp();
@@ -23,8 +20,8 @@ public:
 
 	void SetAspectRatio(float w, float h);
 	void mewModelLoaded();
-	void zoom();
 	//variables
+	float mouseRotSpeed;
 	float aspectRatio;
 	float screenWidth;
 	float screenHeight;

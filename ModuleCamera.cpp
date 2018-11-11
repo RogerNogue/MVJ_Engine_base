@@ -37,6 +37,7 @@ bool            ModuleCamera::Init() {
 	timeLastFrame = SDL_GetTicks();
 	movementOn = false;
 	cameraMoved = false;
+	mouseRotSpeed = 0.001;
 
 	//drawing matrices
 	model = math::float4x4::identity;
@@ -109,11 +110,12 @@ update_status   ModuleCamera::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
 		camRotationY(-movementSpeed / 5);
 	}
+	//camera rotation via mouse
 	if (App->input->cameraMoved) {
-		camRotationX(App->input->ydiff/5);
-		camRotationY(App->input->xdiff/5);
-
+		camRotationX(App->input->ydiff * mouseRotSpeed);
+		camRotationY(App->input->xdiff * mouseRotSpeed * -1);
 		App->input->cameraMoved = false;
+		cameraMoved = true;
 	}
 	//mousewheel
 	if (App->input->wheelScroll != 0) {
