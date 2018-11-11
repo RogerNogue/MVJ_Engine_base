@@ -133,7 +133,7 @@ update_status ModuleMenu::Update() {
 		ImGui::Text("GLSL version = %s", GLSL_VERSION);
 	}
 	//module window
-	if (ImGui::CollapsingHeader("Window"))
+	/*if (ImGui::CollapsingHeader("Window"))
 	{
 		ImGui::Text("Not much to be shown about this module.");
 	}
@@ -156,7 +156,7 @@ update_status ModuleMenu::Update() {
 	if (ImGui::CollapsingHeader("Input"))
 	{
 		ImGui::Text("Not much to be shown about this module.");
-	}
+	}*/
 	//module render exercise
 	if (ImGui::CollapsingHeader("Camera"))
 	{
@@ -166,12 +166,16 @@ update_status ModuleMenu::Update() {
 		ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
 		math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
 		ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
+		ImGui::InputFloat("zNear Plane", &App->camera->frustum.nearPlaneDistance);
+		ImGui::InputFloat("zFar Plane", &App->camera->frustum.farPlaneDistance);
+		ImGui::InputFloat("keys movement speed", &App->camera->movementSpeed);
+		ImGui::InputFloat("mouse rotation speed", &App->camera->mouseRotSpeed);
 	}
 	//module program
-	if (ImGui::CollapsingHeader("Program"))
+	/*if (ImGui::CollapsingHeader("Program"))
 	{
 		ImGui::Text("Not much to be shown about this module.");
-	}
+	}*/
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
