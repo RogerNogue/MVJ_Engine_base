@@ -18,11 +18,8 @@ public:
 	update_status   Update();
 	bool            CleanUp();
 	
-	void camTransformation(math::float3 pos);
 	void camRotationX(float angle);
 	void camRotationY(float angle);
-	void camRotationY010(float angle);
-	void camRotationZ(float angle);
 
 	void SetAspectRatio(float w, float h);
 	//variables
@@ -30,12 +27,7 @@ public:
 	float screenWidth;
 	float screenHeight;
 	float distCamVrp;
-	math::float4x4 camTransf;
-	math::float3 cam;
 	math::float3 vrp;
-	math::float3 up;
-	math::float3 fwd;
-	math::float3 side;
 	math::float4x4 camera;
 	double timeLastFrame;
 	float movementSpeed;
@@ -47,8 +39,6 @@ public:
 	Frustum frustum;
 
 private:
-	
-	void camSetUp();
 
 };
 

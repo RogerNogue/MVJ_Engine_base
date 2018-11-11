@@ -164,10 +164,11 @@ update_status ModuleMenu::Update() {
 		if (ImGui::CollapsingHeader("Camera"))
 		{
 			ImGui::Text("Cam declarations:");
-			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->camTransf[0][3], App->camera->camTransf[1][3], App->camera->camTransf[2][3]);
-			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->camTransf[1][0], App->camera->camTransf[1][1], App->camera->camTransf[1][2]);
-			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->camTransf[2][0], App->camera->camTransf[2][1], App->camera->camTransf[2][2]);
-			ImGui::BulletText("Side directions = ( %f, %f, %f )", App->camera->camTransf[0][0], App->camera->camTransf[0][1], App->camera->camTransf[0][2]);
+			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
+			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
+			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
+			math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
+			ImGui::BulletText("Side directions = ( %f, %f, %f )", side.x, side.y, side.z);
 		}
 		//module program
 		if (ImGui::CollapsingHeader("Program"))
