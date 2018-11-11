@@ -139,42 +139,42 @@ update_status ModuleMenu::Update() {
 		//module window
 		if (ImGui::CollapsingHeader("Window"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		//module menu
 		if (ImGui::CollapsingHeader("Menu"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		//module render
 		if (ImGui::CollapsingHeader("Render"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		//module textures
 		if (ImGui::CollapsingHeader("Textures"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		//module input
 		if (ImGui::CollapsingHeader("Input"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		//module render exercise
 		if (ImGui::CollapsingHeader("Camera"))
 		{
 			ImGui::Text("Cam declarations:");
-			ImGui::BulletText("Camera position = ( %f, %f, %f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
-			ImGui::BulletText("Up directions = ( %f, %f, %f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
-			ImGui::BulletText("Forward directions= ( %f, %f, %f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
+			ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
+			ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
+			ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
 			math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
-			ImGui::BulletText("Side directions = ( %f, %f, %f )", side.x, side.y, side.z);
+			ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
 		}
 		//module program
 		if (ImGui::CollapsingHeader("Program"))
 		{
-			ImGui::Text("Not much to be shown about this module yet.");
+			ImGui::Text("Not much to be shown about this module.");
 		}
 		ImGui::End();
 
@@ -191,7 +191,7 @@ update_status ModuleMenu::Update() {
 				App->modelLoader->loadModel(1);
 				App->modelLoader->drawModel();
 			}
-			if (ImGui::Button("Apple")) {
+			if (ImGui::Button("Banana")) {
 				App->modelLoader->unloadModels();
 				App->modelLoader->loadModel(2);
 				App->modelLoader->drawModel();
@@ -201,6 +201,9 @@ update_status ModuleMenu::Update() {
 				App->modelLoader->loadModel(3);
 				App->modelLoader->drawModel();
 			}
+			ImGui::Text("Current model properties:");
+			ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);
+			ImGui::BulletText("Position = ( %.2f, %.2f, %.2f )", App->camera->modelCenter.x, App->camera->modelCenter.y, App->camera->modelCenter.z);
 		}
 		ImGui::End();
 		

@@ -55,16 +55,19 @@ bool           ModuleModelLoader::CleanUp(){
 
 void ModuleModelLoader::loadModel(unsigned model) {
 	currentModel = model;
+	currentModelTriangleCount = 0;
+	char* modelName;
 	if (model == 1) {
 		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelName = "Baker House";
 	}
 	else if (model == 2) {
-		/*scene = aiImportFile("models/apple_fbx/apple_fbx/apple.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
-		modelGeometry = 1;*/
 		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelName = "Banana";
 	}
 	else if (model == 3) {
 		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		modelName = "Shield";
 	}
 
 	
@@ -72,6 +75,13 @@ void ModuleModelLoader::loadModel(unsigned model) {
 		//App->menu->consoleLog(aiGetErrorString());
 		LOG(aiGetErrorString());
 	}
+	char* b = new char[100];
+	sprintf(b, "Loading new model:\n");
+	App->menu->console.AddLog(b);
+	App->menu->console.AddLog(modelName);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete b;
 }
 
 void ModuleModelLoader::unloadModels() {
@@ -85,6 +95,7 @@ void ModuleModelLoader::drawModel() {
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		GenerateMeshData(scene->mMeshes[i]);
+		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices/3;
 	}
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{

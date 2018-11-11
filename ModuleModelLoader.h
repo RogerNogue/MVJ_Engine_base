@@ -30,19 +30,17 @@ public:
 	};
 	//variables
 	unsigned currentModel;
+	int currentModelTriangleCount;
 	std::vector<myMesh> meshes;
 	std::vector<myMaterial> materials;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	
 private:
+	const aiScene* scene;
 	void GenerateMeshData(const aiMesh* mesh);
 	void GenerateMaterialData(const aiMaterial* mat);
 	//variables
-	const aiScene* scene;
-	unsigned texture0;
-	int numV;
-	unsigned vbo = 0;
-	unsigned vio = 0;
+	
 };
 
 #endif
