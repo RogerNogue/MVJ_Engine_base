@@ -48,7 +48,7 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	App->modelLoader->loadModel(2);
+	App->modelLoader->loadModel(1);
 	App->modelLoader->drawModel();
 
 	return true;
@@ -90,9 +90,15 @@ update_status ModuleRender::Update()
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->meshes[i].vio);
 
-		if (App->modelLoader->modelGeometry == 0)glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
-		else if (App->modelLoader->modelGeometry == 1)glDrawElements(GL_POLYGON, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
-		else if (App->modelLoader->modelGeometry == 2)glDrawElements(GL_POLYGON, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		if (App->modelLoader->modelGeometry == 0) { 
+			glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr); 
+		}
+		else if (App->modelLoader->modelGeometry == 1) {
+			glDrawElements(GL_POLYGON, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		}
+		else if (App->modelLoader->modelGeometry == 2) {
+			glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr);
+		}
 		
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

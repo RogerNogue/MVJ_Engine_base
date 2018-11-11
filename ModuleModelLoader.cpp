@@ -63,7 +63,7 @@ void ModuleModelLoader::loadModel(unsigned model) {
 		modelGeometry = 1;
 	}
 	else if (model == 3) {
-		scene = aiImportFile("models/earth/Earth.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelGeometry = 2;
 	}
 
@@ -72,6 +72,10 @@ void ModuleModelLoader::loadModel(unsigned model) {
 		//App->menu->consoleLog(aiGetErrorString());
 		LOG(aiGetErrorString());
 	}
+}
+
+void ModuleModelLoader::unloadModels() {
+	CleanUp();
 }
 
 void ModuleModelLoader::drawModel() {
@@ -160,6 +164,7 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat) {
 		newMat.texture0 = App->textures->Load(file.data, false);
 	}
 	if (currentModel == 2) newMat.texture0 = App->textures->Load("models/apple_fbx/textures/fin.jpg", false);
-	if(currentModel == 3) newMat.texture0 = App->textures->Load("models/earth/Earth_tex.tga", false);
+	if(currentModel == 3) newMat.texture0 = App->textures->Load("models/shield/tex.png", false);
 	materials.push_back(newMat);
 }
+

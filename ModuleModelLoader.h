@@ -16,6 +16,8 @@ public:
 	bool            CleanUp();
 	void loadModel(unsigned model);
 	void drawModel();
+	void unloadModels();
+	//data structures
 	struct myMesh {
 		unsigned vbo = 0;
 		unsigned vio = 0;

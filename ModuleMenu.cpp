@@ -187,14 +187,17 @@ update_status ModuleMenu::Update() {
 		if (ImGui::CollapsingHeader("Model loader"))
 		{
 			if (ImGui::Button("House")) {
+				App->modelLoader->unloadModels();
 				App->modelLoader->loadModel(1);
 				App->modelLoader->drawModel();
 			}
-			if (ImGui::Button("Gnome")) {
+			if (ImGui::Button("Apple")) {
+				App->modelLoader->unloadModels();
 				App->modelLoader->loadModel(2);
 				App->modelLoader->drawModel();
 			}
-			if (ImGui::Button("Sword")) {
+			if (ImGui::Button("Shield")) {
+				App->modelLoader->unloadModels();
 				App->modelLoader->loadModel(3);
 				App->modelLoader->drawModel();
 			}
