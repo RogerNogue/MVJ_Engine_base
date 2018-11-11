@@ -112,8 +112,19 @@ update_status   ModuleCamera::Update() {
 	}
 	//camera rotation via mouse
 	if (App->input->cameraMoved) {
-		camRotationX(App->input->ydiff * mouseRotSpeed);
-		camRotationY(App->input->xdiff * mouseRotSpeed * -1);
+		math::float3 distCamModel = frustum.pos - modelCenter;
+		//case orbit instead of rotation
+		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
+			math::Quat rotx = Quat::RotateAxisAngle(math::Cross(frustum.up, frustum.front), App->input->ydiff * mouseRotSpeed);
+			math::Quat roty = Quat::RotateAxisAngle(math::float3(0, 1, 0), App->input->xdiff * mouseRotSpeed);
+			
+			frustum.pos = modelCenter + roty * rotx * distCamModel;
+			frustum.front = (modelCenter - frustum.pos).Normalized();
+		}
+		else {
+			camRotationX(App->input->ydiff * mouseRotSpeed);
+			camRotationY(App->input->xdiff * mouseRotSpeed * -1);
+		}
 		App->input->cameraMoved = false;
 		cameraMoved = true;
 	}
@@ -147,9 +158,10 @@ void ModuleCamera::mewModelLoaded() {
 	modelCenter.y = App->modelLoader->minY + (App->modelLoader->maxY - App->modelLoader->minY) / 2;
 	modelCenter.z = App->modelLoader->minZ;
 	vrp = modelCenter;
-	float horizontalDist = (App->modelLoader->maxY - App->modelLoader->minY)/2 / math::Tan(frustum.verticalFov/2);
-	float verticalDist = (App->modelLoader->maxX - App->modelLoader->minX) / 2 / math::Tan(frustum.horizontalFov / 2);
+	modelWidth = (App->modelLoader->maxY - App->modelLoader->minY)/2 / math::Tan(frustum.verticalFov/2);
+	modelHeight = (App->modelLoader->maxX - App->modelLoader->minX) / 2 / math::Tan(frustum.horizontalFov / 2);
 
-	frustum.pos = modelCenter - (frustum.front * max(horizontalDist, verticalDist));
+	frustum.pos = modelCenter - (frustum.front * max(modelWidth, modelHeight));
+	frustum.front = (modelCenter - frustum.pos).Normalized();
 	cameraMoved = true;
 }

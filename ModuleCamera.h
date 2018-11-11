@@ -37,6 +37,7 @@ public:
 	math::float4x4 projection;
 	Frustum frustum;
 	float3 modelCenter;
+	float modelWidth, modelHeight;
 private:
 
 };
