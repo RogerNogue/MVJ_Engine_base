@@ -48,7 +48,7 @@ bool ModuleRender::Init()
     SDL_GetWindowSize(App->window->window, &width, &height);
     glViewport(0, 0, width, height);
 
-	App->modelLoader->loadModel(2);
+	App->modelLoader->loadModel(1);
 	App->modelLoader->drawModel();
 
 	return true;

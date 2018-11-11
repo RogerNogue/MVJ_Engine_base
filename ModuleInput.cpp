@@ -78,17 +78,8 @@ update_status ModuleInput::PreUpdate() {
 			cameraMoved = true;
 			xdiff = sdlEvent.motion.x - x;
 			ydiff = sdlEvent.motion.y - y;
-			//App->camera->camRotationX((sdlEvent.motion.y - y));
-			//App->camera->camRotationY((sdlEvent.motion.x - x));
 			x = sdlEvent.motion.x;
 			y = sdlEvent.motion.y;
-			/*char* b = new char[100];
-			sprintf(b, "Cam motion detected, values:\n");
-			App->menu->console.AddLog(b);
-			sprintf(b, "motion.x = %d, motion.y = %d, motion relative x = %d, motion relative y = %d; \n\n", sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel);
-			App->menu->console.AddLog(b);
-			delete b;*/
-
 			break;
 		}
 	}
