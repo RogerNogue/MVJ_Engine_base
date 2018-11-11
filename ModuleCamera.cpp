@@ -17,7 +17,7 @@ ModuleCamera::~ModuleCamera()
 }
 
 void ModuleCamera::camRotationX(float angle) {
-	math::Quat rot = Quat::RotateAxisAngle(math::float3(1, 0, 0), angle);
+	math::Quat rot = Quat::RotateAxisAngle(math::Cross(frustum.up, frustum.front), angle);
 	frustum.front = (rot * frustum.front).Normalized();
 	frustum.up = (rot * frustum.up).Normalized();
 	cameraMoved = true;
@@ -65,13 +65,13 @@ update_status   ModuleCamera::Update() {
 	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
 
 	if (App->input->keyboard[SDL_SCANCODE_Q]) {
-		frustum.pos -= math::float3(0, 1, 0) * movementSpeed;
+		frustum.pos -= frustum.up * movementSpeed;
 		vrp -= math::float3(0, 1, 0) * movementSpeed;
 		frustum.front = (vrp - frustum.pos).Normalized();
 		cameraMoved = true;
 	}
 	if (App->input->keyboard[SDL_SCANCODE_E]) {
-		frustum.pos += math::float3(0, 1, 0) * movementSpeed;
+		frustum.pos += frustum.up * movementSpeed;
 		vrp += math::float3(0, 1, 0) * movementSpeed;
 		frustum.front = (vrp - frustum.pos).Normalized();
 		cameraMoved = true;
@@ -107,6 +107,12 @@ update_status   ModuleCamera::Update() {
 	}
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
 		camRotationY(-movementSpeed / 5);
+	}
+	if (App->input->cameraMoved) {
+		camRotationX(App->input->ydiff/5);
+		camRotationY(App->input->xdiff/5);
+
+		App->input->cameraMoved = false;
 	}
 
 	if (cameraMoved) {
