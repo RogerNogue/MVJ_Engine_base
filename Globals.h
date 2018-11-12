@@ -15,6 +15,13 @@ enum update_status
 	UPDATE_ERROR
 };
 
+enum component_type {
+	CAMERA,
+	MESH,
+	MATERIAL,
+	TRANSFORM
+};
+
 // Configuration -----------
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 1000

@@ -54,7 +54,6 @@ update_status ModuleInput::PreUpdate() {
 		case SDL_MOUSEBUTTONDOWN:
 			//if right click, then the camera moves
 			if (sdlEvent.button.button == SDL_BUTTON_RIGHT) {
-				LOG("right click pressed\n");
 				App->camera->movementOn = true;
 			}
 			//if left click, check 
@@ -66,7 +65,6 @@ update_status ModuleInput::PreUpdate() {
 		case SDL_MOUSEBUTTONUP:
 			if (sdlEvent.button.button == SDL_BUTTON_RIGHT) {
 				App->camera->movementOn = false;
-				LOG("right click released\n");
 			}
 			break;
 
