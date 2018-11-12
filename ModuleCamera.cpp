@@ -150,6 +150,9 @@ void ModuleCamera::SetAspectRatio(float w, float h) {
 	screenWidth = w;
 	screenHeight = h;
 	aspectRatio = w/h;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
+	projection = frustum.ProjectionMatrix();
+	view = frustum.ViewMatrix();
 }
 
 void ModuleCamera::mewModelLoaded() {
