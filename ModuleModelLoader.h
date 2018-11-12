@@ -4,6 +4,7 @@
 #include "Module.h"
 #include <assimp/scene.h>
 #include <vector>
+#include "MathGeoLib.h"
 class ModuleModelLoader :
 	public Module
 {
@@ -19,6 +20,7 @@ public:
 	void unloadModels();
 	//data structures
 	struct myMesh {
+		math::AABB bounding;
 		unsigned vbo = 0;
 		unsigned vio = 0;
 		unsigned material = 0;

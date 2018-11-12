@@ -9,7 +9,6 @@
 #include "GL/glew.h"
 #include <assimp/material.h>
 #include <assimp/mesh.h>
-#include "MathGeoLib.h"
 
 ModuleModelLoader::ModuleModelLoader()
 {
@@ -91,6 +90,7 @@ void ModuleModelLoader::drawModel() {
 	minX = maxX = scene->mMeshes[0]->mVertices[0].x;
 	minY = maxY = scene->mMeshes[0]->mVertices[0].y;
 	minZ = maxZ = scene->mMeshes[0]->mVertices[0].z;
+
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
 		GenerateMeshData(scene->mMeshes[i]);
@@ -137,7 +137,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh) {
 			maxZ = mesh->mVertices[i].z;
 		}
 	}
-	
+	newMesh.bounding = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
