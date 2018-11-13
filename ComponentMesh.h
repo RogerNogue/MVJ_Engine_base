@@ -5,7 +5,7 @@ class ComponentMesh :
 	public Component
 {
 public:
-	ComponentMesh();
+	ComponentMesh(const GameObject* dad);
 	~ComponentMesh();
 };
 #endif

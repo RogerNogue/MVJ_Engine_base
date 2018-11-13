@@ -5,7 +5,7 @@ class ComponentTransform :
 	public Component
 {
 public:
-	ComponentTransform();
+	ComponentTransform(const GameObject* dad);
 	~ComponentTransform();
 };
 #endif

@@ -11,8 +11,8 @@ public:
 	Component() {};
 
 	virtual update_status Update() { return UPDATE_CONTINUE; };
-	virtual void Enable() {};
-	virtual void Disable() {};
+	virtual void Enable() { active = true; };
+	virtual void Disable() { active = false; };
 
 	//variables
 	component_type type;

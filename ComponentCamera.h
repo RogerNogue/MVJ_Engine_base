@@ -11,8 +11,6 @@ public:
 	ComponentCamera(const GameObject* dad);
 	~ComponentCamera();
 
-	void Enable() override;
-	void Disable() override;
 };
 
 #endif

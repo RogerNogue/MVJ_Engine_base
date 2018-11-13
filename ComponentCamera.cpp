@@ -13,11 +13,3 @@ ComponentCamera::~ComponentCamera()
 {
 	delete this->dad;
 }
-
-void ComponentCamera::Enable() {
-	active = true;
-}
-
-void ComponentCamera::Disable() {
-	active = false;
-}

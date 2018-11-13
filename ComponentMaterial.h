@@ -5,7 +5,8 @@ class ComponentMaterial :
 	public Component
 {
 public:
-	ComponentMaterial();
+	ComponentMaterial(const GameObject* dad);
 	~ComponentMaterial();
+
 };
 #endif
