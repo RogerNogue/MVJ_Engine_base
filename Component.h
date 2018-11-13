@@ -8,8 +8,7 @@ class GameObject;
 class Component
 {
 public:
-	Component();
-	virtual ~Component();
+	Component() {};
 
 	virtual update_status Update() { return UPDATE_CONTINUE; };
 	virtual void Enable() {};
@@ -17,7 +16,7 @@ public:
 
 	//variables
 	component_type type;
-	GameObject* dad;
+	const GameObject* dad;
 	bool active;
 };
 #endif
