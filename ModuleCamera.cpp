@@ -61,14 +61,14 @@ bool            ModuleCamera::Init() {
 	return true;
 }
 update_status   ModuleCamera::Update() {
-	//keyboard listeners
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
-		movementSpeed = 5.;
-	}
-	else movementSpeed = 1.;
-	movementSpeed *= 1000/(SDL_GetTicks() - timeLastFrame);
-
 	if (movementOn) {
+		//keyboard listeners
+		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
+			movementSpeed = 5.;
+		}
+		else movementSpeed = 1.;
+		movementSpeed *= 1000 / (SDL_GetTicks() - timeLastFrame);
+
 		if (App->input->keyboard[SDL_SCANCODE_Q]) {
 			frustum.pos -= frustum.up * movementSpeed;
 			vrp -= math::float3(0, 1, 0) * movementSpeed;
