@@ -18,6 +18,7 @@ public:
 	bool active;
 	char* name;
 	std::vector<Component*> components;
+	//static objects kd tree, dynamic objects aabb tree: optimal sol
 
 };
 #endif
