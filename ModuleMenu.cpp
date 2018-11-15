@@ -39,11 +39,11 @@ void ModuleMenu::updateFramerates() {
 	double timeElapsed = SDL_GetTicks() - lastSecondTime;
 	//fps calculation
 	lastSecondTime = SDL_GetTicks();
-	fps_log[logFPSIterator] = 1000/timeElapsed;
+	fps_log[logFPSIterator] = 1000.0f/timeElapsed;
 	++logFPSIterator;
 	if (logFPSIterator > 49) logFPSIterator = 0;
 	//ms calculation
-	ms_log[logMSIterator] = timeElapsed;
+	ms_log[logMSIterator] = (float) timeElapsed;
 	lastFrameTime = SDL_GetTicks();
 	//iterator increase
 	++logMSIterator;

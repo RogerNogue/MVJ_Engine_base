@@ -12,7 +12,7 @@ public:
 	~GameObject();
 
 	void Update();
-	Component* createComponent(component_type type);
+	void createComponent(component_type type);
 
 	//variables
 	bool active;

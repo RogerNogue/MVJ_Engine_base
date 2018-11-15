@@ -39,7 +39,7 @@ bool            ModuleCamera::Init() {
 	movementSpeed = 1;
 	vrp = math::float3(0, 0, 0);
 	timeLastFrame = SDL_GetTicks();
-	mouseRotSpeed = 0.001;
+	mouseRotSpeed = 0.001f;
 	movementOn = false;
 	//drawing matrices
 	model = math::float4x4::identity;
@@ -123,18 +123,18 @@ update_status   ModuleCamera::Update() {
 
 				frustum.pos = modelCenter + roty * rotx * distCamModel;
 				frustum.front = (modelCenter - frustum.pos).Normalized();
+				updateCam();
 			}
 			else {
 				camRotationX(App->input->ydiff * mouseRotSpeed);
 				camRotationY(App->input->xdiff * mouseRotSpeed * -1);
 			}
 			App->input->cameraMoved = false;
-			updateCam();
 		}
 	}
 	//mousewheel
 	if (App->input->wheelScroll != 0) {
-		frustum.verticalFov -= 0.1 * App->input->wheelScroll;
+		frustum.verticalFov -= 0.1f * App->input->wheelScroll;
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
 		App->input->wheelScroll = 0;
 		updateCam();

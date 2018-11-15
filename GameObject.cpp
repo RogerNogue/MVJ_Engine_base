@@ -23,7 +23,7 @@ void GameObject::Update() {
 		}
 	}
 }
-Component* GameObject::createComponent(component_type type) {
+void GameObject::createComponent(component_type type) {
 	switch (type) {
 		case CAMERA:
 		{
