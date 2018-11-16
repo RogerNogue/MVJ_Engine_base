@@ -28,7 +28,6 @@ public:
 	float distCamVrp;
 	math::float3 vrp;
 	math::float4x4 camera;
-	double timeLastFrame;
 	float movementSpeed;
 	float mouseRotSpeed;
 	bool movementOn;

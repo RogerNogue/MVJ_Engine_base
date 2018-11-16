@@ -39,11 +39,11 @@ void ModuleMenu::updateFramerates() {
 	double timeElapsed = SDL_GetTicks() - lastSecondTime;
 	//fps calculation
 	lastSecondTime = SDL_GetTicks();
-	fps_log[logFPSIterator] = 1000.0f/timeElapsed;
+	fps_log[logFPSIterator] = 1000.f/timeElapsed;
 	++logFPSIterator;
 	if (logFPSIterator > 49) logFPSIterator = 0;
 	//ms calculation
-	ms_log[logMSIterator] = (float) timeElapsed;
+	ms_log[logMSIterator] = (float)timeElapsed;
 	lastFrameTime = SDL_GetTicks();
 	//iterator increase
 	++logMSIterator;
@@ -160,6 +160,8 @@ update_status ModuleMenu::Update() {
 	//module render exercise
 	if (ImGui::CollapsingHeader("Camera"))
 	{
+		ImGui::BulletText("Update time = %.2lf", App->camera->updateTime);
+		
 		ImGui::Text("Cam declarations:");
 		ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
 		ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);

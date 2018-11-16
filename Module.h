@@ -37,6 +37,9 @@ public:
 	{ 
 		return true; 
 	}
+
+	//variables
+	double updateTime;
 };
 
 #endif

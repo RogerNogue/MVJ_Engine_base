@@ -2,6 +2,7 @@
 #define __ModuleTimer_H__
 
 #include "Module.h"
+#include "SDL.h"
 class ModuleTimer :
 	public Module
 {
@@ -13,6 +14,7 @@ public:
 	update_status   Update();
 	bool            CleanUp();
 	double getRealTime();
+	double getRealHighPrecisionTime();
 
 	//variables
 	float timeScale;
@@ -21,6 +23,10 @@ public:
 	double realDeltaTime;
 	double deltaTime;
 	double lastFrameTime;
+
+	//high precision variables
+	double initialHighTime;
+	static const double highFreq;
 private:
 	
 };

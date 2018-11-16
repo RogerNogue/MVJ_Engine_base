@@ -5,6 +5,7 @@
 #include "ModuleModelLoader.h"
 #include "ModuleInput.h"
 #include "ModuleMenu.h"
+#include "ModuleTimer.h"
 #include "SDL.h"
 
 
@@ -36,9 +37,8 @@ void ModuleCamera::updateCam() {
 }
 
 bool            ModuleCamera::Init() {
-	movementSpeed = 1;
+	movementSpeed = 1.f;
 	vrp = math::float3(0, 0, 0);
-	timeLastFrame = SDL_GetTicks();
 	mouseRotSpeed = 0.001f;
 	movementOn = false;
 	//drawing matrices
@@ -61,13 +61,13 @@ bool            ModuleCamera::Init() {
 	return true;
 }
 update_status   ModuleCamera::Update() {
+	double time = App->timer->getRealHighPrecisionTime();
 	if (movementOn) {
 		//keyboard listeners
 		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
 			movementSpeed = 5.;
 		}
-		else movementSpeed = 1.;
-		movementSpeed *= 1000 / (SDL_GetTicks() - timeLastFrame);
+		else movementSpeed = 0.5;
 
 		if (App->input->keyboard[SDL_SCANCODE_Q]) {
 			frustum.pos -= frustum.up * movementSpeed;
@@ -130,6 +130,7 @@ update_status   ModuleCamera::Update() {
 				camRotationY(App->input->xdiff * mouseRotSpeed * -1);
 			}
 			App->input->cameraMoved = false;
+			
 		}
 	}
 	//mousewheel
@@ -139,6 +140,9 @@ update_status   ModuleCamera::Update() {
 		App->input->wheelScroll = 0;
 		updateCam();
 	}
+
+	updateTime = App->timer->getRealHighPrecisionTime() - time;
+
 	return UPDATE_CONTINUE;
 }
 bool            ModuleCamera::CleanUp() {
