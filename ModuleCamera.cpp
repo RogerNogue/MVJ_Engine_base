@@ -22,13 +22,12 @@ void ModuleCamera::camRotationX(float angle) {
 	math::Quat rot = Quat::RotateAxisAngle(math::Cross(frustum.up, frustum.front), angle);
 	frustum.front = (rot * frustum.front).Normalized();
 	frustum.up = (rot * frustum.up).Normalized();
-	updateCam();
+	
 }
 void ModuleCamera::camRotationY(float angle) {
 	math::Quat rot = Quat::RotateAxisAngle(math::float3(0, 1, 0), angle);
 	frustum.front = (rot * frustum.front).Normalized();
 	frustum.up = (rot * frustum.up).Normalized();
-	updateCam();
 }
 
 void ModuleCamera::updateCam() {
@@ -40,7 +39,6 @@ bool            ModuleCamera::Init() {
 	movementSpeed = 1.f;
 	vrp = math::float3(0, 0, 0);
 	mouseRotSpeed = 0.001f;
-	movementOn = false;
 	//drawing matrices
 	model = math::float4x4::identity;
 	//projection matrix
@@ -57,12 +55,12 @@ bool            ModuleCamera::Init() {
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
 	projection = frustum.ProjectionMatrix();
 	view = frustum.ViewMatrix();
-
+	cameraChanged = false;
 	return true;
 }
 update_status   ModuleCamera::Update() {
 	double time = App->timer->getRealHighPrecisionTime();
-	if (movementOn) {
+	if (App->input->rightclickPressed) {
 		//keyboard listeners
 		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
 			movementSpeed = 5.;
@@ -73,31 +71,37 @@ update_status   ModuleCamera::Update() {
 			frustum.pos -= frustum.up * movementSpeed;
 			vrp -= math::float3(0, 1, 0) * movementSpeed;
 			frustum.front = (vrp - frustum.pos).Normalized();
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_E]) {
 			frustum.pos += frustum.up * movementSpeed;
 			vrp += math::float3(0, 1, 0) * movementSpeed;
 			frustum.front = (vrp - frustum.pos).Normalized();
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_W]) {
 			frustum.pos += frustum.front * movementSpeed;
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_A]) {
 			float3 side = frustum.front.Cross(frustum.up);
 			frustum.pos -= side * movementSpeed;
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_S]) {
 			frustum.pos -= frustum.front * movementSpeed;
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_D]) {
 			float3 side = frustum.front.Cross(frustum.up);
 			frustum.pos += side * movementSpeed;
-			updateCam();
+			//updateCam();
+			cameraChanged = true;
 		}
 		/*
 		//arrows to rotate the camera
@@ -123,11 +127,19 @@ update_status   ModuleCamera::Update() {
 
 				frustum.pos = modelCenter + roty * rotx * distCamModel;
 				frustum.front = (modelCenter - frustum.pos).Normalized();
-				updateCam();
+				//updateCam();
+				cameraChanged = true;
 			}
 			else {
-				camRotationX(App->input->ydiff * mouseRotSpeed);
-				camRotationY(App->input->xdiff * mouseRotSpeed * -1);
+				if (App->input->ydiff != 0) {
+					camRotationX(App->input->ydiff * mouseRotSpeed);
+					cameraChanged = true;
+				}
+				if (App->input->xdiff != 0) {
+					camRotationY(App->input->xdiff * mouseRotSpeed * -1);
+					cameraChanged = true;
+				}
+				
 			}
 			App->input->cameraMoved = false;
 			
@@ -138,9 +150,13 @@ update_status   ModuleCamera::Update() {
 		frustum.verticalFov -= 0.1f * App->input->wheelScroll;
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
 		App->input->wheelScroll = 0;
-		updateCam();
+		//updateCam();
+		cameraChanged = true;
 	}
-
+	if (cameraChanged) {
+		updateCam();
+		cameraChanged = false;
+	}
 	updateTime = App->timer->getRealHighPrecisionTime() - time;
 
 	return UPDATE_CONTINUE;

@@ -30,13 +30,13 @@ public:
 	math::float4x4 camera;
 	float movementSpeed;
 	float mouseRotSpeed;
-	bool movementOn;
 	math::float4x4 model;
 	math::float4x4 view;
 	math::float4x4 projection;
 	Frustum frustum;
 	float3 modelCenter;
 	float modelWidth, modelHeight;
+	bool cameraChanged;
 private:
 
 };

@@ -21,6 +21,8 @@ public:
 	const Uint8 *keyboard = NULL;
 	int x, y, xdiff, ydiff;
 	bool cameraMoved;
+	bool rightclickPressed;
+	bool firstFrameRightClick;
 private:
 };
 

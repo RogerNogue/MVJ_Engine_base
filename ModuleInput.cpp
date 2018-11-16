@@ -26,6 +26,8 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 	cameraMoved = false;
+	rightclickPressed = false;
+	firstFrameRightClick = true;
 	wheelScroll = 0;
 	return ret;
 }
@@ -54,7 +56,7 @@ update_status ModuleInput::PreUpdate() {
 		case SDL_MOUSEBUTTONDOWN:
 			//if right click, then the camera moves
 			if (sdlEvent.button.button == SDL_BUTTON_RIGHT) {
-				App->camera->movementOn = true;
+				rightclickPressed = true;
 			}
 			//if left click, check 
 			/*else if () {
@@ -64,21 +66,25 @@ update_status ModuleInput::PreUpdate() {
 
 		case SDL_MOUSEBUTTONUP:
 			if (sdlEvent.button.button == SDL_BUTTON_RIGHT) {
-				App->camera->movementOn = false;
+				rightclickPressed = false;
+				firstFrameRightClick = true;
 			}
 			break;
 
 		case SDL_MOUSEMOTION:
-			if (!App->camera->movementOn) {
+			if (rightclickPressed) {
+				if (firstFrameRightClick) {
+					x = sdlEvent.motion.x;
+					y = sdlEvent.motion.y;
+					firstFrameRightClick = false;
+					break;
+				}
+				cameraMoved = true;
+				xdiff = sdlEvent.motion.x - x;
+				ydiff = sdlEvent.motion.y - y;
 				x = sdlEvent.motion.x;
 				y = sdlEvent.motion.y;
-				break;
 			}
-			cameraMoved = true;
-			xdiff = sdlEvent.motion.x - x;
-			ydiff = sdlEvent.motion.y - y;
-			x = sdlEvent.motion.x;
-			y = sdlEvent.motion.y;
 			break;
 
 		case SDL_MOUSEWHEEL:
