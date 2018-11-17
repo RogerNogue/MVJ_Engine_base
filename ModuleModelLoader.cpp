@@ -79,7 +79,7 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	App->menu->console.AddLog(modelName);
 	sprintf(b, "\n\n");
 	App->menu->console.AddLog(b);
-	delete b;
+	delete[] b;
 }
 
 void ModuleModelLoader::unloadModels() {
