@@ -13,6 +13,6 @@ ModuleScene::~ModuleScene()
 }
 
 
-void createGameObject(char* c) {
+void ModuleScene::createGameObject(char* c) {
 	GameObject newObject(c);
 }

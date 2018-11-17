@@ -6,11 +6,21 @@
 #include "Application.h"
 #include "ModuleMenu.h"
 
-GameObject::GameObject(char* n):
+GameObject::GameObject(char* n) :
 	name(n)
 {
 	active = false;
 	hasMaterial = hasTransform = hasCamera = false;
+	parent = nullptr;
+}
+
+GameObject::GameObject(char* n, const GameObject* parent) :
+	name(n),
+	parent(parent)
+{
+	active = false;
+	hasMaterial = hasTransform = hasCamera = false;
+	parent = nullptr;
 }
 
 
@@ -79,4 +89,10 @@ void GameObject::createComponent(component_type type) {
 			break;
 		}
 	}
+}
+
+void GameObject::createChildObject(char* n) {
+	GameObject child(n, this);
+	children.push_back(&child);
+
 }
