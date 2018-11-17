@@ -18,6 +18,8 @@ public:
 	bool active;
 	char* name;
 	std::vector<Component*> components;
+	//booleans to check for components that must not be repeated
+	bool hasMaterial, hasTransform, hasCamera;
 
 };
 #endif

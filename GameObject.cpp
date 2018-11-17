@@ -3,12 +3,14 @@
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
-
+#include "Application.h"
+#include "ModuleMenu.h"
 
 GameObject::GameObject(char* n)
 {
 	active = false;
 	name = n;
+	hasMaterial = hasTransform = hasCamera = false;
 }
 
 
@@ -27,8 +29,17 @@ void GameObject::createComponent(component_type type) {
 	switch (type) {
 		case CAMERA:
 		{
-			ComponentCamera c(this);
-			components.push_back(&c);
+			if (hasCamera) {
+				char* b = new char[100];
+				sprintf(b, "This object already has a camera and cannot have more than one \n\n");
+				App->menu->console.AddLog(b);
+				delete[] b;
+			}
+			else {
+				ComponentCamera c(this);
+				components.push_back(&c);
+				hasCamera = true;
+			}
 			break;
 		}
 		case MESH:
@@ -39,14 +50,32 @@ void GameObject::createComponent(component_type type) {
 		}
 		case MATERIAL:
 		{
-			ComponentMaterial c(this);
-			components.push_back(&c);
+			if (hasMaterial) {
+				char* b = new char[100];
+				sprintf(b, "This object already has a material and cannot have more than one \n\n");
+				App->menu->console.AddLog(b);
+				delete[] b;
+			}
+			else {
+				ComponentMaterial c(this);
+				components.push_back(&c);
+				hasMaterial = true;
+			}
 			break;
 		}
 		case TRANSFORM:
 		{
-			ComponentTransform c(this);
-			components.push_back(&c);
+			if (hasTransform) {
+				char* b = new char[100];
+				sprintf(b, "This object already has a transformation and cannot have more than one \n\n");
+				App->menu->console.AddLog(b);
+				delete[] b;
+			}
+			else {
+				ComponentTransform c(this);
+				components.push_back(&c);
+				hasTransform = true;
+			}
 			break;
 		}
 	}
