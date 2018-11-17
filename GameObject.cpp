@@ -6,10 +6,10 @@
 #include "Application.h"
 #include "ModuleMenu.h"
 
-GameObject::GameObject(char* n)
+GameObject::GameObject(char* n):
+	name(n)
 {
 	active = false;
-	name = n;
 	hasMaterial = hasTransform = hasCamera = false;
 }
 
