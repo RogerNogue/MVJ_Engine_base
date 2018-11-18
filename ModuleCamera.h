@@ -4,6 +4,9 @@
 #include "Module.h"
 #include "MathGeoLib.h"
 
+class ComponentCamera;
+class GameObject;
+
 class ModuleCamera :
 	public Module
 {
@@ -18,9 +21,10 @@ public:
 	void camRotationX(float angle);
 	void camRotationY(float angle);
 	void updateCam();
-
 	void SetAspectRatio(float w, float h);
 	void mewModelLoaded();
+	ComponentCamera createComponentCamera(GameObject* dad);
+
 	//variables
 	float aspectRatio;
 	float screenWidth;

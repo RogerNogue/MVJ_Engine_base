@@ -1,10 +1,12 @@
 #include "GameObject.h"
 #include "ComponentMaterial.h"
-#include "ComponentCamera.h"
+#include "Component.h"
+#include "ModuleCamera.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "Application.h"
 #include "ModuleMenu.h"
+#include "ComponentCamera.h"
 
 GameObject::GameObject(char* n) :
 	name(n)
@@ -29,7 +31,7 @@ GameObject::~GameObject()
 }
 
 void GameObject::Update() {
-	for (int i = 0; i < components.size(); ++i) {
+	for (unsigned i = 0; i < components.size(); ++i) {
 		if (components[i]->active) {
 			components[i]->Update();
 		}
@@ -46,7 +48,7 @@ void GameObject::createComponent(component_type type) {
 				delete[] b;
 			}
 			else {
-				ComponentCamera c(this);
+				ComponentCamera c = App->camera->createComponentCamera(this);
 				components.push_back(&c);
 				hasCamera = true;
 			}

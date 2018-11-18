@@ -7,6 +7,8 @@
 #include "ModuleMenu.h"
 #include "ModuleTimer.h"
 #include "SDL.h"
+#include "GameObject.h"
+#include "ComponentCamera.h"
 
 
 ModuleCamera::ModuleCamera()
@@ -186,4 +188,9 @@ void ModuleCamera::mewModelLoaded() {
 	frustum.pos = modelCenter - (frustum.front * max(modelWidth, modelHeight));
 	frustum.front = (modelCenter - frustum.pos).Normalized();
 	updateCam();
+}
+
+ComponentCamera ModuleCamera::createComponentCamera(GameObject* dad){
+	ComponentCamera c(dad);
+	return c;
 }
