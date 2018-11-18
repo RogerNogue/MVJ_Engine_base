@@ -5,6 +5,9 @@
 #include "Globals.h"
 #include "MathGeoLib.h"
 
+class ComponentMesh;
+class GameObject;
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -21,6 +24,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
+	ComponentMesh createComponentMesh(GameObject* dad);
 	//variables
 	void* context;
 private:

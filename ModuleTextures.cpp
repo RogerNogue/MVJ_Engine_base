@@ -5,6 +5,8 @@
 
 #include <IL/il.h>
 #include <IL/ilut.h>
+#include "GameObject.h"
+#include "ComponentMaterial.h"
 
 ModuleTextures::ModuleTextures()
 {
@@ -95,4 +97,10 @@ void ModuleTextures::Unload(unsigned id)
 	{
 		glDeleteTextures(1, &id);
 	}
+}
+
+
+ComponentMaterial ModuleTextures::createComponentMaterial(GameObject* dad) {
+	ComponentMaterial c(dad);
+	return c;
 }

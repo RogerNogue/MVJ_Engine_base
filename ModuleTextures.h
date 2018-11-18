@@ -5,6 +5,9 @@
 #include "Module.h"
 #include "Globals.h"
 
+class GameObject;
+class ComponentMaterial;
+
 struct SDL_Texture;
 
 class ModuleTextures : public Module
@@ -18,6 +21,7 @@ public:
 
 	unsigned Load(const char* path, bool mipmaps);
 	void Unload(unsigned id);
+	ComponentMaterial createComponentMaterial(GameObject* dad);
 
 private:
 };

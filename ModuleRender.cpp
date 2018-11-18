@@ -8,6 +8,8 @@
 #include "ModuleModelLoader.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ComponentMesh.h"
+#include "GameObject.h"
 
 ModuleRender::ModuleRender()
 {
@@ -186,4 +188,9 @@ void ModuleRender::drawAxis() {
 	glBegin(GL_LINES);
 	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
 	glEnd();
+}
+
+ComponentMesh ModuleRender::createComponentMesh(GameObject* dad) {
+	ComponentMesh c(dad);
+	return c;
 }

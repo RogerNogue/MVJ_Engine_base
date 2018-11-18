@@ -2,6 +2,8 @@
 #include "ComponentMaterial.h"
 #include "Component.h"
 #include "ModuleCamera.h"
+#include "ModuleRender.h"
+#include "ModuleTextures.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "Application.h"
@@ -57,6 +59,7 @@ void GameObject::createComponent(component_type type) {
 		case MESH:
 		{
 			ComponentMesh c(this);
+			ComponentMesh c = App->renderer->createComponentMesh(this);
 			components.push_back(&c);
 			break;
 		}
@@ -69,7 +72,7 @@ void GameObject::createComponent(component_type type) {
 				delete[] b;
 			}
 			else {
-				ComponentMaterial c(this);
+				ComponentMaterial c = App->textures->createComponentMaterial(this);
 				components.push_back(&c);
 				hasMaterial = true;
 			}
