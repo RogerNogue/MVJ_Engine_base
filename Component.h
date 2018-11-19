@@ -31,4 +31,4 @@ public:
 //buscar com fer modo fullscreen, es ctrl + shift + algo
 //crear breackpoint "data breakpoint" aleshores comprova una variable en concret i mira qui i quan es canvia
 //durant la exec es pot fer un snapshot de la memoria per veure quanta es fa servir en aquell moment
-//
+//fer la classe file open i que torni el que llegeix en un buffer
