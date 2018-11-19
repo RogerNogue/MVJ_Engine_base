@@ -3,7 +3,6 @@
 
 #include<list>
 #include "Module.h"
-#include "Globals.h"
 
 class GameObject;
 class ComponentMaterial;

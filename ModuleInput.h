@@ -2,7 +2,6 @@
 #define __ModuleInput_H__
 
 #include "Module.h"
-#include "Globals.h"
 
 typedef unsigned __int8 Uint8;
 

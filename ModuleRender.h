@@ -2,7 +2,6 @@
 #define __ModuleRender_H__
 
 #include "Module.h"
-#include "Globals.h"
 #include "MathGeoLib.h"
 
 class ComponentMesh;
