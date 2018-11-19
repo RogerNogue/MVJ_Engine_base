@@ -14,6 +14,7 @@ class ModuleMenu;
 class ModuleCamera;
 class ModuleModelLoader;
 class ModuleTimer;
+class ModuleScene;
 
 class Application
 {
@@ -36,6 +37,7 @@ public:
 	ModuleCamera* camera = nullptr;
 	ModuleModelLoader* modelLoader = nullptr;
 	ModuleTimer* timer = nullptr;
+	ModuleScene* scene = nullptr;
 private:
 	std::list<Module*> modules;
 

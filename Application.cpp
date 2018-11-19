@@ -9,6 +9,7 @@
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 #include "ModuleTimer.h"
+#include "ModuleScene.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(shaderProgram = new ModuleProgram());
 	modules.push_back(timer = new ModuleTimer());
+	modules.push_back(scene = new ModuleScene());
 }
 
 Application::~Application()

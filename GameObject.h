@@ -12,18 +12,24 @@ public:
 	GameObject(char* n, const GameObject* parent);
 	~GameObject();
 
-	void Update();
+	update_status UpdateCameras();
+	update_status UpdateTransforms();
+	update_status UpdateMeshes();
+	update_status UpdateMaterials();
+	//only the root game object will call this update
+	update_status Update();
 	void createComponent(component_type type);
 	void createChildObject(char* n);
 
 	//variables
 	bool active;
 	char* name;
-	std::vector<Component*> components;
+	std::vector<Component*> meshes;
+	Component* camera;
+	Component* transform;
+	Component* material;
 	std::vector<GameObject*> children;
 	const GameObject* parent;
-	//booleans to check for components that must not be repeated
-	bool hasMaterial, hasTransform, hasCamera;
 
 };
 #endif
