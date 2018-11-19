@@ -1,7 +1,7 @@
 #ifndef __ComponentCamera_H__
 #define __ComponentCamera_H__
 #include "Component.h"
-
+#include "MathGeoLib.h"
 
 
 class ComponentCamera :
@@ -10,6 +10,9 @@ class ComponentCamera :
 public:
 	ComponentCamera(const GameObject* dad);
 	~ComponentCamera();
+
+
+	//variables
 
 };
 
