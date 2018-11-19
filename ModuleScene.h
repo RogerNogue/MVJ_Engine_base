@@ -13,6 +13,8 @@ public:
 	ModuleScene();
 	~ModuleScene();
 
+	update_status PreUpdate() override;
+	update_status Update() override;
 	void createGameObject(char* c);
 
 	//variables
