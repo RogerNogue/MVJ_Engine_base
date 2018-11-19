@@ -15,6 +15,7 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	void createGameObject(char* c);
+	//add a save and load function
 
 	//variables
 	std::vector<GameObject*> objects;

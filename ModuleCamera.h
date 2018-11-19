@@ -14,9 +14,9 @@ public:
 	ModuleCamera();
 	~ModuleCamera();
 
-	bool            Init();
-	update_status   Update();
-	bool            CleanUp();
+	bool            Init() override;
+	update_status   Update() override;
+	bool            CleanUp() override;
 	
 	void camRotationX(float angle);
 	void camRotationY(float angle);
@@ -41,8 +41,6 @@ public:
 	float3 modelCenter;
 	float modelWidth, modelHeight;
 	bool cameraChanged;
-private:
-
 };
 
 #endif

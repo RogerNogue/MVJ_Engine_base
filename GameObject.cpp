@@ -94,7 +94,8 @@ void GameObject::createComponent(component_type type) {
 				delete[] b;
 			}
 			else {
-				camera = &App->camera->createComponentCamera(this);
+				ComponentCamera c(this);
+				camera = &c;
 			}
 			break;
 		}
