@@ -8,5 +8,12 @@ public:
 	ComponentMaterial(const GameObject* dad);
 	~ComponentMaterial();
 
+	//data structures
+	struct myMaterial {
+		unsigned texture0 = 0;
+	};
+
+	//vars
+	myMaterial material;
 };
 #endif
