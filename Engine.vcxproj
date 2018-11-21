@@ -47,7 +47,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,7 +64,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
