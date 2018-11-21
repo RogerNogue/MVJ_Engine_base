@@ -29,7 +29,7 @@ enum component_type {
 #define BORDERLESS false
 #define RESIZABLE_WINDOW true
 #define VSYNC true
-#define TITLE "Super Awesome Engine"
+#define TITLE "GNOBLIN"
 #define GLSL_VERSION "#version 330"
 
 #endif

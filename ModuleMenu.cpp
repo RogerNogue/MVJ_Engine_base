@@ -80,9 +80,9 @@ update_status ModuleMenu::Update() {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("About")) {
-			ImGui::BulletText("Engine name: DESPACITO 2");
+			ImGui::BulletText("Engine name: GNOBLIN");
 			ImGui::Text("Description");
-			ImGui::BulletText("DESPACITO 2 allows you to create AAA-quality games with little to none effort.");
+			ImGui::BulletText("GNOBLIN allows you to create AAA-quality games with little to none effort.");
 			ImGui::Text("Authors");
 			ImGui::BulletText("Roger Nogue Ballbe.");
 			ImGui::Text("Libraries");
