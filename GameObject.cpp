@@ -84,3 +84,7 @@ void GameObject::createChildObject(char* n) {
 	children.push_back(&child);
 
 }
+
+void GameObject::calculateAABB() {
+	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
+}

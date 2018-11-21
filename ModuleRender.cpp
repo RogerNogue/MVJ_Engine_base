@@ -51,7 +51,6 @@ bool ModuleRender::Init()
     glViewport(0, 0, width, height);
 
 	App->modelLoader->loadModel(1);
-	App->modelLoader->drawModel();
 
 	return true;
 }

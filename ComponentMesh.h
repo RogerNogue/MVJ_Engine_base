@@ -11,7 +11,6 @@ public:
 
 	//data structures
 	struct myMesh {
-		math::AABB bounding;
 		unsigned vbo = 0;
 		unsigned vio = 0;
 		unsigned material = 0;
