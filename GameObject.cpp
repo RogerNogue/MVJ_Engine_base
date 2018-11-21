@@ -9,7 +9,6 @@
 #include "Application.h"
 #include "ModuleMenu.h"
 #include "ComponentCamera.h"
-#include "pcg_random.hpp"
 
 // *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 // Licensed under Apache License 2.0 (NO WARRANTY, etc. see website)
@@ -36,12 +35,12 @@ GameObject::GameObject(char* n) :
 	components.push_back(&c);
 }
 
-GameObject::GameObject(char* n, const GameObject* parent) :
+GameObject::GameObject(char* n, GameObject* parent) :
 	name(n),
 	parent(parent)
 {
 	active = camera = false;
-	parent = nullptr;
+	parent->children.push_back(this);
 }
 
 GameObject::~GameObject()

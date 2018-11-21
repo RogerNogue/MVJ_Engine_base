@@ -9,7 +9,7 @@ class GameObject
 {
 public:
 	GameObject(char* n);
-	GameObject(char* n, const GameObject* parent);
+	GameObject(char* n, GameObject* parent);
 	~GameObject();
 
 	void createComponent(component_type type);
