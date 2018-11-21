@@ -22,6 +22,7 @@ public:
 	void createChildObject(char* n);
 
 	//variables
+	unsigned id;
 	bool active;
 	char* name;
 	std::vector<Component*> meshes;
