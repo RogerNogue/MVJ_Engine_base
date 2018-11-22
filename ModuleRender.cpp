@@ -13,6 +13,7 @@
 #include "ComponentMaterial.h"
 #include "GameObject.h"
 #include "ModuleScene.h"
+#include "debugdraw.h"
 
 ModuleRender::ModuleRender()
 {
@@ -74,12 +75,6 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	char* b = new char[100];
-	sprintf(b, "Going to render meshes, amount of children of base object: %d ", App->scene->baseObject->children.size());
-	App->menu->console.AddLog(b);
-	sprintf(b, "\n\n");
-	App->menu->console.AddLog(b);
-	delete[] b;
 	//drawing the model
 	for (unsigned i = 0; i < App->scene->baseObject->children.size(); ++i) {
 		//if its an object and it has meshes
@@ -136,7 +131,13 @@ update_status ModuleRender::Update()
 
 	//lines
 
-	glLineWidth(1.0f);
+	
+		dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
+		//float axis_size = max(App->models->bsphere.radius, 1.0f);
+		//dd::axisTriad(math::float4x4::identity, axis_size*0.125f, axis_size*1.25f, 0, false);
+		dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
+
+	/*glLineWidth(1.0f);
 
 	glBegin(GL_LINES);
 	float d = 200.f;
@@ -149,7 +150,7 @@ update_status ModuleRender::Update()
 	}
 	glEnd();
 
-	drawAxis();
+	drawAxis();*/
 	
 	glUseProgram(0);
 
