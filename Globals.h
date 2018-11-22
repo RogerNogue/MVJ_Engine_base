@@ -19,7 +19,8 @@ enum component_type {
 	CAMERA,
 	MESH,
 	MATERIAL,
-	TRANSFORM
+	TRANSFORM,
+	OBJECT
 };
 
 // Configuration -----------

@@ -163,7 +163,7 @@ void ComponentCamera::SetAspectRatio(float w, float h) {
 
 void ComponentCamera::mewModelLoaded() {
 	//not correct
-	modelCenter.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX) / 2;
+	/*modelCenter.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX) / 2;
 	modelCenter.y = App->modelLoader->minY + (App->modelLoader->maxY - App->modelLoader->minY) / 2;
 	modelCenter.z = App->modelLoader->minZ;
 	vrp = modelCenter;
@@ -172,7 +172,7 @@ void ComponentCamera::mewModelLoaded() {
 
 	frustum.pos = modelCenter - (frustum.front * max(modelWidth, modelHeight));
 	frustum.front = (modelCenter - frustum.pos).Normalized();
-	updateCam();
+	updateCam();*/
 }
 
 ComponentCamera ComponentCamera::createComponentCamera(GameObject* dad) {

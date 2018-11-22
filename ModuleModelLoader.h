@@ -2,9 +2,16 @@
 #define __ModuleModelLoader_H__
 
 #include "Module.h"
-#include <assimp/scene.h>
 #include <vector>
-#include "MathGeoLib.h"
+//#include "MathGeoLib.h"
+
+class aiScene;
+class aiMesh;
+class aiMaterial;
+class ComponentMesh;
+class ComponentMaterial;
+class GameObject;
+
 class ModuleModelLoader :
 	public Module
 {
@@ -16,31 +23,19 @@ public:
 	update_status   Update();
 	bool            CleanUp();
 	void loadModel(unsigned model);
-	void drawModel();
 	void unloadModels();
-	//data structures
-	struct myMesh {
-		math::AABB bounding;
-		unsigned vbo = 0;
-		unsigned vio = 0;
-		unsigned material = 0;
-		unsigned numVertices = 0;
-		unsigned numIndices = 0;
-	};
-	struct myMaterial {
-		unsigned texture0 = 0;
-	};
+	void deleteVBO(unsigned vbo);
+	void deleteVIO(unsigned vio);
+	void unloadTexture(unsigned tex0);
+	
 	//variables
 	unsigned currentModel;
 	int currentModelTriangleCount;
-	std::vector<myMesh> meshes;
-	std::vector<myMaterial> materials;
-	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	
 private:
 	const aiScene* scene;
-	void GenerateMeshData(const aiMesh* mesh);
-	void GenerateMaterialData(const aiMaterial* mat);
+	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj);
+	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj);
 	//variables
 	
 };

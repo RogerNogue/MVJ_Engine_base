@@ -174,7 +174,7 @@ void ModuleCamera::SetAspectRatio(float w, float h) {
 
 void ModuleCamera::mewModelLoaded() {
 	//not correct
-	modelCenter.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX)/2;
+	/*modelCenter.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX)/2;
 	modelCenter.y = App->modelLoader->minY + (App->modelLoader->maxY - App->modelLoader->minY) / 2;
 	modelCenter.z = App->modelLoader->minZ;
 	vrp = modelCenter;
@@ -183,5 +183,5 @@ void ModuleCamera::mewModelLoaded() {
 
 	frustum.pos = modelCenter - (frustum.front * max(modelWidth, modelHeight));
 	frustum.front = (modelCenter - frustum.pos).Normalized();
-	updateCam();
+	updateCam();*/
 }

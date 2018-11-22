@@ -191,17 +191,14 @@ update_status ModuleMenu::Update() {
 		if (ImGui::Button("House")) {
 			App->modelLoader->unloadModels();
 			App->modelLoader->loadModel(1);
-			App->modelLoader->drawModel();
 		}
 		if (ImGui::Button("Banana")) {
 			App->modelLoader->unloadModels();
 			App->modelLoader->loadModel(2);
-			App->modelLoader->drawModel();
 		}
 		if (ImGui::Button("Shield")) {
 			App->modelLoader->unloadModels();
 			App->modelLoader->loadModel(3);
-			App->modelLoader->drawModel();
 		}
 		ImGui::Text("Current model properties:");
 		ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);

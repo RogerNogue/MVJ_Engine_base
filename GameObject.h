@@ -5,7 +5,10 @@
 #include "Globals.h"
 #include "MathGeoLib/include/Geometry/AABB.h"
 #include <vector>
-class Component;
+class ComponentMesh;
+class ComponentMaterial;
+class ComponentCamera;
+class ComponentTransform;
 
 class GameObject
 {
@@ -14,16 +17,21 @@ public:
 	GameObject(char* n, GameObject* parent);
 	~GameObject();
 
-	void createComponent(component_type type);
-	void createChildObject(char* n);
+	void createEmptyComponent(component_type type);
 	void calculateAABB();
 
 	//variables
+	component_type type = OBJECT;
 	unsigned id;
 	bool active;
 	char* name;
-	bool camera;
-	std::vector<Component*> components;
+	bool hascamera;
+	bool hasmesh;
+	bool hasmaterial;
+	std::vector<ComponentMesh*> meshes;
+	ComponentCamera* camera;
+	std::vector<ComponentMaterial*> materials;
+	ComponentTransform* transform;
 	std::vector<GameObject*> children;
 	const GameObject* parent;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box

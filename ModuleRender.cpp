@@ -8,8 +8,11 @@
 #include "ModuleModelLoader.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleMenu.h"
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "GameObject.h"
+#include "ModuleScene.h"
 
 ModuleRender::ModuleRender()
 {
@@ -51,6 +54,12 @@ bool ModuleRender::Init()
     glViewport(0, 0, width, height);
 
 	App->modelLoader->loadModel(1);
+	char* b = new char[100];
+	sprintf(b, "Model loaded, amount of children of base object: %d ", App->scene->baseObject->children.size());
+	App->menu->console.AddLog(b);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
 
 	return true;
 }
@@ -65,40 +74,50 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
+	/*char* b = new char[100];
+	sprintf(b, "Going to render meshes, amount of children of base object: %d ", App->scene->baseObject->children.size());
+	App->menu->console.AddLog(b);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;*/
 	//drawing the model
-	unsigned numMeshes = App->modelLoader->meshes.size();
-	for (unsigned i = 0; i < numMeshes; ++i) {
-		//geometry shaders
+	for (unsigned i = 0; i < App->scene->baseObject->children.size(); ++i) {
+		//if its an object and it has meshes
+		/*if (App->scene->baseObject->children[i]->type == OBJECT && App->scene->baseObject->children[i]->hasmesh) {
+			for (int j = 0; j < App->scene->baseObject->children[i]->meshes.size(); ++i) {
+				//geometry shaders
 
-		glUseProgram(App->shaderProgram->programTexture);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"model"), 1, GL_TRUE, &App->camera->model[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
+				glUseProgram(App->shaderProgram->programTexture);
+				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+					"model"), 1, GL_TRUE, &App->camera->model[0][0]);
+				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+					"view"), 1, GL_TRUE, &App->camera->view[0][0]);
+				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+					"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
+				
+					glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, App->scene->baseObject->children[i]->materials[App->scene->baseObject->children[i]->meshes[j]->mesh.material]->material.texture0);
+				glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+				
+				glEnableVertexAttribArray(0);
+				glEnableVertexAttribArray(1);
+				glBindBuffer(GL_ARRAY_BUFFER, App->scene->baseObject->children[i]->meshes[j]->mesh.vbo);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->scene->baseObject->children[i]->meshes[j]->mesh.numVertices * 3));
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, App->modelLoader->materials[App->modelLoader->meshes[i].material].texture0);
-		glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->scene->baseObject->children[i]->meshes[j]->mesh.vio);
 
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->meshes[i].vbo);
-		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,(void*)0 );
-		glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,0,(void*)(sizeof(float) * App->modelLoader->meshes[i].numVertices * 3));
+				glDrawElements(GL_TRIANGLES, App->scene->baseObject->children[i]->meshes[j]->mesh.numIndices, GL_UNSIGNED_INT, nullptr);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->meshes[i].vio);
 
-		glDrawElements(GL_TRIANGLES, App->modelLoader->meshes[i].numIndices, GL_UNSIGNED_INT, nullptr); 
-
-		
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glUseProgram(0);
+				glDisableVertexAttribArray(0);
+				glDisableVertexAttribArray(1);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glUseProgram(0);
+			}
+		}*/
 	}
 	
 	//drawing axis and grid

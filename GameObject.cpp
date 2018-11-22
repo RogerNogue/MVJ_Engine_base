@@ -27,19 +27,23 @@ uint32_t pcg32_random_r(pcg32_random_t* rng)
 }
 
 GameObject::GameObject(char* n) :
-	name(n)
+	name(n),
+	type(OBJECT)
 {
-	active = camera = false;
+	active = true;
+	hascamera = hasmesh = hasmaterial = false;
 	id = pcg32_random_r(&pcg32_random_t());
 	ComponentTransform c(this);
-	components.push_back(&c);
+	transform = &c;	
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
 	name(n),
-	parent(parent)
+	parent(parent),
+	type(OBJECT)
 {
-	active = camera = false;
+	active = true;
+	hascamera = hasmesh = hasmaterial = false;
 	parent->children.push_back(this);
 }
 
@@ -47,11 +51,11 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::createComponent(component_type type) {
+void GameObject::createEmptyComponent(component_type type) {
 	switch (type) {
 		case CAMERA:
 		{
-			if (!camera) {
+			if (!hascamera) {
 				char* b = new char[100];
 				sprintf(b, "This object already has a camera and cannot have more than one \n\n");
 				App->menu->console.AddLog(b);
@@ -59,30 +63,26 @@ void GameObject::createComponent(component_type type) {
 			}
 			else {
 				ComponentCamera c(this);
-				components.push_back(&c);
-				camera = true;
+				camera = &c;
+				hascamera = true;
 			}
 			break;
 		}
 		case MESH:
 		{
+			hasmesh = true;
 			ComponentMesh c = App->renderer->createComponentMesh(this);
-			components.push_back(&c);
+			meshes.push_back(&c);
 			break;
 		}
 		case MATERIAL:
 		{
+			hasmaterial = true;
 			ComponentMaterial c = App->textures->createComponentMaterial(this);
-			components.push_back(&c);
+			materials.push_back(&c);
 			break;
 		}
 	}
-}
-
-void GameObject::createChildObject(char* n) {
-	GameObject child(n, this);
-	children.push_back(&child);
-
 }
 
 void GameObject::calculateAABB() {
