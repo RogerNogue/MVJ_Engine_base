@@ -54,13 +54,13 @@ bool ModuleRender::Init()
     glViewport(0, 0, width, height);
 
 	App->modelLoader->loadModel(1);
-	char* b = new char[100];
+	/*char* b = new char[100];
 	sprintf(b, "Model loaded, amount of children of base object: %d ", App->scene->baseObject->children.size());
 	App->menu->console.AddLog(b);
 	sprintf(b, "\n\n");
 	App->menu->console.AddLog(b);
-	delete[] b;
-
+	delete[] b;*/
+	
 	return true;
 }
 
@@ -74,17 +74,17 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	/*char* b = new char[100];
+	char* b = new char[100];
 	sprintf(b, "Going to render meshes, amount of children of base object: %d ", App->scene->baseObject->children.size());
 	App->menu->console.AddLog(b);
 	sprintf(b, "\n\n");
 	App->menu->console.AddLog(b);
-	delete[] b;*/
+	delete[] b;
 	//drawing the model
 	for (unsigned i = 0; i < App->scene->baseObject->children.size(); ++i) {
 		//if its an object and it has meshes
-		/*if (App->scene->baseObject->children[i]->type == OBJECT && App->scene->baseObject->children[i]->hasmesh) {
-			for (int j = 0; j < App->scene->baseObject->children[i]->meshes.size(); ++i) {
+		if (App->scene->baseObject->children[i]->type == OBJECT && App->scene->baseObject->children[i]->hasmesh) {
+			for (int j = 0; j < App->scene->baseObject->children[i]->meshes.size(); ++j) {
 				//geometry shaders
 
 				glUseProgram(App->shaderProgram->programTexture);
@@ -95,7 +95,7 @@ update_status ModuleRender::Update()
 				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
 					"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 				
-					glActiveTexture(GL_TEXTURE0);
+				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, App->scene->baseObject->children[i]->materials[App->scene->baseObject->children[i]->meshes[j]->mesh.material]->material.texture0);
 				glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
 				
@@ -117,7 +117,7 @@ update_status ModuleRender::Update()
 				glBindTexture(GL_TEXTURE_2D, 0);
 				glUseProgram(0);
 			}
-		}*/
+		}
 	}
 	
 	//drawing axis and grid

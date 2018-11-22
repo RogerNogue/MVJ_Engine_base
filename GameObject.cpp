@@ -43,8 +43,8 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	type(OBJECT)
 {
 	active = true;
-	hascamera = hasmesh = hasmaterial = false;
 	parent->children.push_back(this);
+	hascamera = hasmesh = hasmaterial = false;
 }
 
 GameObject::~GameObject()

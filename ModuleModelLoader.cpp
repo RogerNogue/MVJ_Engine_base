@@ -83,21 +83,21 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	App->menu->console.AddLog(b);
 	delete[] b;
 	//game object creation and fill of its mesh and material components
-	GameObject Obj(modelName, App->scene->baseObject);
+	GameObject* Obj = new GameObject(modelName, App->scene->baseObject);
 
-	Obj.minX = Obj.maxX = scene->mMeshes[0]->mVertices[0].x;
-	Obj.minY = Obj.maxY = scene->mMeshes[0]->mVertices[0].y;
-	Obj.minZ = Obj.maxZ = scene->mMeshes[0]->mVertices[0].z;
+	Obj->minX = Obj->maxX = scene->mMeshes[0]->mVertices[0].x;
+	Obj->minY = Obj->maxY = scene->mMeshes[0]->mVertices[0].y;
+	Obj->minZ = Obj->maxZ = scene->mMeshes[0]->mVertices[0].z;
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		GenerateMeshData(scene->mMeshes[i], &Obj);
+		GenerateMeshData(scene->mMeshes[i], Obj);
 		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices / 3;
 	}
-	Obj.calculateAABB();
+	Obj->calculateAABB();
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
-		GenerateMaterialData(scene->mMaterials[i], &Obj);
+		GenerateMaterialData(scene->mMaterials[i], Obj);
 	}
 	App->camera->mewModelLoaded();
 
@@ -108,10 +108,10 @@ void ModuleModelLoader::unloadModels() {
 }
 
 void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
-	ComponentMesh newMesh(Obj);
+	ComponentMesh* newMesh = new ComponentMesh (Obj);
 	//vbo
-	glGenBuffers(1, &newMesh.mesh.vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, newMesh.mesh.vbo);
+	glGenBuffers(1, &newMesh->mesh.vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
 
 	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*mesh->mNumVertices, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), mesh->mVertices);
@@ -143,8 +143,8 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &newMesh.mesh.vio);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh.mesh.vio);
+	glGenBuffers(1, &newMesh->mesh.vio);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh->mesh.vio);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*mesh->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
 	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
 													sizeof(unsigned)*mesh->mNumFaces * 3, GL_MAP_WRITE_BIT);
@@ -161,26 +161,26 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	newMesh.mesh.material = mesh->mMaterialIndex;
-	newMesh.mesh.numIndices = mesh->mNumFaces*3;
-	newMesh.mesh.numVertices = mesh->mNumVertices;
-	Obj->meshes.push_back(&newMesh);
+	newMesh->mesh.material = mesh->mMaterialIndex;
+	newMesh->mesh.numIndices = mesh->mNumFaces*3;
+	newMesh->mesh.numVertices = mesh->mNumVertices;
+	Obj->meshes.push_back(newMesh);
 	Obj->hasmesh = true;
 }
 
 void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj) {
-	ComponentMaterial newMat(Obj);
+	ComponentMaterial* newMat = new ComponentMaterial(Obj);
 
 	aiString file;
 	aiTextureMapping mapping;
 	unsigned uvindex = 0;
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
-		newMat.material.texture0 = App->textures->Load(file.data, false);
+		newMat->material.texture0 = App->textures->Load(file.data, false);
 	}
-	if (currentModel == 2) newMat.material.texture0 = App->textures->Load("models/banana/banana.png", false);
-	if(currentModel == 3) newMat.material.texture0 = App->textures->Load("models/shield/tex.png", false);
+	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("models/banana/banana.png", false);
+	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("models/shield/tex.png", false);
 	
-	Obj->materials.push_back(&newMat);
+	Obj->materials.push_back(newMat);
 	Obj->hasmaterial = true;
 }
 

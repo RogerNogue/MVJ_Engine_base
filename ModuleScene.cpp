@@ -11,7 +11,7 @@ ModuleScene::~ModuleScene()
 }
 
 bool ModuleScene::Init() {
-	baseObject = &GameObject ("BaseObject");
+	baseObject =  new GameObject ("BaseObject");
 	//i could also declare the editor camera here
 	objects.push_back(baseObject);
 	return true;

@@ -21,7 +21,7 @@ public:
 	void calculateAABB();
 
 	//variables
-	component_type type = OBJECT;
+	component_type type;
 	unsigned id;
 	bool active;
 	char* name;
