@@ -166,6 +166,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
 	newMesh->mesh.numVertices = mesh->mNumVertices;
 	Obj->meshes.push_back(newMesh);
 	Obj->hasmesh = true;
+	allMeshes.push_back(newMesh);
 }
 
 void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj) {

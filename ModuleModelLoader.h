@@ -31,6 +31,7 @@ public:
 	//variables
 	unsigned currentModel;
 	int currentModelTriangleCount;
+	std::vector<ComponentMesh*> allMeshes;
 	
 private:
 	const aiScene* scene;
