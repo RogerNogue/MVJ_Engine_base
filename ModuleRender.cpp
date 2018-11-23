@@ -108,45 +108,6 @@ update_status ModuleRender::Update()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
 	}
-
-	/*for (unsigned i = 0; i < App->scene->baseObject->children.size(); ++i) {
-		//if its an object and it has meshes
-		if (App->scene->baseObject->children[i]->type == OBJECT && App->scene->baseObject->children[i]->hasmesh) {
-			for (int j = 0; j < App->scene->baseObject->children[i]->meshes.size(); ++j) {
-				//geometry shaders
-
-				glUseProgram(App->shaderProgram->programTexture);
-				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-					"model"), 1, GL_TRUE, &App->camera->model[0][0]);
-				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-					"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-				glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-					"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
-				
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, App->scene->baseObject->children[i]->materials[App->scene->baseObject->children[i]->meshes[j]->mesh.material]->material.texture0);
-				glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
-				
-				glEnableVertexAttribArray(0);
-				glEnableVertexAttribArray(1);
-				glBindBuffer(GL_ARRAY_BUFFER, App->scene->baseObject->children[i]->meshes[j]->mesh.vbo);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->scene->baseObject->children[i]->meshes[j]->mesh.numVertices * 3));
-
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->scene->baseObject->children[i]->meshes[j]->mesh.vio);
-
-				glDrawElements(GL_TRIANGLES, App->scene->baseObject->children[i]->meshes[j]->mesh.numIndices, GL_UNSIGNED_INT, nullptr);
-
-
-				glDisableVertexAttribArray(0);
-				glDisableVertexAttribArray(1);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glUseProgram(0);
-			}
-		}
-	}*/
 	
 	//drawing axis and grid
 	glUseProgram(App->shaderProgram->programGeometry);
