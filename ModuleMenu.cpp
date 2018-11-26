@@ -184,7 +184,7 @@ update_status ModuleMenu::Update() {
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 20));
-	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight));
+	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight - 20));
 	ImGui::Begin("3D properties", &displaying);
 
 	//going over all the menus
