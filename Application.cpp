@@ -10,6 +10,7 @@
 #include "ModuleModelLoader.h"
 #include "ModuleTimer.h"
 #include "ModuleScene.h"
+#include "Brofiler.h"
 
 using namespace std;
 
@@ -38,40 +39,38 @@ Application::~Application()
 
 bool Application::Init()
 {
-	bool ret = true;
+	{ BROFILER_CATEGORY("Inits SHABALE", Profiler::Color::Peru)
+		bool ret = true;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->Init();
-
-	return ret;
+		for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
+			ret = (*it)->Init();
+		return ret;
+	}
 }
 
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
-	
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
 
-	
-
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->Update();
 
-
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PostUpdate();
-
 	return ret;
 }
 
 bool Application::CleanUp()
 {
+	{ BROFILER_CATEGORY("Cleamups", Profiler::Color::Chartreuse)
 	bool ret = true;
 
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		ret = (*it)->CleanUp();
 
 	return ret;
+	}
 }

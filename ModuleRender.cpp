@@ -15,6 +15,7 @@
 #include "GameObject.h"
 #include "ModuleScene.h"
 #include "debugdraw.h"
+#include "Brofiler.h"
 
 ModuleRender::ModuleRender()
 {
@@ -77,8 +78,9 @@ void ModuleRender::UpdateEditorCamera() {
 }
 
 // Called every draw update
-void ModuleRender::Draw()
+update_status ModuleRender::Update()
 {
+	BROFILER_CATEGORY("UpdateRenderer", Profiler::Color::Chartreuse)
 	//UpdateEditorCamera();
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
@@ -153,6 +155,8 @@ void ModuleRender::Draw()
 	
 	glUseProgram(0);
 	App->textures->deleteFrameBuffer(editorCameraBuffer);
+
+	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()

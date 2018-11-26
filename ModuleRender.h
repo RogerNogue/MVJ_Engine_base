@@ -19,7 +19,7 @@ public:
 
 	bool Init();
 	update_status PreUpdate() override;
-	//update_status Update()override;
+	update_status Update()override;
 	void Draw();
 	update_status PostUpdate()override;
 	bool CleanUp();

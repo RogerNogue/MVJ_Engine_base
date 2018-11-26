@@ -48,7 +48,7 @@ bool           ModuleModelLoader::CleanUp(){
 		return true;
 }
 
-void ModuleModelLoader::loadModel(unsigned model) {
+void ModuleModelLoader::loadModel(unsigned model) {	
 	currentModel = model;
 	currentModelTriangleCount = 0;
 	char* modelName;
@@ -100,7 +100,6 @@ void ModuleModelLoader::loadModel(unsigned model) {
 		GenerateMaterialData(scene->mMaterials[i], Obj);
 	}
 	App->camera->mewModelLoaded();
-
 }
 
 void ModuleModelLoader::unloadModels() {
