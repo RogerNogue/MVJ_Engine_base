@@ -104,3 +104,20 @@ ComponentMaterial ModuleTextures::createComponentMaterial(GameObject* dad) {
 	ComponentMaterial c(dad);
 	return c;
 }
+
+unsigned ModuleTextures::createFrameBuffer(char* name, float width, float height) {
+	GLuint textureId = 0;
+	glGenTextures(1, &textureId);
+
+	/*ILubyte* data = ilGetData();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), width, height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	*/
+	return textureId;
+}
+
+void ModuleTextures::deleteFrameBuffer(unsigned buffer) {
+	ilDeleteImages(1, &buffer);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

@@ -172,6 +172,8 @@ void ModuleCamera::SetAspectRatio(float w, float h) {
 	view = frustum.ViewMatrix();
 }
 
+
+
 void ModuleCamera::mewModelLoaded() {
 	//not correct
 	/*modelCenter.x = App->modelLoader->minX + (App->modelLoader->maxX - App->modelLoader->minX)/2;

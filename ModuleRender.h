@@ -18,14 +18,18 @@ public:
 	~ModuleRender();
 
 	bool Init();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	update_status PreUpdate() override;
+	//update_status Update()override;
+	void Draw();
+	update_status PostUpdate()override;
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 	ComponentMesh createComponentMesh(GameObject* dad);
+	void UpdateEditorCamera();
 	//variables
 	void* context;
+	unsigned editorCameraBuffer;
+	unsigned editorTexture;
 private:
 	void drawAxis();
 };

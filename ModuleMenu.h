@@ -53,6 +53,7 @@ public:
 	float* ms_log;
 	ExampleAppLog console;
 private:
+	float menubarWidth, menubarHeight;
 	void updateFramerates();
 };
 

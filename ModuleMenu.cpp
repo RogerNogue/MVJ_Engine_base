@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
+#include "ModuleScene.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -58,6 +59,8 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
+	menubarHeight = App->camera->screenHeight/4.5;
+	menubarWidth = App->camera->screenWidth/4.5;
 	// Menu
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -106,8 +109,8 @@ update_status ModuleMenu::Update() {
 		}
 		ImGui::EndMainMenuBar();
 	}
-	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - 300, 0));
-	ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 250));
+	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - menubarWidth, 0));
+	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight));
 	bool displaying = true;
 	ImGui::Begin("Module Properties", &displaying);
 
@@ -181,7 +184,7 @@ update_status ModuleMenu::Update() {
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 20));
-	ImGui::SetNextWindowSize(ImVec2(300, App->camera->screenHeight - 230));
+	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight));
 	ImGui::Begin("3D properties", &displaying);
 
 	//going over all the menus
@@ -204,11 +207,27 @@ update_status ModuleMenu::Update() {
 		ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);
 		ImGui::BulletText("Position = ( %.2f, %.2f, %.2f )", App->camera->modelCenter.x, App->camera->modelCenter.y, App->camera->modelCenter.z);
 	}
+	//Object explorer
+	if (ImGui::CollapsingHeader("Object inspector"))
+	{
+		//App->scene->baseObject
+	}
 	ImGui::End();
 
-	ImGui::SetNextWindowPos(ImVec2(0, App->camera->screenHeight - 250));
-	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth, 250));
+	ImGui::SetNextWindowPos(ImVec2(0, App->camera->screenHeight - menubarHeight));
+	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth, menubarHeight));
 	console.Draw("Console");
+
+	//editor viewport
+	if (ImGui::Begin("Viewport"))
+	{
+		if (ImGui::BeginChild("Editor Camera", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
+		{
+			
+		}
+		ImGui::EndChild();
+	}
+	ImGui::End();
 
 	return UPDATE_CONTINUE;
 }

@@ -8,6 +8,7 @@
 #include "ModuleModelLoader.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleTextures.h"
 #include "ModuleMenu.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -55,12 +56,6 @@ bool ModuleRender::Init()
     glViewport(0, 0, width, height);
 
 	App->modelLoader->loadModel(1);
-	/*char* b = new char[100];
-	sprintf(b, "Model loaded, amount of children of base object: %d ", App->scene->baseObject->children.size());
-	App->menu->console.AddLog(b);
-	sprintf(b, "\n\n");
-	App->menu->console.AddLog(b);
-	delete[] b;*/
 	
 	return true;
 }
@@ -71,10 +66,20 @@ update_status ModuleRender::PreUpdate()
 
 	return UPDATE_CONTINUE;
 }
+void ModuleRender::UpdateEditorCamera() {
+	//framebuffer creation
+	glGenFramebuffers(1, &editorCameraBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, editorCameraBuffer);
+	//texture creation
+	editorTexture = App->textures->createFrameBuffer("EditorCam", App->camera->screenWidth, App->camera->screenHeight);
+
+
+}
 
 // Called every draw update
-update_status ModuleRender::Update()
+void ModuleRender::Draw()
 {
+	//UpdateEditorCamera();
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (!App->modelLoader->allMeshes[j]->active) break;
@@ -147,8 +152,7 @@ update_status ModuleRender::Update()
 	drawAxis();*/
 	
 	glUseProgram(0);
-
-	return UPDATE_CONTINUE;
+	App->textures->deleteFrameBuffer(editorCameraBuffer);
 }
 
 update_status ModuleRender::PostUpdate()

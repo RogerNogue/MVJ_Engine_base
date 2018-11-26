@@ -21,6 +21,8 @@ public:
 	unsigned Load(const char* path, bool mipmaps);
 	void Unload(unsigned id);
 	ComponentMaterial createComponentMaterial(GameObject* dad);
+	unsigned createFrameBuffer(char* name, float width, float height);
+	void deleteFrameBuffer(unsigned buffer);
 
 private:
 };
