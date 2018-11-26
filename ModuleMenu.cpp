@@ -109,8 +109,8 @@ update_status ModuleMenu::Update() {
 		}
 		ImGui::EndMainMenuBar();
 	}
-	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - menubarWidth, 0));
-	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight));
+	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - menubarWidth, 20));
+	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight - 20));
 	bool displaying = true;
 	ImGui::Begin("Module Properties", &displaying);
 
@@ -220,6 +220,8 @@ update_status ModuleMenu::Update() {
 	console.Draw("Console");
 
 	//editor viewport
+	ImGui::SetNextWindowPos(ImVec2(menubarWidth, 20));
+	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth - 2 * menubarWidth, App->camera->screenHeight - menubarHeight - 20));
 	if (ImGui::Begin("Viewport"))
 	{
 		if (ImGui::BeginChild("Editor Camera", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
