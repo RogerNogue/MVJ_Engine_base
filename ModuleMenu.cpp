@@ -211,6 +211,7 @@ update_status ModuleMenu::Update() {
 	if (ImGui::CollapsingHeader("Object inspector"))
 	{
 		//App->scene->baseObject
+
 	}
 	ImGui::End();
 

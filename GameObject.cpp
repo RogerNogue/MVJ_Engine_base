@@ -35,6 +35,7 @@ GameObject::GameObject(char* n) :
 	id = pcg32_random_r(&pcg32_random_t());
 	ComponentTransform c(this);
 	transform = &c;	
+	camera = nullptr;
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
@@ -45,6 +46,7 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	active = true;
 	parent->children.push_back(this);
 	hascamera = hasmesh = hasmaterial = false;
+	camera = nullptr;
 }
 
 GameObject::~GameObject()
