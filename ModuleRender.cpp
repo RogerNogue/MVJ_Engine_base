@@ -80,14 +80,14 @@ void ModuleRender::UpdateEditorCamera() {
 	glGenTextures(1, &renderTexture);
 
 	glBindTexture(GL_TEXTURE_2D, renderTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, App->camera->screenWidth, App->camera->screenWidth, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, App->camera->screenWidth, App->camera->screenHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	depthBuffer;
 	glGenRenderbuffers(1, &depthBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenWidth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
@@ -106,6 +106,13 @@ void ModuleRender::UpdateEditorCamera() {
 void ModuleRender::Draw()
 {
 	BROFILER_CATEGORY("UpdateRenderer", Profiler::Color::Chartreuse)
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glViewport(0, 0, App->camera->screenWidth, App->camera->screenHeight);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (!App->modelLoader->allMeshes[j]->active) break;
