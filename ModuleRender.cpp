@@ -57,6 +57,7 @@ bool ModuleRender::Init()
     glViewport(0, 0, width, height);
 
 	App->modelLoader->loadModel(1);
+	UpdateEditorCamera();
 	
 	return true;
 }
@@ -105,7 +106,6 @@ void ModuleRender::UpdateEditorCamera() {
 void ModuleRender::Draw()
 {
 	BROFILER_CATEGORY("UpdateRenderer", Profiler::Color::Chartreuse)
-	UpdateEditorCamera();
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (!App->modelLoader->allMeshes[j]->active) break;
@@ -203,6 +203,7 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
     glViewport(0, 0, width, height);
 	App->camera->SetAspectRatio(width, height);
+	UpdateEditorCamera();
 }
 
 void ModuleRender::drawAxis() {
