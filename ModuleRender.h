@@ -19,7 +19,7 @@ public:
 
 	bool Init();
 	update_status PreUpdate() override;
-	update_status Update()override;
+	//update_status Update()override;
 	void Draw();
 	update_status PostUpdate()override;
 	bool CleanUp();
@@ -30,6 +30,9 @@ public:
 	void* context;
 	unsigned editorCameraBuffer;
 	unsigned editorTexture;
+	unsigned frameBuffer;
+	unsigned renderTexture;
+	unsigned depthBuffer;
 private:
 	void drawAxis();
 };

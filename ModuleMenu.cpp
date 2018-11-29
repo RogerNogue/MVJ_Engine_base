@@ -221,12 +221,13 @@ update_status ModuleMenu::Update() {
 
 	//editor viewport
 	ImGui::SetNextWindowPos(ImVec2(menubarWidth, 20));
-	ImGui::SetNextWindowSize(ImVec2(App->camera->screenWidth - 2 * menubarWidth, App->camera->screenHeight - menubarHeight - 20));
+	viewportSize = ImVec2(App->camera->screenWidth - 2 * menubarWidth, App->camera->screenHeight - menubarHeight - 20);
+	ImGui::SetNextWindowSize(viewportSize);
 	if (ImGui::Begin("Viewport"))
 	{
 		if (ImGui::BeginChild("Editor Camera", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
 		{
-			
+			setUpViewport();
 		}
 		ImGui::EndChild();
 	}
@@ -257,3 +258,11 @@ void ModuleMenu::consoleLog(const char* str) {
 	delete b;
 }
 
+void ModuleMenu::setUpViewport() {
+	App->renderer->Draw();
+	if (App->camera->screenWidth != viewportSize.x || App->camera->screenHeight != viewportSize.y) {
+		App->renderer->WindowResized(viewportSize.x, viewportSize.y);
+	}
+	ImGui::Image((ImTextureID)App->renderer->renderTexture, { (float)viewportSize.x, (float)viewportSize.y }, { 0,1 }, { 1,0 });
+
+}

@@ -68,6 +68,30 @@ update_status ModuleRender::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 void ModuleRender::UpdateEditorCamera() {
+
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteTextures(1, &renderTexture);
+	glDeleteRenderbuffers(1, &depthBuffer);
+
+	glGenFramebuffers(1, &frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glGenTextures(1, &renderTexture);
+
+	glBindTexture(GL_TEXTURE_2D, renderTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, App->camera->screenWidth, App->camera->screenWidth, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	depthBuffer;
+	glGenRenderbuffers(1, &depthBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenWidth);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
+
+
 	//framebuffer creation
 	glGenFramebuffers(1, &editorCameraBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, editorCameraBuffer);
@@ -78,10 +102,10 @@ void ModuleRender::UpdateEditorCamera() {
 }
 
 // Called every draw update
-update_status ModuleRender::Update()
+void ModuleRender::Draw()
 {
 	BROFILER_CATEGORY("UpdateRenderer", Profiler::Color::Chartreuse)
-	//UpdateEditorCamera();
+	UpdateEditorCamera();
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (!App->modelLoader->allMeshes[j]->active) break;
@@ -156,7 +180,6 @@ update_status ModuleRender::Update()
 	glUseProgram(0);
 	App->textures->deleteFrameBuffer(editorCameraBuffer);
 
-	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRender::PostUpdate()

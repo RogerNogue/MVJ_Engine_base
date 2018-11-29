@@ -16,6 +16,7 @@ public:
 	update_status   PostUpdate();
 	bool            CleanUp();
 	void consoleLog(const char* str);
+	void setUpViewport();
 	struct ExampleAppLog
 	{
 		ImGuiTextBuffer     Buf;
@@ -53,6 +54,7 @@ public:
 	float* ms_log;
 	ExampleAppLog console;
 private:
+	ImVec2 viewportSize;
 	float menubarWidth, menubarHeight;
 	void updateFramerates();
 };
