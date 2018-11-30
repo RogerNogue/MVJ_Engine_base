@@ -70,7 +70,14 @@ update_status ModuleRender::PreUpdate()
 }
 void ModuleRender::UpdateEditorCamera() {
 
-	glDeleteFramebuffers(1, &frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glViewport(0, 0, App->camera->screenWidth, App->camera->screenHeight);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	/*glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &renderTexture);
 	glDeleteRenderbuffers(1, &depthBuffer);
 
@@ -98,7 +105,7 @@ void ModuleRender::UpdateEditorCamera() {
 	glBindFramebuffer(GL_FRAMEBUFFER, editorCameraBuffer);
 	//texture creation
 	editorTexture = App->textures->createFrameBuffer("EditorCam", App->camera->screenWidth, App->camera->screenHeight);
-
+	*/
 
 }
 
@@ -146,7 +153,7 @@ void ModuleRender::Draw()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
 	}
-	
+	/*
 	//drawing axis and grid
 	glUseProgram(App->shaderProgram->programGeometry);
 
@@ -164,12 +171,12 @@ void ModuleRender::Draw()
 	//lines
 
 	
-		dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
+		//dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
 		//float axis_size = max(App->models->bsphere.radius, 1.0f);
 		//dd::axisTriad(math::float4x4::identity, axis_size*0.125f, axis_size*1.25f, 0, false);
-		dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
+		//dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
 
-	/*glLineWidth(1.0f);
+	glLineWidth(1.0f);
 
 	glBegin(GL_LINES);
 	float d = 200.f;
@@ -183,9 +190,9 @@ void ModuleRender::Draw()
 	glEnd();
 
 	drawAxis();*/
-	
+
 	glUseProgram(0);
-	App->textures->deleteFrameBuffer(editorCameraBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 

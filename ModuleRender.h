@@ -30,9 +30,9 @@ public:
 	void* context;
 	unsigned editorCameraBuffer;
 	unsigned editorTexture;
-	unsigned frameBuffer;
-	unsigned renderTexture;
-	unsigned depthBuffer;
+	unsigned int frameBuffer = 0;
+	unsigned int renderTexture = 0;
+	unsigned int depthBuffer = 0;
 private:
 	void drawAxis();
 };

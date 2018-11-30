@@ -54,9 +54,11 @@ public:
 	float* ms_log;
 	ExampleAppLog console;
 private:
+	void updateFramerates();
+
+	//variables
 	ImVec2 viewportSize;
 	float menubarWidth, menubarHeight;
-	void updateFramerates();
 };
 
 #endif /* __ModuleMenu_h__ */
