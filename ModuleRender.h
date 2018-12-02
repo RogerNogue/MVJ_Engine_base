@@ -26,6 +26,7 @@ public:
 	void WindowResized(unsigned width, unsigned height);
 	ComponentMesh createComponentMesh(GameObject* dad);
 	void UpdateEditorCamera();
+	void setUpViewport();
 	//variables
 	void* context;
 	unsigned editorCameraBuffer;

@@ -258,3 +258,56 @@ ComponentMesh ModuleRender::createComponentMesh(GameObject* dad) {
 	ComponentMesh c(dad);
 	return c;
 }
+
+void ModuleRender::setUpViewport() {
+	/*if (App->camera->screenWidth != viewportSize.x || App->camera->screenHeight != viewportSize.y) {
+		App->renderer->WindowResized(viewportSize.x, viewportSize.y);
+	}*/
+	//generating texture
+	if (App->renderer->renderTexture != 0)
+	{
+		glDeleteTextures(1, &App->renderer->renderTexture);
+	}
+
+	if (App->camera->screenWidth != 0 && App->camera->screenHeight != 0)
+	{
+		if (App->renderer->frameBuffer == 0)
+		{
+			glGenFramebuffers(1, &App->renderer->frameBuffer);
+		}
+
+		glBindFramebuffer(GL_FRAMEBUFFER, App->renderer->frameBuffer);
+		glGenTextures(1, &App->renderer->renderTexture);
+		glBindTexture(GL_TEXTURE_2D, App->renderer->renderTexture);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, App->camera->screenWidth, App->camera->screenHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glGenRenderbuffers(1, &App->renderer->depthBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, App->renderer->depthBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenHeight);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, App->renderer->depthBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, App->renderer->renderTexture, 0);
+
+		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	//drawing
+	App->renderer->Draw();
+	ImGui::GetWindowDrawList()->AddImage(
+		(void*)App->renderer->renderTexture,
+		ImVec2(ImGui::GetCursorScreenPos()),
+		ImVec2(ImGui::GetCursorScreenPos().x + App->camera->screenWidth,
+			ImGui::GetCursorScreenPos().y + App->camera->screenHeight),
+		ImVec2(0, 1), ImVec2(1, 0));
+	//ImGui::Image((ImTextureID)App->renderer->renderTexture, { (float)viewportSize.x, (float)viewportSize.y }, { 0,1 }, { 1,0 });
+
+}
