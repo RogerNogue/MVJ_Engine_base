@@ -16,10 +16,13 @@ public:
 	update_status PreUpdate() override;
 	update_status Update() override;
 	void createGameObject(char* c);
+	void setUpGameObjectMenu();
 	//add a save and load function
 
 	//variables
 	GameObject* baseObject;
 	std::vector<GameObject*> objects;
+private:
+	void paintGameObjectTree(const GameObject* go);
 };
 #endif
