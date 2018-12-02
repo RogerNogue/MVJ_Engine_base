@@ -16,6 +16,7 @@
 #include "ModuleScene.h"
 #include "debugdraw.h"
 #include "Brofiler.h"
+#include "ModuleDebugDraw.h"
 
 ModuleRender::ModuleRender()
 {
@@ -68,7 +69,7 @@ update_status ModuleRender::PreUpdate()
 
 	return UPDATE_CONTINUE;
 }
-void ModuleRender::UpdateEditorCamera() {
+void ModuleRender::UpdateEditorCamera() {	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -190,6 +191,10 @@ void ModuleRender::Draw()
 	glEnd();
 
 	drawAxis();*/
+	dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
+	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
+
+	App->debugDraw->Draw(App->camera, frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
 
 	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

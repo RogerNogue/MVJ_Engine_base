@@ -11,6 +11,7 @@
 #include "ModuleTimer.h"
 #include "ModuleScene.h"
 #include "Brofiler.h"
+#include "ModuleDebugDraw.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(shaderProgram = new ModuleProgram());
 	modules.push_back(timer = new ModuleTimer());
+	modules.push_back(debugDraw = new ModuleDebugDraw());
 }
 
 Application::~Application()
