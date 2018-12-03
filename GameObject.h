@@ -16,6 +16,8 @@ public:
 	GameObject(char* n);
 	GameObject(char* n, GameObject* parent);
 	~GameObject();
+	void deleteObject();
+	void deleteChild(unsigned idc);
 
 	void createEmptyComponent(component_type type);
 	void calculateAABB();
@@ -33,7 +35,7 @@ public:
 	std::vector<ComponentMaterial*> materials;
 	ComponentTransform* transform;
 	std::vector<GameObject*> children;
-	const GameObject* parent;
+	GameObject* parent;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
 

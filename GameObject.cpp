@@ -53,6 +53,29 @@ GameObject::~GameObject()
 {
 }
 
+void GameObject::deleteObject() {
+	parent->deleteChild(id);
+	for (int i = 0; i < children.size(); ++i) {
+		children[i]->deleteObject();
+		delete children[i];
+	}
+	for (int i = 0; i < meshes.size(); ++i) {
+		delete meshes[i];
+	}
+	for (int i = 0; i < materials.size(); ++i) {
+		delete materials[i];
+	}
+	children.erase(children.begin(), children.end());
+}
+
+void GameObject::deleteChild(unsigned idc) {
+	for (int i = 0; i < children.size(); ++i) {
+		if (children[i]->id == idc) {
+			children.erase(children.begin()+i);
+		}
+	}
+}
+
 void GameObject::createEmptyComponent(component_type type) {
 	switch (type) {
 		case CAMERA:

@@ -20,9 +20,10 @@ public:
 	//add a save and load function
 
 	//variables
-	GameObject* baseObject;
+	GameObject* objectSelected = nullptr;
+	GameObject* baseObject = nullptr;
 	std::vector<GameObject*> objects;
 private:
-	void paintGameObjectTree(const GameObject* go);
+	void paintGameObjectTree(GameObject* go);
 };
 #endif
