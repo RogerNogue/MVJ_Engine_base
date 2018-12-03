@@ -55,29 +55,43 @@ GameObject::~GameObject()
 }
 
 void GameObject::deleteObject() {
+	char* b = new char[100];
+	sprintf(b, "Deleting object: ");
+	App->menu->console.AddLog(b);
+	App->menu->console.AddLog(name);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
+
 	parent->deleteChild(id);
 	for (int i = 0; i < children.size(); ++i) {
 		children[i]->deleteObject();
 		delete children[i];
 	}
+	children.clear();
 	for (int i = 0; i < meshes.size(); ++i) {
 		for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-			//if //delete meshes and materials
+			if (App->modelLoader->allMeshes[j] == meshes[i]) {
+				//delete App->modelLoader->allMeshes[j];
+				App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin()+j);
+			}
 		}
 		meshes[i]->CleanUp();
 		delete meshes[i];
 	}
+	meshes.clear();
 	for (int i = 0; i < materials.size(); ++i) {
 		materials[i]->CleanUp();
 		delete materials[i];
 	}
-	children.erase(children.begin(), children.end());
+	materials.clear();
 }
 
 void GameObject::deleteChild(unsigned idc) {
 	for (int i = 0; i < children.size(); ++i) {
 		if (children[i]->id == idc) {
 			children.erase(children.begin()+i);
+			return;
 		}
 	}
 }
