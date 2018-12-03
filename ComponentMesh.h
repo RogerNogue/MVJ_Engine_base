@@ -8,6 +8,7 @@ class ComponentMesh :
 public:
 	ComponentMesh(const GameObject* dad);
 	~ComponentMesh();
+	bool CleanUp() override;
 
 	//data structures
 	struct myMesh {

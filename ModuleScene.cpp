@@ -54,13 +54,11 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 		ImGui::EndPopup();
 	}
 
-	if (children ) {
+	if (children) {
 		for (int i = 0; i < go->children.size(); ++i) {
 			paintGameObjectTree(baseObject->children[i]);
 		}
 		ImGui::TreePop();
 	}
 	
-
-	//ImGui::Text(gameobject->name.c_str());
 }

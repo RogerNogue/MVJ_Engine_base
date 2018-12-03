@@ -9,6 +9,7 @@
 #include "Application.h"
 #include "ModuleMenu.h"
 #include "ComponentCamera.h"
+#include "ModuleModelLoader.h"
 
 // *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 // Licensed under Apache License 2.0 (NO WARRANTY, etc. see website)
@@ -60,9 +61,14 @@ void GameObject::deleteObject() {
 		delete children[i];
 	}
 	for (int i = 0; i < meshes.size(); ++i) {
+		for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
+			//if //delete meshes and materials
+		}
+		meshes[i]->CleanUp();
 		delete meshes[i];
 	}
 	for (int i = 0; i < materials.size(); ++i) {
+		materials[i]->CleanUp();
 		delete materials[i];
 	}
 	children.erase(children.begin(), children.end());

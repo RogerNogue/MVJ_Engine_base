@@ -7,6 +7,7 @@ class ComponentMaterial :
 public:
 	ComponentMaterial(const GameObject* dad);
 	~ComponentMaterial();
+	bool CleanUp() override;
 
 	//data structures
 	struct myMaterial {
