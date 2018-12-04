@@ -19,7 +19,6 @@ public:
 
 	bool Init();
 	update_status PreUpdate() override;
-	//update_status Update()override;
 	void Draw();
 	update_status PostUpdate()override;
 	bool CleanUp();
@@ -35,7 +34,6 @@ public:
 	unsigned int renderTexture = 0;
 	unsigned int depthBuffer = 0;
 private:
-	void drawAxis();
 };
 
 #endif

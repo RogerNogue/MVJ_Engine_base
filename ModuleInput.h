@@ -12,9 +12,9 @@ public:
 	ModuleInput();
 	~ModuleInput();
 
-	bool Init();
-	update_status PreUpdate();
-	bool CleanUp();
+	bool Init() override;
+	update_status PreUpdate() override;
+	bool CleanUp() override;
 	//vars
 	int wheelScroll;
 	const Uint8 *keyboard = NULL;

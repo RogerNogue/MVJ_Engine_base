@@ -15,13 +15,10 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	// Called before quitting
-	bool Init();
-
-	update_status   Update();
+	bool Init() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 public:
 	//The window we'll be rendering to

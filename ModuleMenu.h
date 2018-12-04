@@ -11,12 +11,11 @@ public:
 	~ModuleMenu();
 
 	bool            Init();
-	update_status   PreUpdate();
-	update_status   Update();
-	update_status   PostUpdate();
-	bool            CleanUp();
+	update_status   PreUpdate() override;
+	update_status   Update() override;
+	update_status   PostUpdate() override;
+	bool            CleanUp() override;
 	void consoleLog(const char* str);
-	void setUpViewport();
 	struct ExampleAppLog
 	{
 		ImGuiTextBuffer     Buf;
@@ -50,8 +49,8 @@ public:
 	double lastSecondTime;
 	int logMSIterator;
 	int logFPSIterator;
-	float* fps_log;
-	float* ms_log;
+	float* fps_log = nullptr;
+	float* ms_log = nullptr;
 	ExampleAppLog console;
 private:
 	void updateFramerates();

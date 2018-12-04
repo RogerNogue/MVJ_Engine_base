@@ -13,8 +13,6 @@ public:
 	~ModuleScene();
 
 	bool Init()override;
-	update_status PreUpdate() override;
-	update_status Update() override;
 	void createGameObject(char* c);
 	void setUpGameObjectMenu();
 	//add a save and load function

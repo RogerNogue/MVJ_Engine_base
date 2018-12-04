@@ -1,5 +1,7 @@
 #include "ModuleTimer.h"
 #include "SDL.h"
+#include "Globals.h"
+#include "Brofiler.h"
 
 const double ModuleTimer::highFreq = SDL_GetPerformanceFrequency();
 
@@ -19,7 +21,10 @@ bool            ModuleTimer::Init() {
 	initialHighTime = SDL_GetPerformanceCounter();
 	return true;
 }
-update_status   ModuleTimer::Update() {
+update_status   ModuleTimer::Update() 
+{
+	BROFILER_CATEGORY("Timer", Profiler::Color::Crimson)
+
 	++frameCount;
 	realDeltaTime = lastFrameTime - SDL_GetTicks();
 	deltaTime += realDeltaTime * timeScale;

@@ -7,6 +7,7 @@
 #include <IL/ilut.h>
 #include "GameObject.h"
 #include "ComponentMaterial.h"
+#include "Brofiler.h"
 
 ModuleTextures::ModuleTextures()
 {
@@ -36,6 +37,7 @@ bool ModuleTextures::CleanUp()
 // Load new texture from file path
 unsigned ModuleTextures::Load(const char* path, bool mipmaps)
 {
+	BROFILER_CATEGORY("Load texture", Profiler::Color::Cyan)
 	ILuint imageId;
 	ilGenImages(1, &imageId);
 	ilBindImage(imageId);

@@ -15,8 +15,8 @@ public:
 	ModuleTextures();
 	~ModuleTextures();
 
-	bool Init();
-	bool CleanUp();
+	bool Init() override;
+	bool CleanUp() override;
 
 	unsigned Load(const char* path, bool mipmaps);
 	void Unload(unsigned id);

@@ -14,6 +14,7 @@
 #include <assimp/scene.h>
 #include "ModuleScene.h"
 #include "GameObject.h"
+#include "Brofiler.h"
 
 ModuleModelLoader::ModuleModelLoader()
 {
@@ -22,14 +23,6 @@ ModuleModelLoader::ModuleModelLoader()
 
 ModuleModelLoader::~ModuleModelLoader()
 {
-}
-
-
-bool ModuleModelLoader::Init() {
-	return true;
-}
-update_status   ModuleModelLoader::Update() {
-	return UPDATE_CONTINUE;
 }
 
 void ModuleModelLoader::deleteVBO(unsigned vbo) {
@@ -44,11 +37,9 @@ void ModuleModelLoader::unloadTexture(unsigned tex0) {
 	App->textures->Unload(tex0);
 }
 
-bool           ModuleModelLoader::CleanUp(){
-		return true;
-}
-
 void ModuleModelLoader::loadModel(unsigned model) {	
+	BROFILER_CATEGORY("Model loading", Profiler::Color::Lime)
+	const aiScene* scene;
 	currentModel = model;
 	currentModelTriangleCount = 0;
 	char* modelName;

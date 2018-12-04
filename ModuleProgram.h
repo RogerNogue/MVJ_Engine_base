@@ -10,9 +10,7 @@ public:
 	ModuleProgram();
 	~ModuleProgram();
 
-	bool            Init();
-	update_status   Update();
-	bool            CleanUp();
+	bool            Init() override;
 
 	GLuint loadShaders(char* dataVertex, char* dataFragment);
 

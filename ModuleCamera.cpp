@@ -6,6 +6,9 @@
 #include "ModuleMenu.h"
 #include "ModuleTimer.h"
 #include "SDL.h"
+#include "Application.h"
+#include "Globals.h"
+#include "Brofiler.h"
 
 ModuleCamera::ModuleCamera()
 {
@@ -57,6 +60,7 @@ bool            ModuleCamera::Init() {
 	return true;
 }
 update_status   ModuleCamera::Update() {
+	BROFILER_CATEGORY("Camera update", Profiler::Color::DarkOrange)
 	double time = App->timer->getRealHighPrecisionTime();
 	if (App->input->rightclickPressed) {
 		//keyboard listeners
@@ -69,52 +73,32 @@ update_status   ModuleCamera::Update() {
 			frustum.pos -= frustum.up * movementSpeed;
 			vrp -= math::float3(0, 1, 0) * movementSpeed;
 			frustum.front = (vrp - frustum.pos).Normalized();
-			//updateCam();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_E]) {
 			frustum.pos += frustum.up * movementSpeed;
 			vrp += math::float3(0, 1, 0) * movementSpeed;
 			frustum.front = (vrp - frustum.pos).Normalized();
-			//updateCam();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_W]) {
 			frustum.pos += frustum.front * movementSpeed;
-			//updateCam();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_A]) {
 			float3 side = frustum.front.Cross(frustum.up);
 			frustum.pos -= side * movementSpeed;
-			//updateCam();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_S]) {
 			frustum.pos -= frustum.front * movementSpeed;
-			//updateCam();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_D]) {
 			float3 side = frustum.front.Cross(frustum.up);
 			frustum.pos += side * movementSpeed;
-			//updateCam();
 			cameraChanged = true;
 		}
-		/*
-		//arrows to rotate the camera
-		if (App->input->keyboard[SDL_SCANCODE_UP]) {
-			camRotationX(movementSpeed / 5);
-		}
-		if (App->input->keyboard[SDL_SCANCODE_DOWN]) {
-			camRotationX(-movementSpeed / 5);
-		}
-		if (App->input->keyboard[SDL_SCANCODE_LEFT]) {
-			camRotationY(movementSpeed / 5);
-		}
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT]) {
-			camRotationY(-movementSpeed / 5);
-		}*/
 		//camera rotation via mouse
 		if (App->input->cameraMoved) {
 			math::float3 distCamModel = frustum.pos - modelCenter;
@@ -125,7 +109,6 @@ update_status   ModuleCamera::Update() {
 
 				frustum.pos = modelCenter + roty * rotx * distCamModel;
 				frustum.front = (modelCenter - frustum.pos).Normalized();
-				//updateCam();
 				cameraChanged = true;
 			}
 			else {
@@ -148,14 +131,12 @@ update_status   ModuleCamera::Update() {
 		frustum.verticalFov -= 0.1f * App->input->wheelScroll;
 		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
 		App->input->wheelScroll = 0;
-		//updateCam();
 		cameraChanged = true;
 	}
 	if (cameraChanged) {
 		updateCam();
 		cameraChanged = false;
 	}
-	updateTime = App->timer->getRealHighPrecisionTime() - time;
 
 	return UPDATE_CONTINUE;
 }

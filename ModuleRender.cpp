@@ -78,42 +78,12 @@ void ModuleRender::UpdateEditorCamera() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	/*glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &renderTexture);
-	glDeleteRenderbuffers(1, &depthBuffer);
-
-	glGenFramebuffers(1, &frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
-	glGenTextures(1, &renderTexture);
-
-	glBindTexture(GL_TEXTURE_2D, renderTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, App->camera->screenWidth, App->camera->screenHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	depthBuffer;
-	glGenRenderbuffers(1, &depthBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenHeight);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
-
-
-	//framebuffer creation
-	glGenFramebuffers(1, &editorCameraBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, editorCameraBuffer);
-	//texture creation
-	editorTexture = App->textures->createFrameBuffer("EditorCam", App->camera->screenWidth, App->camera->screenHeight);
-	*/
-
 }
 
 // Called every draw update
 void ModuleRender::Draw()
 {
-	BROFILER_CATEGORY("UpdateRenderer", Profiler::Color::Chartreuse)
+	BROFILER_CATEGORY("RendererDrawFunction", Profiler::Color::Chartreuse)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -154,43 +124,6 @@ void ModuleRender::Draw()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
 	}
-	/*
-	//drawing axis and grid
-	glUseProgram(App->shaderProgram->programGeometry);
-
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"model"), 1, GL_TRUE, &App->camera->model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programGeometry,
-		"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
-
-	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float white[4] = { 1, 1, 1, 1 };
-	glUniform4fv(zAxis, 1, white);
-
-	//lines
-
-	
-		//dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
-		//float axis_size = max(App->models->bsphere.radius, 1.0f);
-		//dd::axisTriad(math::float4x4::identity, axis_size*0.125f, axis_size*1.25f, 0, false);
-		//dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
-
-	glLineWidth(1.0f);
-
-	glBegin(GL_LINES);
-	float d = 200.f;
-
-	for (float i = -d; i <= d; i += 1.0f) {
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
-
-	drawAxis();*/
 	dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
 	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
 
@@ -223,35 +156,6 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
     glViewport(0, 0, width, height);
 	App->camera->SetAspectRatio(width, height);
 	UpdateEditorCamera();
-}
-
-void ModuleRender::drawAxis() {
-	//x, red
-	int xAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float red[4] = { 1, 0, 0, 1 };
-	glUniform4fv(xAxis, 1, red);
-	glLineWidth(2.5);
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(5, 0, 0);
-	glEnd();
-
-	//y green
-	int yAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float green[4] = { 0, 1, 0, 1 };
-	glUniform4fv(yAxis, 1, green);
-
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(0, 5, 0);
-	glEnd();
-
-	//z blue
-	int zAxis = glGetUniformLocation(App->shaderProgram->programGeometry, "newColor");
-	float blue[4] = { 0, 0, 1, 1 };
-	glUniform4fv(zAxis, 1, blue);
-
-	glBegin(GL_LINES);
-	glVertex3f(0, 0, 0); glVertex3f(0, 0, 5);
-	glEnd();
 }
 
 ComponentMesh ModuleRender::createComponentMesh(GameObject* dad) {
@@ -301,7 +205,7 @@ void ModuleRender::setUpViewport() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	//drawing
-	App->renderer->Draw();
+	Draw();
 	ImGui::GetWindowDrawList()->AddImage(
 		(void*)App->renderer->renderTexture,
 		ImVec2(ImGui::GetCursorScreenPos()),

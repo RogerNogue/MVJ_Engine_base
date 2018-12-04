@@ -19,9 +19,6 @@ public:
 	ModuleModelLoader();
 	~ModuleModelLoader();
 
-	bool            Init();
-	update_status   Update();
-	bool            CleanUp();
 	void loadModel(unsigned model);
 	void unloadModels();
 	void deleteVBO(unsigned vbo);
@@ -34,7 +31,7 @@ public:
 	std::vector<ComponentMesh*> allMeshes;
 	
 private:
-	const aiScene* scene;
+	//const aiScene* scene;
 	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj);
 	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj);
 	//variables

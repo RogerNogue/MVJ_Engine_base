@@ -5,6 +5,7 @@
 #include "ModuleRender.h"
 #include "ModuleMenu.h"
 #include "SDL/include/SDL.h"
+#include "Brofiler.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -32,6 +33,7 @@ bool ModuleInput::Init()
 	return ret;
 }
 update_status ModuleInput::PreUpdate() {
+	BROFILER_CATEGORY("Module input pre update", Profiler::Color::Orange)
 	SDL_PumpEvents();
 
 	keyboard = SDL_GetKeyboardState(NULL);

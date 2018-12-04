@@ -10,7 +10,7 @@
 #include "ModuleCamera.h"
 #include "ModuleModelLoader.h"
 #include "ModuleScene.h"
-
+#include "Brofiler.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -59,6 +59,7 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
+	BROFILER_CATEGORY("Menu update", Profiler::Color::Teal)
 	menubarHeight = App->camera->screenHeight/4.5;
 	menubarWidth = App->camera->screenWidth/4.5;
 	// Menu
@@ -225,6 +226,7 @@ update_status ModuleMenu::Update() {
 	ImGui::SetNextWindowSize(viewportSize);
 	if (ImGui::Begin("Viewport"))
 	{
+		BROFILER_CATEGORY("Viewport drawing", Profiler::Color::Magenta)
 		if (ImGui::BeginChild("Editor Camera", ImVec2(0, 0), true, ImGuiWindowFlags_NoMove))
 		{
 			App->renderer->setUpViewport();

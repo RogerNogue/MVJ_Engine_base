@@ -105,9 +105,3 @@ bool            ModuleProgram::Init() {
 	
 	return true;
 }
-update_status   ModuleProgram::Update() {
-	return UPDATE_CONTINUE;
-}
-bool            ModuleProgram::CleanUp() {
-	return true;
-}
