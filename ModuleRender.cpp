@@ -8,15 +8,13 @@
 #include "ModuleModelLoader.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
-#include "ModuleTextures.h"
-#include "ModuleMenu.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "GameObject.h"
-#include "ModuleScene.h"
 #include "debugdraw.h"
 #include "Brofiler.h"
 #include "ModuleDebugDraw.h"
+#include "imgui.h"
 
 ModuleRender::ModuleRender()
 {
@@ -147,6 +145,8 @@ bool ModuleRender::CleanUp()
 	LOG("Destroying renderer");
 
 	//Destroy window
+	SDL_GL_DeleteContext(App->window->window);
+	delete context;
 
 	return true;
 }
@@ -212,6 +212,5 @@ void ModuleRender::setUpViewport() {
 		ImVec2(ImGui::GetCursorScreenPos().x + App->camera->screenWidth,
 			ImGui::GetCursorScreenPos().y + App->camera->screenHeight),
 		ImVec2(0, 1), ImVec2(1, 0));
-	//ImGui::Image((ImTextureID)App->renderer->renderTexture, { (float)viewportSize.x, (float)viewportSize.y }, { 0,1 }, { 1,0 });
 
 }

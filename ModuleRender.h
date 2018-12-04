@@ -27,7 +27,7 @@ public:
 	void UpdateEditorCamera();
 	void setUpViewport();
 	//variables
-	void* context;
+	void* context = nullptr;
 	unsigned editorCameraBuffer;
 	unsigned editorTexture;
 	unsigned int frameBuffer = 0;
