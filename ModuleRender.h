@@ -34,6 +34,7 @@ public:
 	unsigned int renderTexture = 0;
 	unsigned int depthBuffer = 0;
 private:
+	float texWidth, texHeight;
 };
 
 #endif

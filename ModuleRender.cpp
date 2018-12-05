@@ -118,6 +118,7 @@ void ModuleRender::Draw()
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
@@ -126,8 +127,7 @@ void ModuleRender::Draw()
 	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
 
 	App->debugDraw->Draw(App->camera, frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
-
-	glUseProgram(0);
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
@@ -146,7 +146,7 @@ bool ModuleRender::CleanUp()
 
 	//Destroy window
 	SDL_GL_DeleteContext(App->window->window);
-	delete context;
+	context = nullptr;
 
 	return true;
 }
@@ -164,53 +164,55 @@ ComponentMesh ModuleRender::createComponentMesh(GameObject* dad) {
 }
 
 void ModuleRender::setUpViewport() {
-	/*if (App->camera->screenWidth != viewportSize.x || App->camera->screenHeight != viewportSize.y) {
-		App->renderer->WindowResized(viewportSize.x, viewportSize.y);
-	}*/
 	//generating texture
-	if (App->renderer->renderTexture != 0)
-	{
-		glDeleteTextures(1, &App->renderer->renderTexture);
-	}
-
-	if (App->camera->screenWidth != 0 && App->camera->screenHeight != 0)
-	{
-		if (App->renderer->frameBuffer == 0)
+	if (texWidth != App->camera->screenWidth || texHeight != App->camera->screenHeight) {
+		texWidth = App->camera->screenWidth;
+		texHeight = App->camera->screenHeight;
+		if (renderTexture != 0)
 		{
-			glGenFramebuffers(1, &App->renderer->frameBuffer);
+			glDeleteTextures(1, &renderTexture);
 		}
 
-		glBindFramebuffer(GL_FRAMEBUFFER, App->renderer->frameBuffer);
-		glGenTextures(1, &App->renderer->renderTexture);
-		glBindTexture(GL_TEXTURE_2D, App->renderer->renderTexture);
+		if (texWidth != 0 && texHeight != 0)
+		{
+			if (frameBuffer == 0)
+			{
+				glGenFramebuffers(1, &frameBuffer);
+			}
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, App->camera->screenWidth, App->camera->screenHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+			glGenTextures(1, &renderTexture);
+			glBindTexture(GL_TEXTURE_2D, renderTexture);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth, texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-		glGenRenderbuffers(1, &App->renderer->depthBuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, App->renderer->depthBuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->camera->screenWidth, App->camera->screenHeight);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, App->renderer->depthBuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
+			glGenRenderbuffers(1, &depthBuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, texWidth, texHeight);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, App->renderer->depthBuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, App->renderer->renderTexture, 0);
+			glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
-		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		}
 	}
 	//drawing
 	Draw();
 	ImGui::GetWindowDrawList()->AddImage(
-		(void*)App->renderer->renderTexture,
+		(void*)renderTexture,
 		ImVec2(ImGui::GetCursorScreenPos()),
-		ImVec2(ImGui::GetCursorScreenPos().x + App->camera->screenWidth,
-			ImGui::GetCursorScreenPos().y + App->camera->screenHeight),
+		ImVec2(ImGui::GetCursorScreenPos().x + texWidth,
+			ImGui::GetCursorScreenPos().y + texHeight),
 		ImVec2(0, 1), ImVec2(1, 0));
-
+	
 }
