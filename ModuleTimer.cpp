@@ -31,9 +31,6 @@ update_status   ModuleTimer::Update()
 	lastFrameTime = SDL_GetTicks();
 	return UPDATE_CONTINUE;
 }
-bool            ModuleTimer::CleanUp() {
-	return true;
-}
 double ModuleTimer::getRealTime() {
 	return initialTime - SDL_GetTicks();
 }

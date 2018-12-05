@@ -61,7 +61,7 @@ bool            ModuleCamera::Init() {
 }
 update_status   ModuleCamera::Update() {
 	BROFILER_CATEGORY("Camera update", Profiler::Color::DarkOrange)
-	double time = App->timer->getRealHighPrecisionTime();
+	//double time = App->timer->getRealHighPrecisionTime();
 	if (App->input->rightclickPressed) {
 		//keyboard listeners
 		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
@@ -123,7 +123,6 @@ update_status   ModuleCamera::Update() {
 				
 			}
 			App->input->cameraMoved = false;
-			
 		}
 	}
 	//mousewheel
@@ -139,9 +138,6 @@ update_status   ModuleCamera::Update() {
 	}
 
 	return UPDATE_CONTINUE;
-}
-bool            ModuleCamera::CleanUp() {
-	return true;
 }
 
 void ModuleCamera::SetAspectRatio(float w, float h) {

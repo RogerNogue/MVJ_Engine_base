@@ -16,7 +16,6 @@ public:
 
 	bool            Init() override;
 	update_status   Update() override;
-	bool            CleanUp() override;
 	
 	void camRotationX(float angle);
 	void camRotationY(float angle);
@@ -29,8 +28,6 @@ public:
 	float aspectRatio;
 	float screenWidth;
 	float screenHeight;
-	float distCamVrp;
-	math::float3 vrp;
 	math::float4x4 camera;
 	float movementSpeed;
 	float mouseRotSpeed;
@@ -41,6 +38,11 @@ public:
 	float3 modelCenter;
 	float modelWidth, modelHeight;
 	bool cameraChanged;
+
+private:
+	//variables
+	float distCamVrp;
+	math::float3 vrp;
 };
 
 #endif

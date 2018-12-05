@@ -17,7 +17,7 @@ public:
 	bool CleanUp() override;
 	//vars
 	int wheelScroll;
-	const Uint8 *keyboard = NULL;
+	const Uint8 *keyboard = nullptr;
 	int x, y, xdiff, ydiff;
 	bool cameraMoved;
 	bool rightclickPressed;

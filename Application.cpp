@@ -67,12 +67,11 @@ update_status Application::Update()
 
 bool Application::CleanUp()
 {
-	{ BROFILER_CATEGORY("Cleamups", Profiler::Color::Chartreuse)
 	bool ret = true;
 
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		ret = (*it)->CleanUp();
 
 	return ret;
-	}
+
 }

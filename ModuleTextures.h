@@ -16,7 +16,6 @@ public:
 	~ModuleTextures();
 
 	bool Init() override;
-	bool CleanUp() override;
 
 	unsigned Load(const char* path, bool mipmaps);
 	void Unload(unsigned id);

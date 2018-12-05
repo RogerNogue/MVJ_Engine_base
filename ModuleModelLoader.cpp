@@ -90,6 +90,7 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	{
 		GenerateMaterialData(scene->mMaterials[i], Obj);
 	}
+	aiReleaseImport(scene);
 	App->camera->mewModelLoaded();
 }
 

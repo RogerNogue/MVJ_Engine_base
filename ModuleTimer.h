@@ -10,9 +10,8 @@ public:
 	ModuleTimer();
 	~ModuleTimer();
 
-	bool            Init();
-	update_status   Update();
-	bool            CleanUp();
+	bool            Init() override;
+	update_status   Update() override;
 	double getRealTime();
 	double getRealHighPrecisionTime();
 

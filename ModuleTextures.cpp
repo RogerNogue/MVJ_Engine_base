@@ -28,12 +28,6 @@ bool ModuleTextures::Init()
 	return true;
 }
 
-// Called before quitting
-bool ModuleTextures::CleanUp()
-{
-	return true;
-}
-
 // Load new texture from file path
 unsigned ModuleTextures::Load(const char* path, bool mipmaps)
 {
