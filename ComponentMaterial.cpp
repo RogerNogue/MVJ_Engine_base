@@ -3,7 +3,7 @@
 #include "ModuleTextures.h"
 
 
-ComponentMaterial::ComponentMaterial(const GameObject* dad)
+ComponentMaterial::ComponentMaterial(GameObject* dad)
 {
 	type = MATERIAL;
 	this->dad = dad;

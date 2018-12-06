@@ -7,7 +7,7 @@
 #include "ModuleMenu.h"
 #include "ModuleTimer.h"
 
-ComponentCamera::ComponentCamera(const GameObject* dad){
+ComponentCamera::ComponentCamera(GameObject* dad){
 	type = CAMERA;
 	this->dad = dad;
 	active = false;

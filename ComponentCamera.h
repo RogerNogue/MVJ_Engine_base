@@ -8,7 +8,7 @@ class ComponentCamera :
 	public Component
 {
 public:
-	ComponentCamera(const GameObject* dad);
+	ComponentCamera(GameObject* dad);
 	~ComponentCamera();
 
 	bool Init() override;

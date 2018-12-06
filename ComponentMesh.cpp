@@ -3,7 +3,7 @@
 
 
 
-ComponentMesh::ComponentMesh(const GameObject* dad)
+ComponentMesh::ComponentMesh(GameObject* dad)
 {
 	type = MESH;
 	this->dad = dad;

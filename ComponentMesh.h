@@ -6,7 +6,7 @@ class ComponentMesh :
 	public Component
 {
 public:
-	ComponentMesh(const GameObject* dad);
+	ComponentMesh(GameObject* dad);
 	~ComponentMesh();
 	bool CleanUp() override;
 

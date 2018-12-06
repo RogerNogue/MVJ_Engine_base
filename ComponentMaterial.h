@@ -5,7 +5,7 @@ class ComponentMaterial :
 	public Component
 {
 public:
-	ComponentMaterial(const GameObject* dad);
+	ComponentMaterial(GameObject* dad);
 	~ComponentMaterial();
 	bool CleanUp() override;
 

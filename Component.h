@@ -20,7 +20,7 @@ public:
 
 	//variables
 	component_type type;
-	const GameObject* dad;
+	GameObject* dad;
 	bool active;
 };
 #endif
