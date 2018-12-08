@@ -15,6 +15,7 @@
 #include "Brofiler.h"
 #include "ModuleDebugDraw.h"
 #include "imgui.h"
+#include "ComponentTransform.h"
 
 ModuleRender::ModuleRender()
 {
@@ -94,7 +95,7 @@ void ModuleRender::Draw()
 		if (!App->modelLoader->allMeshes[j]->active) break;
 		glUseProgram(App->shaderProgram->programTexture);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"model"), 1, GL_TRUE, &App->camera->model[0][0]);
+			"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->transform->transformMatrix[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
 			"view"), 1, GL_TRUE, &App->camera->view[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,

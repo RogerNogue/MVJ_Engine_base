@@ -20,7 +20,7 @@ public:
 	//variables
 	GameObject* objectSelected = nullptr;
 	GameObject* baseObject = nullptr;
-	std::vector<GameObject*> objects;
+	std::vector<GameObject*> baseObjects;
 private:
 	void paintGameObjectTree(GameObject* go);
 };

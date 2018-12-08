@@ -92,6 +92,7 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	}
 	aiReleaseImport(scene);
 	App->camera->mewModelLoaded();
+	Obj = nullptr;
 }
 
 void ModuleModelLoader::unloadModels() {

@@ -6,20 +6,17 @@ class ComponentTransform :
 	public Component
 {
 public:
-	ComponentTransform(const GameObject* dad);
+	ComponentTransform(GameObject* dad);
 	~ComponentTransform();
 
 	update_status Update() override;
 
-	void move(math::float3 newPos);
-	void rotate(math::float3x3 newRot);
-	void scale(math::float3x3 newScale);
-
 	//variables
-	math::float4x4 positionValues;
-	math::float4x4 rotationValues;
-	math::float4x4 scaleValues;
-	math::float4x4 transformMatrix;
+	bool objectMoved = false;
+	math::float3 positionValues = math::float3(0, 0, 0);
+	math::float3 rotationValues = math::float3(0, 0, 0);
+	math::float3 scaleValues = math::float3 (1,1,1);
+	math::float4x4 transformMatrix = math::float4x4::identity;
 
 };
 #endif

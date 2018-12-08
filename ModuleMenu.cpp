@@ -11,6 +11,8 @@
 #include "ModuleModelLoader.h"
 #include "ModuleScene.h"
 #include "Brofiler.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -113,75 +115,103 @@ update_status ModuleMenu::Update() {
 	ImGui::SetNextWindowPos(ImVec2(App->camera->screenWidth - menubarWidth, 20));
 	ImGui::SetNextWindowSize(ImVec2(menubarWidth, App->camera->screenHeight - menubarHeight - 20));
 	bool displaying = true;
-	ImGui::Begin("Module Properties", &displaying);
 
-	//going over all the menus
-	//App info
-	if (ImGui::CollapsingHeader("Application details"))
+	ImGui::Begin("Editor Properties", &displaying);
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
 	{
-		ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
-		char* title = new char[50];
-		updateFramerates();
-		sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
-		ImGui::PlotHistogram("", fps_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
-		sprintf_s(title, 50, "Milliseconds %.1f", ms_log[logMSIterator]);
-		ImGui::PlotHistogram("", ms_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+		if (ImGui::BeginTabItem("Application details"))
+		{
+			if (ImGui::CollapsingHeader("Performance information"))
+			{
+				ImGui::Text("Application Time = %d", SDL_GetTicks() / 1000);
+				char* title = new char[50];
+				updateFramerates();
+				sprintf_s(title, 50, "Framerate %.1f", fps_log[logFPSIterator]);
+				ImGui::PlotHistogram("", fps_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+				sprintf_s(title, 50, "Milliseconds %.1f", ms_log[logMSIterator]);
+				ImGui::PlotHistogram("", ms_log, 50, 0, title, 0.0f, 100.0f, ImVec2(350, 100));
+			}
+			//global variables
+			if (ImGui::CollapsingHeader("Globals"))
+			{
+				ImGui::Text("Screen Width = %.1f", App->camera->screenWidth);
+				ImGui::Text("Screen Height = %.1f", App->camera->screenHeight);
+				ImGui::Text("Fullscreen = %d", FULLSCREEN);
+				ImGui::Text("VSYNC = %d", VSYNC);
+				ImGui::Text("GLSL version = %s", GLSL_VERSION);
+			}
+			//module render exercise
+			if (ImGui::CollapsingHeader("Camera"))
+			{
+				ImGui::BulletText("Update time = %.2lf", App->camera->updateTime);
+
+				ImGui::Text("Cam declarations:");
+				ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
+				ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
+				ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
+				math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
+				ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
+				ImGui::InputFloat("zNear Plane", &App->camera->frustum.nearPlaneDistance);
+				ImGui::InputFloat("zFar Plane", &App->camera->frustum.farPlaneDistance);
+				ImGui::InputFloat("keys movement speed", &App->camera->movementSpeed);
+				ImGui::InputFloat("mouse rotation speed", &App->camera->mouseRotSpeed);
+			}
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Object inspector"))
+		{
+			if (App->scene->objectSelected == nullptr) {
+				ImGui::Text("No object selected");
+			}
+			else {
+				if (ImGui::CollapsingHeader("Transform"))
+				{
+					float movementSpeed = 50;
+					ImGui::Text("Position");
+					ImGui::PushID("1");
+					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->positionValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("2");
+					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->positionValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("3");
+					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->positionValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+
+					movementSpeed = 5;
+					ImGui::Text("Rotation");
+					ImGui::PushID("4");
+					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->rotationValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("5");
+					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->rotationValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("6");
+					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->rotationValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+
+					movementSpeed = 2;
+					ImGui::Text("Scale");
+					ImGui::PushID("7");
+					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->scaleValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("8");
+					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->scaleValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+					ImGui::PushID("9");
+					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					ImGui::PopID();
+
+
+
+					App->scene->objectSelected->transform->Update();
+				}
+			}
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
 	}
-	//global variables
-	if (ImGui::CollapsingHeader("Globals"))
-	{
-		ImGui::Text("Screen Width = %.1f", App->camera->screenWidth);
-		ImGui::Text("Screen Height = %.1f", App->camera->screenHeight);
-		ImGui::Text("Fullscreen = %d", FULLSCREEN);
-		ImGui::Text("VSYNC = %d", VSYNC);
-		ImGui::Text("GLSL version = %s", GLSL_VERSION);
-	}
-	//module window
-	/*if (ImGui::CollapsingHeader("Window"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}
-	//module menu
-	if (ImGui::CollapsingHeader("Menu"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}
-	//module render
-	if (ImGui::CollapsingHeader("Render"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}
-	//module textures
-	if (ImGui::CollapsingHeader("Textures"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}
-	//module input
-	if (ImGui::CollapsingHeader("Input"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}*/
-	//module render exercise
-	if (ImGui::CollapsingHeader("Camera"))
-	{
-		ImGui::BulletText("Update time = %.2lf", App->camera->updateTime);
-		
-		ImGui::Text("Cam declarations:");
-		ImGui::BulletText("Camera = ( %.2f, %.2f, %.2f )", App->camera->frustum.pos.x, App->camera->frustum.pos.y, App->camera->frustum.pos.z);
-		ImGui::BulletText("Up = ( %.2f, %.2f, %.2f )", App->camera->frustum.up.x, App->camera->frustum.up.y, App->camera->frustum.up.z);
-		ImGui::BulletText("Front = ( %.2f, %.2f, %.2f )", App->camera->frustum.front.x, App->camera->frustum.front.y, App->camera->frustum.front.z);
-		math::float3 side = math::Cross(App->camera->frustum.front, App->camera->frustum.up).Normalized();
-		ImGui::BulletText("Side = ( %.2f, %.2f, %.2f )", side.x, side.y, side.z);
-		ImGui::InputFloat("zNear Plane", &App->camera->frustum.nearPlaneDistance);
-		ImGui::InputFloat("zFar Plane", &App->camera->frustum.farPlaneDistance);
-		ImGui::InputFloat("keys movement speed", &App->camera->movementSpeed);
-		ImGui::InputFloat("mouse rotation speed", &App->camera->mouseRotSpeed);
-	}
-	//module program
-	/*if (ImGui::CollapsingHeader("Program"))
-	{
-		ImGui::Text("Not much to be shown about this module.");
-	}*/
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 20));

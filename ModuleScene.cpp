@@ -14,7 +14,7 @@ ModuleScene::~ModuleScene()
 bool ModuleScene::Init() {
 	baseObject =  new GameObject ("BaseObject");
 	//i could also declare the editor camera here
-	objects.push_back(baseObject);
+	baseObjects.push_back(baseObject);
 	return true;
 }
 
@@ -43,6 +43,7 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 		if (ImGui::Button("Delete"))
 		{
 			go->deleteObject();
+			objectSelected = nullptr;
 		}
 		ImGui::EndPopup();
 	}

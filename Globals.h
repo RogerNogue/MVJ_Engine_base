@@ -24,7 +24,7 @@ enum component_type {
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1200
+#define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 1000
 #define FULLSCREEN false
 #define BORDERLESS false

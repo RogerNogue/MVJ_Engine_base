@@ -1,4 +1,3 @@
-
 #ifndef __ModuleGameObject_H__
 #define __ModuleGameObject_H__
 
@@ -39,5 +38,7 @@ public:
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
 
+private:
+	bool bbCreated = false;
 };
 #endif

@@ -10,6 +10,8 @@
 #include "ModuleMenu.h"
 #include "ComponentCamera.h"
 #include "ModuleModelLoader.h"
+#include "MathGeoLib.h"
+#include "ModuleScene.h"
 
 // *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 // Licensed under Apache License 2.0 (NO WARRANTY, etc. see website)
@@ -34,9 +36,9 @@ GameObject::GameObject(char* n) :
 	active = true;
 	hascamera = hasmesh = hasmaterial = false;
 	id = pcg32_random_r(&pcg32_random_t());
-	ComponentTransform c(this);
-	transform = &c;	
+	transform = new ComponentTransform(this);	
 	camera = nullptr;
+	//App->scene->allObjects.push_back(this);
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
@@ -47,7 +49,10 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	active = true;
 	parent->children.push_back(this);
 	hascamera = hasmesh = hasmaterial = false;
+	id = pcg32_random_r(&pcg32_random_t());
+	transform = new ComponentTransform(this);
 	camera = nullptr;
+	//App->scene->allObjects.push_back(this);
 }
 
 GameObject::~GameObject()
@@ -107,8 +112,7 @@ void GameObject::createEmptyComponent(component_type type) {
 				delete[] b;
 			}
 			else {
-				ComponentCamera c(this);
-				camera = &c;
+				camera = new ComponentCamera(this);
 				hascamera = true;
 			}
 			break;
@@ -131,5 +135,7 @@ void GameObject::createEmptyComponent(component_type type) {
 }
 
 void GameObject::calculateAABB() {
+	if(bbCreated)	boundingBox.Transform(transform->transformMatrix);
 	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
+	bbCreated = true;
 }

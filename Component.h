@@ -20,7 +20,7 @@ public:
 
 	//variables
 	component_type type;
-	GameObject* dad;
+	GameObject* dad = nullptr;
 	bool active;
 };
 #endif
