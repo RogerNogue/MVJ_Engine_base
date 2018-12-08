@@ -12,6 +12,8 @@
 #include "ModuleModelLoader.h"
 #include "MathGeoLib.h"
 #include "ModuleScene.h"
+#include "debugdraw.h"
+#include "ModuleDebugDraw.h"
 
 // *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 // Licensed under Apache License 2.0 (NO WARRANTY, etc. see website)
@@ -38,7 +40,8 @@ GameObject::GameObject(char* n) :
 	id = pcg32_random_r(&pcg32_random_t());
 	transform = new ComponentTransform(this);	
 	camera = nullptr;
-	//App->scene->allObjects.push_back(this);
+	minX = minY = minZ = -1;
+	maxX = maxY = maxZ = 1;
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
@@ -52,7 +55,8 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	id = pcg32_random_r(&pcg32_random_t());
 	transform = new ComponentTransform(this);
 	camera = nullptr;
-	//App->scene->allObjects.push_back(this);
+	minX = minY = minZ = -1;
+	maxX = maxY = maxZ = 1;
 }
 
 GameObject::~GameObject()
@@ -138,4 +142,22 @@ void GameObject::calculateAABB() {
 	if(bbCreated)	boundingBox.Transform(transform->transformMatrix);
 	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
 	bbCreated = true;
+}
+
+void GameObject::drawAABB() {
+	if (!bbDrawn) {
+		dd::aabb(boundingBox.minPoint, boundingBox.maxPoint, float3(0.5f, 0.5f, 0.0f));
+		App->debugDraw->Draw(App->camera, App->renderer->frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
+		bbDrawn = true;
+	}
+	else {
+		dd::aabb(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 0.0f), float3(0.5f, 0.5f, 0.0f));
+		App->debugDraw->Draw(App->camera, App->renderer->frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
+		bbDrawn = false;
+	}
+	
+}
+
+void GameObject::ChangeName(char* n) {
+	name = n;
 }

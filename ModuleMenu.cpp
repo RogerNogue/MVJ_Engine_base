@@ -165,6 +165,9 @@ update_status ModuleMenu::Update() {
 				ImGui::Text("No object selected");
 			}
 			else {
+				if (ImGui::Button("Toggle Bounding Box")) {
+					App->scene->objectSelected->drawAABB();
+				}
 				if (ImGui::CollapsingHeader("Transform"))
 				{
 					float movementSpeed = 50;
@@ -203,7 +206,9 @@ update_status ModuleMenu::Update() {
 					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
 					ImGui::PopID();
 
-
+					if (ImGui::Button("Place at (0,0,0)")) {
+						App->scene->objectSelected->transform->placeAt000();
+					}
 
 					App->scene->objectSelected->transform->Update();
 				}

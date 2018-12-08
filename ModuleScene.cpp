@@ -22,6 +22,28 @@ void ModuleScene::createGameObject(char* c) {
 	GameObject newObject(c);
 }
 void ModuleScene::setUpGameObjectMenu() {
+	bool creating = true;
+	ImGui::Button("Create");
+
+	if (creating)
+	{
+		if (ImGui::BeginPopupContextItem("create", 0))
+		{
+			if (ImGui::Button("Camera"))
+			{
+				//App->scene_intro->AddCamera();
+
+				creating = false;
+			}
+
+			if (ImGui::Button("Empty Object"))
+			{
+				GameObject* temp = new GameObject("New Object", baseObject);
+				creating = false;
+			}
+			ImGui::EndPopup();
+		}
+	}else creating = true;
 	for (int i = 0; i < baseObject->children.size(); ++i) {
 		paintGameObjectTree(baseObject->children[i]);
 	}
@@ -45,12 +67,16 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 			go->deleteObject();
 			objectSelected = nullptr;
 		}
+		if (ImGui::Button("Create child object"))
+		{
+			GameObject* temp = new GameObject("New Object", objectSelected);
+		}
 		ImGui::EndPopup();
 	}
 
 	if (children) {
 		for (int i = 0; i < go->children.size(); ++i) {
-			paintGameObjectTree(baseObject->children[i]);
+			paintGameObjectTree(go->children[i]);
 		}
 		ImGui::TreePop();
 	}

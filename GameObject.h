@@ -17,9 +17,10 @@ public:
 	~GameObject();
 	void deleteObject();
 	void deleteChild(unsigned idc);
-
 	void createEmptyComponent(component_type type);
 	void calculateAABB();
+	void drawAABB();
+	void ChangeName(char* n);
 
 	//variables
 	component_type type;
@@ -40,5 +41,6 @@ public:
 
 private:
 	bool bbCreated = false;
+	bool bbDrawn = false;
 };
 #endif

@@ -8,8 +8,8 @@ class ComponentTransform :
 public:
 	ComponentTransform(GameObject* dad);
 	~ComponentTransform();
-
 	update_status Update() override;
+	void placeAt000();
 
 	//variables
 	bool objectMoved = false;
