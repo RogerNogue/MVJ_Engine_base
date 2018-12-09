@@ -12,6 +12,10 @@
 #include "ModuleScene.h"
 #include "Brofiler.h"
 #include "ModuleDebugDraw.h"
+#include "pcg_variants.h"
+#include <time.h>
+
+pcg32_random_t random;
 
 using namespace std;
 
@@ -43,11 +47,16 @@ bool Application::Init()
 {
 	{ BROFILER_CATEGORY("Inits SHABALE", Profiler::Color::Peru)
 		bool ret = true;
+		pcg32_srandom_r(&random, time(NULL), (intptr_t)&random);
 
 		for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 			ret = (*it)->Init();
 		return ret;
 	}
+}
+
+unsigned int Application::generateID() {
+	return pcg32_random_r(&random);
 }
 
 update_status Application::Update()

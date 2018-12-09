@@ -8,7 +8,6 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
 class ComponentTransform;
-
 class GameObject
 {
 public:
@@ -24,7 +23,7 @@ public:
 
 	//variables
 	component_type type;
-	unsigned id;
+	unsigned int id;
 	bool active;
 	char* name;
 	bool hascamera;

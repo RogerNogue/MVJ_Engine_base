@@ -27,6 +27,7 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+	unsigned int generateID();
 
 public:
 	ModuleRender* renderer = nullptr;
