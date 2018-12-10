@@ -32,11 +32,11 @@ public:
 	bool hasmesh;
 	bool hasmaterial;
 	std::vector<ComponentMesh*> meshes;
-	ComponentCamera* camera;
+	ComponentCamera* camera = nullptr;
 	std::vector<ComponentMaterial*> materials;
-	ComponentTransform* transform;
+	ComponentTransform* transform = nullptr;
 	std::vector<GameObject*> children;
-	GameObject* parent;
+	GameObject* parent = nullptr;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
 
