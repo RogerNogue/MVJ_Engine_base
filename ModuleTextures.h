@@ -17,7 +17,7 @@ public:
 
 	bool Init() override;
 
-	unsigned Load(const char* path, bool mipmaps);
+	unsigned Load(const char* path, bool mipmaps, float* width, float* height);
 	void Unload(unsigned id);
 	ComponentMaterial createComponentMaterial(GameObject* dad);
 	unsigned createFrameBuffer(char* name, float width, float height);

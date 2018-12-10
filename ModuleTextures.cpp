@@ -29,7 +29,7 @@ bool ModuleTextures::Init()
 }
 
 // Load new texture from file path
-unsigned ModuleTextures::Load(const char* path, bool mipmaps)
+unsigned ModuleTextures::Load(const char* path, bool mipmaps, float* width, float* height)
 {
 	BROFILER_CATEGORY("Load texture", Profiler::Color::Cyan)
 	ILuint imageId;
@@ -59,7 +59,8 @@ unsigned ModuleTextures::Load(const char* path, bool mipmaps)
 		{
 			ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 		}
-
+		*width = ilGetInteger(IL_IMAGE_WIDTH);
+		*height = ilGetInteger(IL_IMAGE_HEIGHT);
 		ILubyte* data = ilGetData();
 		int width = ilGetInteger(IL_IMAGE_WIDTH);
 		int height = ilGetInteger(IL_IMAGE_HEIGHT);

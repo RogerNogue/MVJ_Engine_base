@@ -10,7 +10,6 @@ ComponentMesh::ComponentMesh(GameObject* dad)
 	active = true;
 }
 
-
 ComponentMesh::~ComponentMesh()
 {
 	if (mesh.vbo != 0)

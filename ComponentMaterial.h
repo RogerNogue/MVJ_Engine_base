@@ -12,6 +12,8 @@ public:
 	//data structures
 	struct myMaterial {
 		unsigned texture0 = 0;
+		float sizeX = 0;
+		float sizeY = 0;
 	};
 
 	//vars
