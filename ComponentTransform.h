@@ -17,7 +17,6 @@ public:
 	math::float3 rotationValues = math::float3(0, 0, 0);
 	math::float3 scaleValues = math::float3 (1,1,1);
 	math::float4x4 transformMatrix = math::float4x4::identity;
-
 };
 #endif
 
