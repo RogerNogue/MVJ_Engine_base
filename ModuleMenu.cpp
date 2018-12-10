@@ -171,7 +171,7 @@ update_status ModuleMenu::Update() {
 				strcpy_s(name, 150, App->scene->objectSelected->name);
 				ImGui::PushID("GO name");
 				ImGui::PushItemWidth(150);
-				if (ImGui::InputText("", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+				if (ImGui::InputText("Name", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 					App->scene->objectSelected->name = name;
 				ImGui::PopItemWidth();
 				ImGui::PopID();
