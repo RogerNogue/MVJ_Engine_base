@@ -20,11 +20,13 @@ public:
 	void calculateAABB();
 	void drawAABB();
 	void ChangeName(char* n);
+	void activeToggled();
 
 	//variables
 	component_type type;
 	unsigned int id;
 	bool active;
+	bool paintBB = false;
 	char* name;
 	bool hascamera;
 	bool hasmesh;
@@ -39,7 +41,6 @@ public:
 	AABB boundingBox;
 
 private:
-	bool bbCreated = false;
-	bool bbDrawn = false;
+	bool BBGenerated = false;
 };
 #endif

@@ -13,6 +13,8 @@
 #include "Brofiler.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMaterial.h"
+#include "ComponentMesh.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -165,8 +167,19 @@ update_status ModuleMenu::Update() {
 				ImGui::Text("No object selected");
 			}
 			else {
+				char name[150];
+				strcpy_s(name, 150, App->scene->objectSelected->name);
+				ImGui::PushID("GO name");
+				ImGui::PushItemWidth(150);
+				if (ImGui::InputText("", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+					App->scene->objectSelected->name = name;
+				ImGui::PopItemWidth();
+				ImGui::PopID();
+				if (ImGui::Checkbox("Active", &App->scene->objectSelected->active)) {
+					App->scene->objectSelected->activeToggled();
+				}
 				if (ImGui::Button("Toggle Bounding Box")) {
-					App->scene->objectSelected->drawAABB();
+					App->scene->objectSelected->paintBB = !App->scene->objectSelected->paintBB;
 				}
 				if (ImGui::CollapsingHeader("Transform"))
 				{
@@ -212,6 +225,33 @@ update_status ModuleMenu::Update() {
 
 					App->scene->objectSelected->transform->Update();
 				}
+				if (App->scene->objectSelected->hasmesh) {
+					if (ImGui::CollapsingHeader("Meshes")){
+						for (int i = 0; i < App->scene->objectSelected->meshes.size(); ++i) {
+							ImGui::Text("Mesh %d", i);
+							if (ImGui::Checkbox("Active", &App->scene->objectSelected->meshes[i]->active)) {
+								ImGui::Text("SHITO");
+							}
+							ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->meshes[i]->mesh.numVertices/3);
+						}
+					}
+				}
+				if (App->scene->objectSelected->hasmaterial) {
+					if (ImGui::CollapsingHeader("Materials"))
+					{
+						for (int i = 0; i < App->scene->objectSelected->materials.size(); ++i) {
+							ImGui::Text("Material %d", i);
+							if (ImGui::Checkbox("Active", &App->scene->objectSelected->materials[i]->active)) {
+								ImGui::Text("SHITO");
+							}
+							float matHeight = App->scene->objectSelected->materials[i]->material.sizeY;
+							float matWidth = App->scene->objectSelected->materials[i]->material.sizeX;
+							ImGui::Text("Material width = %f, height = %f", matWidth, matHeight);
+							ImVec2 imageSize = { matHeight *(menubarWidth/ matWidth), menubarWidth };
+							ImGui::Image((ImTextureID)App->scene->objectSelected->materials[i]->material.texture0, imageSize);
+						}
+					}
+				}
 			}
 			ImGui::EndTabItem();
 		}
@@ -239,9 +279,6 @@ update_status ModuleMenu::Update() {
 			App->modelLoader->unloadModels();
 			App->modelLoader->loadModel(3);
 		}
-		ImGui::Text("Current model properties:");
-		ImGui::BulletText("Triangle count = %.d", App->modelLoader->currentModelTriangleCount);
-		ImGui::BulletText("Position = ( %.2f, %.2f, %.2f )", App->camera->modelCenter.x, App->camera->modelCenter.y, App->camera->modelCenter.z);
 	}
 	//Object explorer
 	if (ImGui::CollapsingHeader("Object inspector"))

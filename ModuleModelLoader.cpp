@@ -168,10 +168,10 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	aiTextureMapping mapping;
 	unsigned uvindex = 0;
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
-		newMat->material.texture0 = App->textures->Load(file.data, false);
+		newMat->material.texture0 = App->textures->Load(file.data, false, &newMat->material.sizeX, &newMat->material.sizeY);
 	}
-	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("models/banana/banana.png", false);
-	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("models/shield/tex.png", false);
+	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("models/banana/banana.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
+	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("models/shield/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
 	
 	Obj->materials.push_back(newMat);
 	Obj->hasmaterial = true;

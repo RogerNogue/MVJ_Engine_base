@@ -26,6 +26,7 @@ GameObject::GameObject(char* n) :
 	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
+	App->scene->allObjects.push_back(this);
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
@@ -36,12 +37,12 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	active = true;
 	parent->children.push_back(this);
 	hascamera = hasmesh = hasmaterial = false;
-	//id = pcg32_random_r(&pcg32_random_t());
 	id = App->generateID();
 	transform = new ComponentTransform(this);
 	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
+	App->scene->allObjects.push_back(this);
 }
 
 GameObject::~GameObject()
@@ -124,25 +125,27 @@ void GameObject::createEmptyComponent(component_type type) {
 }
 
 void GameObject::calculateAABB() {
-	if(bbCreated)	boundingBox.Transform(transform->transformMatrix);
-	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
-	bbCreated = true;
-}
-
-void GameObject::drawAABB() {
-	if (!bbDrawn) {
-		dd::aabb(boundingBox.minPoint, boundingBox.maxPoint, float3(0.5f, 0.5f, 0.0f));
-		App->debugDraw->Draw(App->camera, App->renderer->frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
-		bbDrawn = true;
+	//boundingBox.Transform(transform->transformMatrix);
+	boundingBox.TransformAsAABB(transform->transformMatrix);
+	if (!BBGenerated) {
+		boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
+		BBGenerated = true;
 	}
-	else {
-		dd::aabb(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 0.0f), float3(0.5f, 0.5f, 0.0f));
-		App->debugDraw->Draw(App->camera, App->renderer->frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
-		bbDrawn = false;
-	}
-	
 }
 
 void GameObject::ChangeName(char* n) {
 	name = n;
+}
+
+void GameObject::activeToggled() {
+	for (int i = 0; i < meshes.size(); ++i) {
+		meshes[i]->active = active;
+	}
+	for (int i = 0; i < materials.size(); ++i) {
+		materials[i]->active = active;
+	}
+	if (hascamera) {
+		camera->active = active;
+	}
+	transform->active = active;
 }

@@ -16,6 +16,7 @@
 #include "ModuleDebugDraw.h"
 #include "imgui.h"
 #include "ComponentTransform.h"
+#include "ModuleScene.h"
 
 ModuleRender::ModuleRender()
 {
@@ -92,40 +93,48 @@ void ModuleRender::Draw()
 
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-		if (!App->modelLoader->allMeshes[j]->active) break;
-		glUseProgram(App->shaderProgram->programTexture);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->transform->transformMatrix[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-			"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
-		
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, App->modelLoader->allMeshes[j]->dad->materials[App->modelLoader->allMeshes[j]->mesh.material]->material.texture0);
-		glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+		if (App->modelLoader->allMeshes[j]->active) {
+			glUseProgram(App->shaderProgram->programTexture);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->transform->transformMatrix[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"view"), 1, GL_TRUE, &App->camera->view[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vbo);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->modelLoader->allMeshes[j]->mesh.numVertices * 3));
+			glActiveTexture(GL_TEXTURE0);
+			ComponentMaterial* temp = App->modelLoader->allMeshes[j]->dad->materials[App->modelLoader->allMeshes[j]->mesh.material];
+			if(temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
+			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vio);
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vbo);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->modelLoader->allMeshes[j]->mesh.numVertices * 3));
 
-		glDrawElements(GL_TRIANGLES, App->modelLoader->allMeshes[j]->mesh.numIndices, GL_UNSIGNED_INT, nullptr);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vio);
+
+			glDrawElements(GL_TRIANGLES, App->modelLoader->allMeshes[j]->mesh.numIndices, GL_UNSIGNED_INT, nullptr);
 
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glUseProgram(0);
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glUseProgram(0);
+		}
 	}
 	dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
 	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
+	//loop to paint all the bounding boxes
+	for (int i = 0; i < App->scene->allObjects.size(); ++i) {
+		if (App->scene->allObjects[i]->paintBB) {
+			dd::aabb(App->scene->allObjects[i]->boundingBox.minPoint, App->scene->allObjects[i]->boundingBox.maxPoint, float3(0.4f,0.8f,0.2f));
+		}
+	}
 
 	App->debugDraw->Draw(App->camera, frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
 	
