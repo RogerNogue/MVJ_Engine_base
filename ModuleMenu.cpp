@@ -252,6 +252,32 @@ update_status ModuleMenu::Update() {
 						}
 					}
 				}
+				bool loadModule = true;
+				ImGui::Button("Load model");
+
+				if (loadModule)
+				{
+					if (ImGui::BeginPopupContextItem("create", 0))
+					{
+						if (ImGui::Button("House")) {
+							App->modelLoader->unloadModels();
+							App->modelLoader->loadModel(1, App->scene->objectSelected);
+							loadModule = false;
+						}
+						if (ImGui::Button("Banana")) {
+							App->modelLoader->unloadModels();
+							App->modelLoader->loadModel(2, App->scene->objectSelected);
+							loadModule = false;
+						}
+						if (ImGui::Button("Shield")) {
+							App->modelLoader->unloadModels();
+							App->modelLoader->loadModel(3, App->scene->objectSelected);
+							loadModule = false;
+						}
+						ImGui::EndPopup();
+					}
+				}
+				else loadModule = true;
 			}
 			ImGui::EndTabItem();
 		}
@@ -265,21 +291,6 @@ update_status ModuleMenu::Update() {
 
 	//going over all the menus
 	//App info
-	if (ImGui::CollapsingHeader("Model loader"))
-	{
-		if (ImGui::Button("House")) {
-			App->modelLoader->unloadModels();
-			App->modelLoader->loadModel(1);
-		}
-		if (ImGui::Button("Banana")) {
-			App->modelLoader->unloadModels();
-			App->modelLoader->loadModel(2);
-		}
-		if (ImGui::Button("Shield")) {
-			App->modelLoader->unloadModels();
-			App->modelLoader->loadModel(3);
-		}
-	}
 	//Object explorer
 	if (ImGui::CollapsingHeader("Object inspector"))
 	{

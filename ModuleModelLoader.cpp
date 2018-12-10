@@ -37,7 +37,7 @@ void ModuleModelLoader::unloadTexture(unsigned tex0) {
 	App->textures->Unload(tex0);
 }
 
-void ModuleModelLoader::loadModel(unsigned model) {	
+void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 	BROFILER_CATEGORY("Model loading", Profiler::Color::Lime)
 	const aiScene* scene;
 	currentModel = model;
@@ -74,7 +74,9 @@ void ModuleModelLoader::loadModel(unsigned model) {
 	App->menu->console.AddLog(b);
 	delete[] b;
 	//game object creation and fill of its mesh and material components
-	GameObject* Obj = new GameObject(modelName, App->scene->baseObject);
+	GameObject* Obj;
+	if(object == nullptr)Obj = new GameObject(modelName, App->scene->baseObject);
+	else Obj = object;
 
 	Obj->minX = Obj->maxX = scene->mMeshes[0]->mVertices[0].x;
 	Obj->minY = Obj->maxY = scene->mMeshes[0]->mVertices[0].y;

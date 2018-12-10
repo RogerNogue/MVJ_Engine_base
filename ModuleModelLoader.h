@@ -19,7 +19,7 @@ public:
 	ModuleModelLoader();
 	~ModuleModelLoader();
 
-	void loadModel(unsigned model);
+	void loadModel(unsigned model, GameObject* object);
 	void unloadModels();
 	void deleteVBO(unsigned vbo);
 	void deleteVIO(unsigned vio);
