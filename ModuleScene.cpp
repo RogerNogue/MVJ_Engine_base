@@ -54,6 +54,8 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 
 	flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
 
+	if(objectSelected != nullptr && objectSelected->id == go->id) flags |= ImGuiTreeNodeFlags_Selected;
+
 	bool children = ImGui::TreeNodeEx(go->name, flags);
 
 	if (ImGui::IsItemClicked(0))

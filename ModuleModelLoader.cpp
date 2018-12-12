@@ -21,12 +21,12 @@
 
 ModuleModelLoader::ModuleModelLoader()
 {
-	LoadSphere("sphere0", math::float3(1.0f, 1.0f, 1.0f), math::Quat::identity, 1.0f, 20, 20, math::float4(0.5f, 0.0f, 0.5f, 1.0f));
+	/*LoadSphere("sphere0", math::float3(1.0f, 1.0f, 1.0f), math::Quat::identity, 1.0f, 20, 20, math::float4(0.5f, 0.0f, 0.5f, 1.0f));
 	materials.back().k_specular = 0.9f;
 	materials.back().shininess = 64.0f;
 	materials.back().k_specular = 0.6f;
 	materials.back().k_diffuse = 0.5f;
-	materials.back().k_ambient = 1.0f;
+	materials.back().k_ambient = 1.0f;*/
 }
 
 

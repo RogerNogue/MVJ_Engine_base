@@ -169,10 +169,11 @@ update_status ModuleMenu::Update() {
 			else {
 				char name[150];
 				strcpy_s(name, 150, App->scene->objectSelected->name);
-				ImGui::PushID("GO name");
-				ImGui::PushItemWidth(150);
-				if (ImGui::InputText("Name", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+				ImGui::PushID("Object name");
+				ImGui::PushItemWidth(200);
+				if (ImGui::InputText("Name", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll)) {
 					App->scene->objectSelected->name = name;
+				}
 				ImGui::PopItemWidth();
 				ImGui::PopID();
 				if (ImGui::Checkbox("Active", &App->scene->objectSelected->active)) {
@@ -229,9 +230,7 @@ update_status ModuleMenu::Update() {
 					if (ImGui::CollapsingHeader("Meshes")){
 						for (int i = 0; i < App->scene->objectSelected->meshes.size(); ++i) {
 							ImGui::Text("Mesh %d", i);
-							if (ImGui::Checkbox("Active", &App->scene->objectSelected->meshes[i]->active)) {
-								ImGui::Text("SHITO");
-							}
+							ImGui::Checkbox("Active", &App->scene->objectSelected->meshes[i]->active);
 							ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->meshes[i]->mesh.numVertices/3);
 						}
 					}
