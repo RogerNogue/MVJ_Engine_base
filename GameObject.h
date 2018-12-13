@@ -26,6 +26,7 @@ public:
 	component_type type;
 	unsigned int id;
 	bool active;
+	bool isStatic = true;
 	bool paintBB = false;
 	char* name;
 	bool hascamera;

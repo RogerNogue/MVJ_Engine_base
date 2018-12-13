@@ -20,7 +20,21 @@ ComponentTransform::ComponentTransform(GameObject* dad)
 	}
 	
 	transformMatrix = math::float4x4::identity;
-	transformMatrix.Set(float4x4::FromTRS(positionValues, Quat::FromEulerXYZ(rotationValues.x, rotationValues.y, rotationValues.z), scaleValues));
+	if (dad->parent != nullptr) {
+		//transformMatrix = transformMatrix * dad->parent->transform->transformMatrix;
+		float3 temporalRot = float3(rotationValues.x + dad->parent->transform->rotationValues.x,
+			rotationValues.y + dad->parent->transform->rotationValues.y,
+			rotationValues.z + dad->parent->transform->rotationValues.z);
+		transformMatrix.Set(float4x4::FromTRS(
+			positionValues + dad->parent->transform->positionValues,
+			Quat::FromEulerXYZ(temporalRot.x, temporalRot.y, temporalRot.z),
+			float3 (scaleValues.x * dad->parent->transform->scaleValues.x,
+					scaleValues.y * dad->parent->transform->scaleValues.y,
+					scaleValues.z * dad->parent->transform->scaleValues.z)));
+	}
+	else {
+		transformMatrix.Set(float4x4::FromTRS(positionValues, Quat::FromEulerXYZ(rotationValues.x, rotationValues.y, rotationValues.z), scaleValues));
+	}
 }
 
 
@@ -39,7 +53,9 @@ update_status ComponentTransform::Update() {
 			transformMatrix.Set(float4x4::FromTRS(
 				positionValues + dad->parent->transform->positionValues,
 				Quat::FromEulerXYZ(temporalRot.x, temporalRot.y, temporalRot.z),
-				scaleValues + dad->parent->transform->scaleValues));
+				float3(	scaleValues.x * dad->parent->transform->scaleValues.x,
+						scaleValues.y * dad->parent->transform->scaleValues.y,
+						scaleValues.z * dad->parent->transform->scaleValues.z)));
 		}
 		else {
 			transformMatrix.Set(float4x4::FromTRS(positionValues, Quat::FromEulerXYZ(rotationValues.x, rotationValues.y, rotationValues.z), scaleValues));

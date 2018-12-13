@@ -176,47 +176,63 @@ update_status ModuleMenu::Update() {
 				}
 				if (ImGui::CollapsingHeader("Transform"))
 				{
-					float movementSpeed = 50;
-					ImGui::Text("Position");
-					ImGui::PushID("1");
-					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->positionValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("2");
-					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->positionValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("3");
-					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->positionValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
+					ImGui::Checkbox("Static", &App->scene->objectSelected->isStatic);
+					if (App->scene->objectSelected->isStatic) {
+						ImGui::Text("Position");
+						ImGui::BulletText("X = %.1f", App->scene->objectSelected->transform->positionValues.x);
+						ImGui::BulletText("Y = %.1f", App->scene->objectSelected->transform->positionValues.y);
+						ImGui::BulletText("Z = %.1f", App->scene->objectSelected->transform->positionValues.z);
+						ImGui::Text("Rotation");
+						ImGui::BulletText("X = %.0f", App->scene->objectSelected->transform->rotationValues.x);
+						ImGui::BulletText("Y = %.0f", App->scene->objectSelected->transform->rotationValues.y);
+						ImGui::BulletText("Z = %.0f", App->scene->objectSelected->transform->rotationValues.z);
+						ImGui::Text("Scale");
+						ImGui::BulletText("X = %.1f", App->scene->objectSelected->transform->scaleValues.x);
+						ImGui::BulletText("Y = %.1f", App->scene->objectSelected->transform->scaleValues.y);
+						ImGui::BulletText("Z = %.1f", App->scene->objectSelected->transform->scaleValues.z);
+					}else{
+						float movementSpeed = 50;
+						ImGui::Text("Position");
+						ImGui::PushID("1");
+						if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->positionValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("2");
+						if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->positionValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("3");
+						if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->positionValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
 
-					movementSpeed = 5;
-					ImGui::Text("Rotation");
-					ImGui::PushID("4");
-					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->rotationValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("5");
-					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->rotationValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("6");
-					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->rotationValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
+						movementSpeed = 5;
+						ImGui::Text("Rotation");
+						ImGui::PushID("4");
+						if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->rotationValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("5");
+						if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->rotationValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("6");
+						if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->rotationValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
 
-					movementSpeed = 2;
-					ImGui::Text("Scale");
-					ImGui::PushID("7");
-					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->scaleValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("8");
-					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->scaleValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
-					ImGui::PushID("9");
-					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
-					ImGui::PopID();
+						movementSpeed = 2;
+						ImGui::Text("Scale");
+						ImGui::PushID("7");
+						if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->scaleValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("8");
+						if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->scaleValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
+						ImGui::PushID("9");
+						if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+						ImGui::PopID();
 
-					if (ImGui::Button("Place at (0,0,0)")) {
-						App->scene->objectSelected->transform->placeAt000();
+						if (ImGui::Button("Place at (0,0,0)")) {
+							App->scene->objectSelected->transform->placeAt000();
+						}
+
+						App->scene->objectSelected->transform->Update();
 					}
-
-					App->scene->objectSelected->transform->Update();
 				}
 				if (App->scene->objectSelected->hasmesh) {
 					if (ImGui::CollapsingHeader("Meshes")){
