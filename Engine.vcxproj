@@ -162,6 +162,8 @@
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleTimer.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="QuadNode.h" />
+    <ClInclude Include="QuadTreeGnoblin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -221,6 +223,8 @@
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleTimer.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="QuadNode.cpp" />
+    <ClCompile Include="QuadTreeGnoblin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Default.fs" />
