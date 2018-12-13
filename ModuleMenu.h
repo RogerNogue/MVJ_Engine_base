@@ -54,10 +54,10 @@ public:
 	ExampleAppLog console;
 private:
 	void updateFramerates();
-
 	//variables
 	ImVec2 viewportSize;
 	float menubarWidth, menubarHeight;
+	bool nameCopied = false;
 };
 
 #endif /* __ModuleMenu_h__ */

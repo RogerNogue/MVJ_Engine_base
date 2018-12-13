@@ -167,15 +167,7 @@ update_status ModuleMenu::Update() {
 				ImGui::Text("No object selected");
 			}
 			else {
-				char name[150];
-				strcpy_s(name, 150, App->scene->objectSelected->name);
-				ImGui::PushID("Object name");
-				ImGui::PushItemWidth(200);
-				if (ImGui::InputText("Name", name, 150, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll)) {
-					App->scene->objectSelected->name = name;
-				}
-				ImGui::PopItemWidth();
-				ImGui::PopID();
+				ImGui::InputText("", App->scene->objectSelected->name, 150);
 				if (ImGui::Checkbox("Active", &App->scene->objectSelected->active)) {
 					App->scene->objectSelected->activeToggled();
 				}
