@@ -18,7 +18,6 @@ public:
 	void deleteChild(unsigned idc);
 	void createEmptyComponent(component_type type);
 	void calculateAABB();
-	void drawAABB();
 	void ChangeName(char* n);
 	void activeToggled();
 	void staticToggled(bool first);

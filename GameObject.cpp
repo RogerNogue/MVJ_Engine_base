@@ -125,12 +125,8 @@ void GameObject::createEmptyComponent(component_type type) {
 }
 
 void GameObject::calculateAABB() {
-	//boundingBox.Transform(transform->transformMatrix);
+	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
 	boundingBox.TransformAsAABB(transform->transformMatrix);
-	if (!BBGenerated) {
-		boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
-		BBGenerated = true;
-	}
 }
 
 void GameObject::ChangeName(char* n) {
