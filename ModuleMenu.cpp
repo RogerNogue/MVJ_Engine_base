@@ -176,7 +176,16 @@ update_status ModuleMenu::Update() {
 				}
 				if (ImGui::CollapsingHeader("Transform"))
 				{
-				ImGui::Checkbox("Static", &App->scene->objectSelected->isStatic);
+					//if parent is 
+					if (App->scene->objectSelected->parent == App->scene->baseObject) {
+						if (ImGui::Checkbox("Static", &App->scene->objectSelected->isStatic)) {
+							App->scene->objectSelected->staticToggled(true);
+						}
+					}
+					else if(App->scene->objectSelected->parent->isStatic) ImGui::Text("Parent is Static");
+					else ImGui::Text("Parent is Dynamic");
+					
+
 					float movementSpeed = 50;
 					ImGui::Text("Position");
 					ImGui::PushID("1");
@@ -216,7 +225,6 @@ update_status ModuleMenu::Update() {
 					if (ImGui::Button("Place at (0,0,0)")) {
 						App->scene->objectSelected->transform->placeAt000();
 					}
-
 					App->scene->objectSelected->transform->Update();
 				}
 				if (App->scene->objectSelected->hasmesh) {

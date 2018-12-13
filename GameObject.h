@@ -21,6 +21,7 @@ public:
 	void drawAABB();
 	void ChangeName(char* n);
 	void activeToggled();
+	void staticToggled(bool first);
 
 	//variables
 	component_type type;

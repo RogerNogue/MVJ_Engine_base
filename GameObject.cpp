@@ -149,3 +149,10 @@ void GameObject::activeToggled() {
 	}
 	transform->active = active;
 }
+
+void GameObject::staticToggled(bool first) {
+	if(!first)isStatic = !isStatic;
+	for (int i = 0; i < children.size(); ++i) {
+		children[i]->staticToggled(false);
+	}
+}
