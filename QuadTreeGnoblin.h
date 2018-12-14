@@ -13,6 +13,10 @@ public:
 	void Clear();
 	void Insert(GameObject* obj);
 	void CollectIntersect(std::vector<GameObject*>& objects, QuadNode& node);
+
+	//variables
+	bool active = false;
+	QuadNode* rootNode = nullptr;
 	
 };
 
