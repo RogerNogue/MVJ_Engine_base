@@ -1,6 +1,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "imgui.h"
+#include "QuadTreeGnoblin.h"
 
 ModuleScene::ModuleScene()
 {
@@ -12,6 +13,11 @@ ModuleScene::~ModuleScene()
 }
 
 bool ModuleScene::Init() {
+	//creating quad tree of the scene
+	sceneBoundingBox = AABB(float3(-50, -50, -50), float3(50, 50, 50));
+	quadTree = new QuadTreeGnoblin();
+	quadTree->Create(sceneBoundingBox);
+
 	baseObject =  new GameObject ("BaseObject");
 	//i could also declare the editor camera here
 	allObjects.push_back(baseObject);
@@ -83,4 +89,8 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 		ImGui::TreePop();
 	}
 	
+}
+
+void ModuleScene::addIntoQuadTree(GameObject* obj) {
+	quadTree->Insert(obj);
 }

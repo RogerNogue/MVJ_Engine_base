@@ -14,6 +14,7 @@
 #include "ModuleScene.h"
 #include "debugdraw.h"
 #include "ModuleDebugDraw.h"
+#include "QuadNode.h"
 
 GameObject::GameObject(char* n) :
 	name(n),
@@ -27,6 +28,7 @@ GameObject::GameObject(char* n) :
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
 	App->scene->allObjects.push_back(this);
+	updateQuadTree();
 }
 
 GameObject::GameObject(char* n, GameObject* parent) :
@@ -43,6 +45,7 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
 	App->scene->allObjects.push_back(this);
+	updateQuadTree();
 }
 
 GameObject::~GameObject()
@@ -127,6 +130,7 @@ void GameObject::createEmptyComponent(component_type type) {
 void GameObject::calculateAABB() {
 	boundingBox = math::AABB(float3(minX, minY, minZ), float3(maxX, maxY, maxZ));
 	boundingBox.TransformAsAABB(transform->transformMatrix);
+	updateQuadTree();
 }
 
 void GameObject::ChangeName(char* n) {
@@ -151,4 +155,12 @@ void GameObject::staticToggled(bool first) {
 	for (int i = 0; i < children.size(); ++i) {
 		children[i]->staticToggled(false);
 	}
+}
+
+void GameObject::updateQuadTree() {
+	for (int i = nodesItAppears.size() - 1; i >= 0 ; --i) {
+		nodesItAppears[i]->deleteObject(this);
+		nodesItAppears.pop_back();
+	}
+	App->scene->addIntoQuadTree(this);
 }

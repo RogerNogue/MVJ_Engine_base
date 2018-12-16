@@ -8,6 +8,7 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
 class ComponentTransform;
+class QuadNode;
 class GameObject
 {
 public:
@@ -21,6 +22,7 @@ public:
 	void ChangeName(char* n);
 	void activeToggled();
 	void staticToggled(bool first);
+	void updateQuadTree();
 
 	//variables
 	component_type type;
@@ -40,6 +42,7 @@ public:
 	GameObject* parent = nullptr;
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
+	std::vector<QuadNode*> nodesItAppears;
 
 private:
 	bool BBGenerated = false;

@@ -2,89 +2,137 @@
 #include "GameObject.h"
 
 
-QuadNode::QuadNode(float3 min, float3 max):
-	minPointArea(min),
-	maxPointArea(max)
+QuadNode::QuadNode(AABB section)
 {
+	area = AABB(float3(section.minPoint.x, 0, section.minPoint.z), float3(section.maxPoint.x, 0, section.maxPoint.z));
+	treeDepth = 1;
 }
 
-QuadNode::QuadNode(float3 min, float3 max, QuadNode* parent):
-minPointArea(min),
-maxPointArea(max),
+QuadNode::QuadNode(AABB section, QuadNode* parent):
 parent(parent),
 rootNode(true)
 {
+	area = AABB(float3(section.minPoint.x, 0, section.minPoint.z), float3(section.maxPoint.x, 0, section.maxPoint.z));
+	treeDepth = parent->treeDepth + 1;
 }
 
 QuadNode::~QuadNode()
 {
 }
 
-void QuadNode::addNode(float3 min, float3 max) {
-	std::vector<float3> corners;
-	corners.push_back(min); corners.push_back(max);
-	corners.push_back(float3(min.x, 0, max.z));
-	corners.push_back(float3(max.x, 0, min.z));
+void QuadNode::addNode(GameObject* node) {
+	//case tree is already at max depth:
+	if (treeDepth >= maxDepth) {
+		belongings.push_back(node);
+		node->nodesItAppears.push_back(this);
+		return;
+	}
+	AABB area1, area2, area3, area4;
+	float3 center = area.CenterPoint();
 	//checking in how many of the 4 sections of the area the new item belongs
-	//then we either create the new child or repeat the process for 
-	//every child it belongs
-	bool belongs1, belongs2, belongs3, belongs4;
-	belongs1 = belongs2 = belongs3 = belongs4 = false;
-	//get the boundaries of each child. If we dont have them, we calculate them
-	float3 minArea1, maxArea1, minArea2, maxArea2, minArea3, maxArea3, minArea4, maxArea4;
-	float3 center(minPointArea.x + (maxPointArea.x - minPointArea.x)/2, 0, minPointArea.z + (maxPointArea.z - minPointArea.z) / 2);
 	if (child1 != nullptr) {
-		minArea1 = child1->minPointArea; maxArea1 = child1->maxPointArea;
+		area1 = child1->area;
 	}else {
-		minArea1 = float3(minPointArea.x, 0, center.z);
-		maxArea1 = float3(center.x, 0, maxPointArea.z);
+		area1 = AABB(float3(area.minPoint.x, 0, center.z), float3(center.x, 0, area.maxPoint.z) );
 	}
 	if (child2 != nullptr) {
-		minArea2 = child2->minPointArea; maxArea2 = child2->maxPointArea;
+		area2 = child2->area;
 	}else {
-		minArea2 = center;
-		maxArea2 = float3(maxPointArea.x, 0, maxPointArea.z);
+		area2 = AABB(center, area.maxPoint);
 	}
 	if (child3 != nullptr) {
-		minArea3 = child3->minPointArea; maxArea3 = child3->maxPointArea;
+		area3 = child3->area;
 	}else {
-		minArea3 = float3(center.x, 0, minPointArea.z);
-		maxArea3 = float3(maxPointArea.x, 0, center.z);
+		area3 = AABB(float3(center.x, 0, area.minPoint.z), float3(area.maxPoint.x, 0, center.z));
 	}
 	if (child4 != nullptr) {
-		minArea4 = child4->minPointArea; maxArea4 = child4->maxPointArea;
+		area4 = child4->area;
 	}else {
-		minArea4 = float3(minPointArea.x, 0, minPointArea.z);
-		maxArea4 = center;
+		area4 = AABB(area.minPoint, center);
 	}
-	for (int i = 0; i < corners.size(); ++i) {
-		if (!belongs1 && corners[i].x > minArea1.x && corners[i].x < maxArea1.x && corners[i].z > minArea1.y && corners[i].z < maxArea1.x) {
-			//if child not created yet
-			if (child1 == nullptr) {
-				child1 = new QuadNode(minArea1, maxArea1, this);
-			}
-			belongs1 = true;
+	/*
+	now that the 4 areas are defined, the object will be intersected with
+	each one of them and then treated according the situation:
+	- if does not intersect, nothing is done
+	- if intersects and is not leaf, get into the leaf recursively before doing next checks
+	- if intersects and is leaf, check if leaf is full: if isn't just place the item reference
+			if it is full, create a new leaf. Also keep in mint maxDepth value
+	*/
+	if (node->boundingBox.Intersects(area1)) {
+		//intersects, checking if it can just be placed and leave
+		if (belongings.size() < maxObjectsPerNode) {
+			//case we can just place object and leave
+			belongings.push_back(node);
+			node->nodesItAppears.push_back(this);
 		}
-		if (!belongs2 && corners[i].x > minArea2.x && corners[i].x < maxArea2.x && corners[i].z > minArea2.y && corners[i].z < maxArea2.x) {
-			//if child not created yet
-			if (child2 == nullptr) {
-				child2 = new QuadNode(minArea2, maxArea2, this);
-			}
-			belongs2 = true;
+		else if (child1 == nullptr) {
+			//if not, we just create a child and place node there
+			child1 = new QuadNode(area1, this);
+			child1->addNode(node);
+		}else {
+			//if has a child, we just tell it to add the object
+			child1->addNode(node);
 		}
-		if (!belongs3 && corners[i].x > minArea3.x && corners[i].x < maxArea3.x && corners[i].z > minArea3.y && corners[i].z < maxArea3.x) {
-			//if child not created yet
-			if (child3 == nullptr) {
-				child3 = new QuadNode(minArea3, maxArea3, this);
+	}
+	//and do the same for each section
+	//section2
+	if (node->boundingBox.Intersects(area2)) {
+		if (child2 == nullptr) {
+			if (belongings.size() < maxObjectsPerNode) {
+				belongings.push_back(node);
+				node->nodesItAppears.push_back(this);
 			}
-			belongs3 = true;
-		}
-		if (!belongs4 && corners[i].x > minArea4.x && corners[i].x < maxArea4.x && corners[i].z > minArea4.y && corners[i].z < maxArea4.x) {
-			//if child not created yet
-			if (child4 == nullptr) {
-				child4 = new QuadNode(minArea4, maxArea4, this);
+			else {
+				child2 = new QuadNode(area2, this);
+				child2->addNode(node);
 			}
-			belongs4 = true;
 		}
+		else {
+			child2->addNode(node);
+		}
+	}
+	//section3
+	if (node->boundingBox.Intersects(area3)) {
+		if (child3 == nullptr) {
+			if (belongings.size() < maxObjectsPerNode) {
+				belongings.push_back(node);
+				node->nodesItAppears.push_back(this);
+			}
+			else {
+				child3 = new QuadNode(area3, this);
+				child3->addNode(node);
+			}
+		}
+		else {
+			child3->addNode(node);
+		}
+	}
+	//section4
+	if (node->boundingBox.Intersects(area4)) {
+		if (child4 == nullptr) {
+			if (belongings.size() < maxObjectsPerNode) {
+				belongings.push_back(node);
+				node->nodesItAppears.push_back(this);
+			}
+			else {
+				child4 = new QuadNode(area4, this);
+				child4->addNode(node);
+			}
+		}
+		else {
+			child4->addNode(node);
+		}
+	}
+}
+
+void QuadNode::deleteObject(GameObject* obj) {
+	for (int i = 0; i < belongings.size(); ++i) {
+		if (belongings[i]->id == obj->id) belongings.erase(belongings.begin() + i);
+	}
+}
+
+void QuadNode::getIntersections(std::vector<GameObject*>& objects) {
+	for (int i = 0; i < belongings.size(); ++i) {
+		objects.push_back(belongings[i]);
 	}
 }

@@ -6,15 +6,16 @@ class GameObject;
 class QuadNode
 {
 public:
-	QuadNode(float3 min, float3 max, QuadNode* parent);
-	QuadNode(float3 min, float3 max);
+	QuadNode(AABB section, QuadNode* parent);
+	QuadNode(AABB section);
 	~QuadNode();
-	void addNode(float3 min, float3 max);
+	void addNode(GameObject* node);
+	void deleteObject(GameObject* obj);
+	void getIntersections(std::vector<GameObject*>& objects);
 
 	//variables
 	bool rootNode = false;
-	float3 minPointArea;
-	float3 maxPointArea;
+	AABB area;
 	QuadNode* parent = nullptr;
 	//north west child
 	QuadNode* child1 = nullptr;
@@ -24,6 +25,11 @@ public:
 	QuadNode* child3 = nullptr;
 	//south west child
 	QuadNode* child4 = nullptr;
+	int treeDepth;
+	int maxDepth = 50;
+	int maxObjectsPerNode = 2;
 	std::vector <GameObject*> belongings;
+private:
+	bool leaf = true;
 };
 #endif
