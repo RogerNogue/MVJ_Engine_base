@@ -12,6 +12,7 @@ public:
 	void addNode(GameObject* node);
 	void deleteObject(GameObject* obj);
 	void getIntersections(std::vector<GameObject*>& objects);
+	void drawTree();
 
 	//variables
 	bool rootNode = false;

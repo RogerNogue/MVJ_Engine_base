@@ -14,7 +14,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init() {
 	//creating quad tree of the scene
-	sceneBoundingBox = AABB(float3(-50, -50, -50), float3(50, 50, 50));
+	sceneBoundingBox = AABB(float3(-30, -20, -30), float3(30, 20, 30));
 	quadTree = new QuadTreeGnoblin();
 	quadTree->Create(sceneBoundingBox);
 
@@ -29,6 +29,7 @@ void ModuleScene::createGameObject(char* c) {
 }
 void ModuleScene::setUpGameObjectMenu() {
 	bool creating = true;
+	ImGui::Checkbox("Draw scene quad tree", &drawQuadTree);
 	ImGui::Button("Create");
 
 	if (creating)

@@ -1,6 +1,6 @@
 #include "QuadNode.h"
 #include "GameObject.h"
-
+#include "debugdraw.h"
 
 QuadNode::QuadNode(AABB section)
 {
@@ -135,4 +135,16 @@ void QuadNode::getIntersections(std::vector<GameObject*>& objects) {
 	for (int i = 0; i < belongings.size(); ++i) {
 		objects.push_back(belongings[i]);
 	}
+}
+
+void QuadNode::drawTree() {
+	const ddVec3 treeColor = { 0.4f, 0.4f, 0.8f };
+	float3 minpoint(area.minPoint.x, -20, area.minPoint.z);
+	float3 maxpoint(area.maxPoint.x, 20, area.maxPoint.z);
+	dd::aabb(minpoint, maxpoint, treeColor);
+
+	if (child1 != nullptr) child1->drawTree();
+	if (child2 != nullptr) child2->drawTree();
+	if (child3 != nullptr) child3->drawTree();
+	if (child4 != nullptr) child4->drawTree();
 }

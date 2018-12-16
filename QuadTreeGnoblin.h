@@ -13,6 +13,7 @@ public:
 	void Clear();
 	void Insert(GameObject* obj);
 	void CollectIntersect(std::vector<GameObject*>& objects, QuadNode& node);
+	void DrawQuadTree();
 
 	//variables
 	bool active = false;

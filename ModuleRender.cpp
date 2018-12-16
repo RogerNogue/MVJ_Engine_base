@@ -17,6 +17,7 @@
 #include "imgui.h"
 #include "ComponentTransform.h"
 #include "ModuleScene.h"
+#include "QuadTreeGnoblin.h"
 
 ModuleRender::ModuleRender()
 {
@@ -134,6 +135,10 @@ void ModuleRender::Draw()
 		if (App->scene->allObjects[i]->paintBB) {
 			dd::aabb(App->scene->allObjects[i]->boundingBox.minPoint, App->scene->allObjects[i]->boundingBox.maxPoint, float3(0.4f,0.8f,0.2f));
 		}
+	}
+	//check if quad tree is to be painted
+	if (App->scene->drawQuadTree) {
+		App->scene->quadTree->DrawQuadTree();
 	}
 
 	App->debugDraw->Draw(App->camera, frameBuffer, App->camera->screenWidth, App->camera->screenHeight);

@@ -1,8 +1,6 @@
 #include "QuadTreeGnoblin.h"
 #include "QuadNode.h"
 
-
-
 QuadTreeGnoblin::QuadTreeGnoblin()
 {
 }
@@ -27,4 +25,8 @@ void QuadTreeGnoblin::CollectIntersect(std::vector<GameObject*>& objects, QuadNo
 
 void QuadTreeGnoblin::Insert(GameObject* obj) {
 	rootNode->addNode(obj);
+}
+
+void QuadTreeGnoblin::DrawQuadTree() {
+	rootNode->drawTree();
 }

@@ -25,6 +25,7 @@ public:
 	GameObject* baseObject = nullptr;
 	std::vector<GameObject*> allObjects;
 	QuadTreeGnoblin* quadTree;
+	bool drawQuadTree = false;
 private:
 	AABB sceneBoundingBox;
 	void paintGameObjectTree(GameObject* go);
