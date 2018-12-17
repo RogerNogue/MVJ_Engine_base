@@ -1,6 +1,8 @@
 #include "QuadNode.h"
 #include "GameObject.h"
 #include "debugdraw.h"
+#include "Application.h"
+#include "ModuleMenu.h"
 
 QuadNode::QuadNode(AABB section)
 {
@@ -8,16 +10,27 @@ QuadNode::QuadNode(AABB section)
 	treeDepth = 1;
 }
 
-QuadNode::QuadNode(AABB section, QuadNode* parent):
+QuadNode::QuadNode(AABB section, QuadNode* parent, int num):
 parent(parent),
-rootNode(true)
+rootNode(true),
+childNumber(num)
 {
 	area = AABB(float3(section.minPoint.x, 0, section.minPoint.z), float3(section.maxPoint.x, 0, section.maxPoint.z));
 	treeDepth = parent->treeDepth + 1;
+	char* b = new char[100];
+	sprintf(b, "Creating new quad node with depth = %d\n", treeDepth);
+	App->menu->console.AddLog(b);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
 }
 
 QuadNode::~QuadNode()
 {
+}
+
+void QuadNode::CleanUp() {
+
 }
 
 void QuadNode::addNode(GameObject* node) {
@@ -67,7 +80,7 @@ void QuadNode::addNode(GameObject* node) {
 		}
 		else if (child1 == nullptr) {
 			//if not, we just create a child and place node there
-			child1 = new QuadNode(area1, this);
+			child1 = new QuadNode(area1, this, 1);
 			child1->addNode(node);
 		}else {
 			//if has a child, we just tell it to add the object
@@ -83,7 +96,7 @@ void QuadNode::addNode(GameObject* node) {
 				node->nodesItAppears.push_back(this);
 			}
 			else {
-				child2 = new QuadNode(area2, this);
+				child2 = new QuadNode(area2, this, 2);
 				child2->addNode(node);
 			}
 		}
@@ -99,7 +112,7 @@ void QuadNode::addNode(GameObject* node) {
 				node->nodesItAppears.push_back(this);
 			}
 			else {
-				child3 = new QuadNode(area3, this);
+				child3 = new QuadNode(area3, this, 3);
 				child3->addNode(node);
 			}
 		}
@@ -115,7 +128,7 @@ void QuadNode::addNode(GameObject* node) {
 				node->nodesItAppears.push_back(this);
 			}
 			else {
-				child4 = new QuadNode(area4, this);
+				child4 = new QuadNode(area4, this, 4);
 				child4->addNode(node);
 			}
 		}
@@ -128,6 +141,27 @@ void QuadNode::addNode(GameObject* node) {
 void QuadNode::deleteObject(GameObject* obj) {
 	for (int i = 0; i < belongings.size(); ++i) {
 		if (belongings[i]->id == obj->id) belongings.erase(belongings.begin() + i);
+	}
+	if (belongings.size() == 0 && child1 == nullptr && child2 == nullptr && child3 == nullptr && child4 == nullptr) {
+		belongings.clear();
+		switch (childNumber) {
+		case 1:
+			parent->child1 = nullptr;
+			CleanUp();
+			break;
+		case 2:
+			parent->child2 = nullptr;
+			CleanUp();
+			break;
+		case 3:
+			parent->child3 = nullptr;
+			CleanUp();
+			break;
+		case 4:
+			parent->child4 = nullptr;
+			CleanUp();
+			break;
+		}
 	}
 }
 

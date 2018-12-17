@@ -83,27 +83,25 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 	App->menu->console.AddLog(b);
 	delete[] b;
 	//game object creation and fill of its mesh and material components
-	GameObject* Obj;
-	if(object == nullptr)Obj = new GameObject(modelName, App->scene->baseObject);
-	else Obj = object;
-
-	Obj->minX = Obj->maxX = scene->mMeshes[0]->mVertices[0].x;
-	Obj->minY = Obj->maxY = scene->mMeshes[0]->mVertices[0].y;
-	Obj->minZ = Obj->maxZ = scene->mMeshes[0]->mVertices[0].z;
+	if (object == nullptr) {
+		object = new GameObject(modelName, App->scene->baseObject);
+		object->minX = object->maxX = scene->mMeshes[0]->mVertices[0].x;
+		object->minY = object->maxY = scene->mMeshes[0]->mVertices[0].y;
+		object->minZ = object->maxZ = scene->mMeshes[0]->mVertices[0].z;
+	}
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		GenerateMeshData(scene->mMeshes[i], Obj);
+		GenerateMeshData(scene->mMeshes[i], object);
 		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices / 3;
 	}
-	Obj->calculateAABB();
+	object->calculateAABB();
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
-		GenerateMaterialData(scene->mMaterials[i], Obj);
+		GenerateMaterialData(scene->mMaterials[i], object);
 	}
 	aiReleaseImport(scene);
 	App->camera->mewModelLoaded();
-	Obj = nullptr;
 }
 
 void ModuleModelLoader::unloadModels() {

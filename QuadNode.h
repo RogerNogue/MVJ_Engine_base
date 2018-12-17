@@ -6,13 +6,14 @@ class GameObject;
 class QuadNode
 {
 public:
-	QuadNode(AABB section, QuadNode* parent);
+	QuadNode(AABB section, QuadNode* parent, int num);
 	QuadNode(AABB section);
 	~QuadNode();
 	void addNode(GameObject* node);
 	void deleteObject(GameObject* obj);
 	void getIntersections(std::vector<GameObject*>& objects);
 	void drawTree();
+	void CleanUp();
 
 	//variables
 	bool rootNode = false;
@@ -31,6 +32,6 @@ public:
 	int maxObjectsPerNode = 2;
 	std::vector <GameObject*> belongings;
 private:
-	bool leaf = true;
+	int childNumber = 0; //to see if its child 1, 2, 3 or 4
 };
 #endif

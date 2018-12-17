@@ -27,6 +27,7 @@ GameObject::GameObject(char* n) :
 	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
+	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
 }
@@ -44,6 +45,7 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
+	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
 }
