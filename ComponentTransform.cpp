@@ -1,13 +1,13 @@
 #include "ComponentTransform.h"
 #include "GameObject.h"
+#include "Application.h"
 
-
-
-ComponentTransform::ComponentTransform(GameObject* dad)
+ComponentTransform::ComponentTransform(GameObject* dad):
+	Component(dad)
 {
 	type = TRANSFORM;
-	this->dad = dad;
 	active = false;
+	id = App->generateID();
 	if (dad->parent != nullptr) {
 		positionValues = dad->parent->transform->positionValues;
 		rotationValues = dad->parent->transform->rotationValues;

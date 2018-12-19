@@ -8,7 +8,7 @@ class GameObject;
 class Component
 {
 public:
-	Component() {};
+	Component(GameObject* dad) {this->dad = dad};
 
 	virtual bool Init() { return true; };
 	virtual bool CleanUp(){ return true; };
@@ -19,6 +19,7 @@ public:
 	virtual void Disable() { active = false; };
 
 	//variables
+	unsigned int id;
 	component_type type;
 	GameObject* dad = nullptr;
 	bool active;

@@ -1,13 +1,14 @@
 #include "ComponentMaterial.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "Application.h"
 
-
-ComponentMaterial::ComponentMaterial(GameObject* dad)
+ComponentMaterial::ComponentMaterial(GameObject* dad):
+	Component(dad)
 {
 	type = MATERIAL;
-	this->dad = dad;
 	active = true;
+	id = App->generateID();
 }
 
 

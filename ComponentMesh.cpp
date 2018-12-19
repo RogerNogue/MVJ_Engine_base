@@ -1,13 +1,14 @@
 #include "ComponentMesh.h"
 #include "GL/glew.h"
+#include "Application.h"
 
 
-
-ComponentMesh::ComponentMesh(GameObject* dad)
+ComponentMesh::ComponentMesh(GameObject* dad):
+	Component(dad)
 {
 	type = MESH;
-	this->dad = dad;
 	active = true;
+	id = App->generateID();
 }
 
 ComponentMesh::~ComponentMesh()

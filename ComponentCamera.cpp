@@ -6,11 +6,14 @@
 #include "ModuleInput.h"
 #include "ModuleMenu.h"
 #include "ModuleTimer.h"
+#include "Application.h"
 
-ComponentCamera::ComponentCamera(GameObject* dad){
+ComponentCamera::ComponentCamera(GameObject* dad):
+	Component(dad)
+{
 	type = CAMERA;
-	this->dad = dad;
 	active = false;
+	id = App->generateID();
 }
 
 
