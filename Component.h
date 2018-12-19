@@ -8,7 +8,7 @@ class GameObject;
 class Component
 {
 public:
-	Component(GameObject* dad) {this->dad = dad};
+	Component(GameObject* dad) { this->dad = dad; };
 
 	virtual bool Init() { return true; };
 	virtual bool CleanUp(){ return true; };
