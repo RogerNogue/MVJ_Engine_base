@@ -28,6 +28,13 @@ void ModuleScene::createGameObject(char* c) {
 	GameObject newObject(c);
 }
 void ModuleScene::setUpGameObjectMenu() {
+	if (ImGui::Button("Save scene")) {
+
+	}
+	if (ImGui::Button("Load scene")) {
+
+	}
+
 	bool creating = true;
 	ImGui::Checkbox("Draw scene quad tree", &drawQuadTree);
 	ImGui::Button("Create");
