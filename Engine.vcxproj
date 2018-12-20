@@ -47,7 +47,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include;.\Util;.\Brofiler-1.1.2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include;.\Util;.\Brofiler-1.1.2;.\rapidjson-1.1.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,7 +64,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include;.\Util;.\Brofiler-1.1.2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./glew-2.1.0/include;./SDL/include;MathGeoLib/include;./IMGUI;.\IMGUI\misc\freetype;.\DevIL\include;.\Assimp\include;.\pcg-cpp-0.98\include;.\Util;.\Brofiler-1.1.2;.\rapidjson-1.1.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -164,6 +164,7 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="QuadNode.h" />
     <ClInclude Include="QuadTreeGnoblin.h" />
+    <ClInclude Include="Serializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -225,6 +226,7 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="QuadNode.cpp" />
     <ClCompile Include="QuadTreeGnoblin.cpp" />
+    <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Default.fs" />
