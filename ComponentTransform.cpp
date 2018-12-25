@@ -1,6 +1,7 @@
 #include "ComponentTransform.h"
 #include "GameObject.h"
 #include "Application.h"
+#include "Serializer.h"
 
 ComponentTransform::ComponentTransform(GameObject* dad):
 	Component(dad)
@@ -82,4 +83,17 @@ void ComponentTransform::placeAt000() {
 		}
 	}
 	Update();
+}
+
+void ComponentTransform::saveTransform(JSON_Value* val) {
+	JSON_Value* transfVal = val->createValue();
+
+	//probably should make it false
+	transfVal->addBool("object Moved", objectMoved);
+	transfVal->addVector3("Position", positionValues);
+	transfVal->addVector3("Rotation", rotationValues);
+	transfVal->addVector3("Scale", scaleValues);
+	transfVal->addTransformMat("Transform matrix", transformMatrix);
+
+	val->addValue("Transform", transfVal);
 }

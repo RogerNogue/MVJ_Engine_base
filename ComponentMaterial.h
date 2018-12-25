@@ -1,6 +1,7 @@
 #ifndef __ComponentMaterial_H__
 #define __ComponentMaterial_H__
 #include "Component.h"
+class JSON_Value;
 class ComponentMaterial :
 	public Component
 {
@@ -8,6 +9,7 @@ public:
 	ComponentMaterial(GameObject* dad);
 	~ComponentMaterial();
 	bool CleanUp() override;
+	void saveMaterial(JSON_Value* val);
 
 	//data structures
 	struct myMaterial {

@@ -1,6 +1,9 @@
 #include "Serializer.h"
-
-
+#include "Globals.h"
+#include "GameObject.h"
+#include "ComponentMaterial.h"
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 Serializer::Serializer()
 {
@@ -31,18 +34,26 @@ JSON_File* Serializer::openWriteJSON(const char* path) {
 		return nullptr;
 }
 
-void Serializer::loadScene(const char* path, GameObject* newBase) {
-	JSON_File* json = openReadJSON(path);
-	//now we go over the json puting the values into the game object
-}
-
 void Serializer::saveScene(const char* path, GameObject* oldBase) {
 	JSON_File* json = openWriteJSON(path);
 	//now we go over the object writing in the json
+	JSON_Value* objValue = json->createValue();
+	objValue->convertToArray();
+
+	oldBase->saveObject(objValue);
+
+	json->closeFile();
 }
 
-//Structure functions
-JSON_File::JSON_File(rapidjson::FileWriteStream* os, FILE* fp) : os(os), fp(fp)
+void Serializer::loadScene(const char* path, GameObject* newBase) {
+	JSON_File* json = openReadJSON(path);
+	//now we go over the json puting the values into the game object
+
+	json->closeFile();
+}
+
+// JSON FILE structure functions
+JSON_File::JSON_File(rapidjson::FileWriteStream* writeStream, FILE* fp) : writeStream(writeStream), fp(fp)
 {
 	document = new rapidjson::Document();
 	document->SetObject();
@@ -50,10 +61,10 @@ JSON_File::JSON_File(rapidjson::FileWriteStream* os, FILE* fp) : os(os), fp(fp)
 	allocator = &document->GetAllocator();
 }
 
-JSON_File::JSON_File(rapidjson::FileReadStream* is, FILE* fp) : is(is), fp(fp)
+JSON_File::JSON_File(rapidjson::FileReadStream* readStream, FILE* fp) : readStream(readStream), fp(fp)
 {
 	document = new rapidjson::Document();
-	document->ParseStream(*is);
+	document->ParseStream(*readStream);
 
 	allocator = &document->GetAllocator();
 }
@@ -71,29 +82,28 @@ JSON_File::~JSON_File()
 	int size = allocatedValues.size();
 	for (int i = 0; i < size; i++)
 	{
-		RELEASE(allocatedValues[i]);
+		if (allocatedValues[i] != nullptr) delete allocatedValues[i];
 	}
 	allocatedValues.clear();
 
-	RELEASE(document);
+	if (document != nullptr) delete document;
 
-	RELEASE(is);
-	RELEASE(os);
+	if (writeStream != nullptr)delete writeStream;
+	if (readStream != nullptr)delete readStream;
 }
 
 bool JSON_File::Write()
 {
-	if (os != nullptr)
+	if (writeStream != nullptr)
 	{
-		//rapidjson::Writer<rapidjson::FileWriteStream> writer(*os);
-		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(*os);
+		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(*writeStream);
 		document->Accept(writer);
 
 		return true;
 	}
 	else
 	{
-		if (is != nullptr)
+		if (readStream != nullptr)
 		{
 			LOG("Cannot write a read only file!");
 		}
@@ -141,22 +151,32 @@ void JSON_File::setValue(const char * name, JSON_Value * value)
 	else
 		this->addValue(name, value); //if not, set a new one
 }
+void JSON_File::closeFile() {
+	fclose(fp);
+
+	if (document != nullptr) delete document;
+
+	if (writeStream != nullptr)delete writeStream;
+	if (readStream != nullptr)delete readStream;
+}
+
+//JSON_Value structure functions
 
 JSON_Value::~JSON_Value()
 {
 	int size = allocatedValues.size();
 	for (int i = 0; i < size; i++)
 	{
-		RELEASE(allocatedValues[i]);//deletes buffer
+		if (allocatedValues[i] != nullptr) delete allocatedValues[i];
 	}
 	allocatedValues.clear();
 
-	RELEASE(value);
+	if (value != nullptr) delete value;
 }
 
 void JSON_Value::convertToArray()
 {
-	RELEASE(value);
+	if (value != nullptr) delete value;
 	value = new rapidjson::Value(rapidjson::kArrayType);
 }
 
@@ -165,4 +185,240 @@ void JSON_Value::addInt(const char* name, int value)
 	std::string str = name;
 	rapidjson::Value index(str.c_str(), str.size(), *allocator);
 	this->value->AddMember(index, value, *allocator);
+}
+
+void JSON_Value::addUint(const char* name, unsigned int value) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+void JSON_Value::addFloat(const char* name, float value) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+void JSON_Value::addString(const char* name, const char* value) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	std::string string2 = value;
+	rapidjson::Value val(string2.c_str(), string2.size(), *allocator);
+	this->value->AddMember(index, val, *allocator);
+}
+void JSON_Value::addBool(const char* name, bool value) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+void JSON_Value::addVector2(const char* name, float2 vec) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	rapidjson::Value f2(rapidjson::kArrayType);
+	f2.PushBack(vec.x, *allocator);
+	f2.PushBack(vec.y, *allocator);
+	this->value->AddMember(index, f2, *allocator);
+}
+void JSON_Value::addVector3(const char* name, float3 vec) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	rapidjson::Value f3(rapidjson::kArrayType);
+	f3.PushBack(vec.x, *allocator);
+	f3.PushBack(vec.y, *allocator);
+	f3.PushBack(vec.z, *allocator);
+	this->value->AddMember(index, f3, *allocator);
+}
+void JSON_Value::addQuat(const char* name, Quat quat) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	rapidjson::Value f4(rapidjson::kArrayType);
+	f4.PushBack(quat.x, *allocator);
+	f4.PushBack(quat.y, *allocator);
+	f4.PushBack(quat.z, *allocator);
+	f4.PushBack(quat.z, *allocator);
+	this->value->AddMember(index, f4, *allocator);
+}
+void JSON_Value::addTransformMat(const char* name, float4x4 mat) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+
+	rapidjson::Value tempMat(rapidjson::kArrayType);
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			tempMat.PushBack(mat.v[i][j], *allocator);
+		}
+	}
+
+	this->value->AddMember(index, tempMat, *allocator);
+}
+
+void JSON_Value::setUint(const char* name, unsigned int value) {
+	rapidjson::Value newValue(value);
+
+	if (this->value->HasMember(name)) //If it exists modify it
+		this->value->operator[](name) = newValue;
+	else
+		this->addUint(name, value); //if not, set a new one
+}
+
+int			JSON_Value::getInt(const char* name) {
+	if (value->HasMember(name))
+		return value->operator[](name).GetInt();
+	else
+		return 0;
+}
+unsigned int JSON_Value::getUint(const char* name) {
+	if (value->HasMember(name))
+		return value->operator[](name).GetUint();
+	else
+		return 0;
+}
+float		JSON_Value::getFloat(const char* name) {
+	if (value->HasMember(name))
+		return value->operator[](name).GetFloat();
+	else
+		return 0.0f;
+}
+const char* JSON_Value::getString(const char* name) {
+	if (value->HasMember(name))
+		return value->operator[](name).GetString();
+	else
+		return "";
+}
+bool		JSON_Value::getBool(const char* name) {
+	if (value->HasMember(name))
+		return value->operator[](name).GetBool();
+	else
+		return false;
+}
+float2		JSON_Value::getVector2(const char* name) {
+	if (value->HasMember(name))
+	{
+		rapidjson::Value& a = value->operator[](name);
+		if (a.IsArray() && a.Size() >= 2)
+		{
+			float2 ret;
+			ret.x = a[0].GetFloat();
+			ret.y = a[1].GetFloat();
+
+			return ret;
+		}
+	}
+
+	return float2();
+}
+float3		JSON_Value::getVector3(const char* name) {
+	if (value->HasMember(name))
+	{
+		rapidjson::Value& a = value->operator[](name);
+		if (a.IsArray() && a.Size() >= 3)
+		{
+			float3 ret;
+			ret.x = a[0].GetFloat();
+			ret.y = a[1].GetFloat();
+			ret.z = a[2].GetFloat();
+
+			return ret;
+		}
+	}
+
+	return float3();
+}
+Quat		JSON_Value::getQuat(const char* name) {
+	if (value->HasMember(name))
+	{
+		rapidjson::Value& a = value->operator[](name);
+		if (a.IsArray() && a.Size() >= 4)
+		{
+			Quat ret;
+			ret.x = a[0].GetFloat();
+			ret.y = a[1].GetFloat();
+			ret.z = a[2].GetFloat();
+			ret.w = a[3].GetFloat();
+
+			return ret;
+		}
+	}
+
+	return Quat();
+}
+float4x4	JSON_Value::getTransform(const char* name) {
+	if (value->HasMember(name))
+	{
+		rapidjson::Value& a = value->operator[](name);
+		if (a.IsArray() && a.Size() >= 16)
+		{
+			float4x4 ret;
+			int count = 0;
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					ret.v[i][j] = a[count].GetFloat();
+					count++;
+				}
+			}
+
+			return ret;
+		}
+	}
+
+	return float4x4();
+}
+
+JSON_Value* JSON_Value::createValue() {
+	JSON_Value* ret = new JSON_Value(allocator);
+	allocatedValues.push_back(ret);
+	return ret;
+}
+void		JSON_Value::addValue(const char* name, JSON_Value* value) {
+	if (this->value->GetType() == rapidjson::kObjectType)
+	{
+		std::string str = name;
+		rapidjson::Value index(str.c_str(), str.size(), *allocator);
+		this->value->AddMember(index, *value->getRapidJSONValue(), *allocator);
+	}
+	else if (this->value->GetType() == rapidjson::kArrayType)
+	{
+		this->value->PushBack(*value->getRapidJSONValue(), *allocator);
+	}
+}
+JSON_Value* JSON_Value::getValue(const char* name) {
+	if (value->IsObject() && value->HasMember(name))
+	{
+		rapidjson::Value& trueValue = value->operator[](name);
+		JSON_Value* ret = new JSON_Value(allocator);
+		allocatedValues.push_back(ret);
+		ret->getRapidJSONValue()->CopyFrom(trueValue, *allocator, false);
+
+		return ret;
+	}
+
+	return nullptr;
+}
+JSON_Value* JSON_Value::getValueFromArray(int index) {
+	if (value->IsArray() && value->Size() > index)
+	{
+		rapidjson::Value& trueValue = value->operator[](index);
+		JSON_Value* ret = new JSON_Value(allocator);
+		allocatedValues.push_back(ret);
+		ret->getRapidJSONValue()->CopyFrom(trueValue, *allocator, false);
+
+		return ret;
+	}
+
+	return nullptr;
+}
+void		JSON_Value::setValue(const char* name, JSON_Value* value) {
+	if (this->value->HasMember(name))
+		this->value->operator[](name) = *value->getRapidJSONValue(); //If it exists modify it
+	else
+		this->addValue(name, value); //if not, set a new one
+}
+
+void		JSON_Value::setValue(rapidjson::Value* value) {
+	*this->value = *value;
+}
+rapidjson::Value*	JSON_Value::getRapidJSONValue() {
+	return value;
 }

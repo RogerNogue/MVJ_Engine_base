@@ -2,13 +2,16 @@
 #define __Serializer_H__
 
 #include "rapidjson/rapidjson.h"
-#include "rapidjson/document.h"// rapidjson's DOM-style API
+#include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/filereadstream.h"
 #include "MathGeoLib.h"
 
 class GameObject;
+class ComponentMesh;
+class ComponentMaterial;
+class ComponentTransform;
 
 struct JSON_Value
 {
@@ -32,7 +35,7 @@ public:
 	void addVector2(const char* name, float2 vec);
 	void addVector3(const char* name, float3 vec);
 	void addQuat(const char* name, Quat quat);
-	void addTransform(const char* name, float4x4 mat);
+	void addTransformMat(const char* name, float4x4 mat);
 
 	void setUint(const char* name, unsigned int value);
 
@@ -85,8 +88,8 @@ private:
 	FILE* fp = nullptr;
 
 	rapidjson::Document* document = nullptr;
-	rapidjson::FileWriteStream* os = nullptr;
-	rapidjson::FileReadStream* is = nullptr;
+	rapidjson::FileWriteStream* writeStream = nullptr;
+	rapidjson::FileReadStream* readStream = nullptr;
 
 	rapidjson::Document::AllocatorType* allocator = nullptr;
 	std::vector<JSON_Value*> allocatedValues;
@@ -100,6 +103,9 @@ public:
 
 	void loadScene(const char* path, GameObject* newBase);
 	void saveScene(const char* path, GameObject* oldBase);
+	void saveMesh(ComponentMesh* mesh);
+	void saveMaterial(ComponentMaterial* mat);
+	void saveTransform(ComponentTransform* transf);
 
 private:
 	JSON_File* openReadJSON(const char* path);

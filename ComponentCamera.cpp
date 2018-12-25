@@ -7,6 +7,7 @@
 #include "ModuleMenu.h"
 #include "ModuleTimer.h"
 #include "Application.h"
+#include "serializer.h"
 
 ComponentCamera::ComponentCamera(GameObject* dad):
 	Component(dad)
@@ -181,4 +182,9 @@ void ComponentCamera::mewModelLoaded() {
 ComponentCamera ComponentCamera::createComponentCamera(GameObject* dad) {
 	ComponentCamera c(dad);
 	return c;
+
+}
+
+void ComponentCamera::saveCamera(JSON_Value* val) {
+	
 }

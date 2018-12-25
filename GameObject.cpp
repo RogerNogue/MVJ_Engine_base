@@ -15,13 +15,13 @@
 #include "debugdraw.h"
 #include "ModuleDebugDraw.h"
 #include "QuadNode.h"
+#include "Serializer.h"
 
 GameObject::GameObject(char* n) :
 	name(n),
 	type(OBJECT)
 {
 	active = true;
-	hascamera = hasmesh = hasmaterial = false;
 	id = App->generateID();
 	transform = new ComponentTransform(this);	
 	camera = nullptr;
@@ -39,7 +39,6 @@ GameObject::GameObject(char* n, GameObject* parent) :
 {
 	active = true;
 	parent->children.push_back(this);
-	hascamera = hasmesh = hasmaterial = false;
 	id = App->generateID();
 	transform = new ComponentTransform(this);
 	camera = nullptr;
@@ -165,4 +164,27 @@ void GameObject::updateQuadTree() {
 		nodesItAppears.pop_back();
 	}
 	App->scene->addIntoQuadTree(this);
+}
+
+void GameObject::saveObject(JSON_Value* objValue) {
+	JSON_Value* currentValue = objValue->createValue();
+	//have to create a json value and pass it to every object and component
+	//saving components:
+	if (hascamera) {
+		//when cameras are implemented should do this
+		camera->saveCamera(currentValue);
+	}
+	if (hasmaterial) {
+		for (int i = 0; i < materials.size(); ++i) {
+			materials[i]->saveMaterial(currentValue);
+		}
+	}
+	if (hasmesh) {
+		for (int i = 0; i < meshes.size(); ++i) {
+			meshes[i]->saveMesh(currentValue);
+		}
+	}
+	transform->saveTransform(currentValue);
+	//children
+	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(currentValue);
 }

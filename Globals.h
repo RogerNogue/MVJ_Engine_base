@@ -8,14 +8,13 @@
 
 void log(const char file[], int line, const char* format, ...);
 
-enum update_status
-{
+enum update_status{
 	UPDATE_CONTINUE = 1,
 	UPDATE_STOP,
 	UPDATE_ERROR
 };
 
-enum component_type {
+enum component_type{
 	CAMERA,
 	MESH,
 	MATERIAL,

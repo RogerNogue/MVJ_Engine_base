@@ -1,7 +1,7 @@
 #include "ComponentMesh.h"
 #include "GL/glew.h"
 #include "Application.h"
-
+#include "Serializer.h"
 
 ComponentMesh::ComponentMesh(GameObject* dad):
 	Component(dad)
@@ -35,4 +35,16 @@ bool ComponentMesh::CleanUp() {
 		glDeleteBuffers(1, &mesh.vio);
 	}
 	return true;
+}
+
+void ComponentMesh::saveMesh(JSON_Value* val) {
+	JSON_Value* meshval = val->createValue();
+
+	meshval->addUint("VBO", mesh.vbo);
+	meshval->addUint("IBO", mesh.vio);
+	meshval->addUint("Material", mesh.material);
+	meshval->addUint("Number of vertices", mesh.numVertices);
+	meshval->addUint("Number of indices", mesh.numIndices);
+
+	val->addValue("Mesh", meshval);
 }

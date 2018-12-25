@@ -2,6 +2,7 @@
 #define __ComponentMesh_H__
 #include "Component.h"
 #include "MathGeoLib.h"
+class JSON_Value;
 class ComponentMesh :
 	public Component
 {
@@ -9,6 +10,7 @@ public:
 	ComponentMesh(GameObject* dad);
 	~ComponentMesh();
 	bool CleanUp() override;
+	void saveMesh(JSON_Value* val);
 
 	//data structures
 	struct myMesh {

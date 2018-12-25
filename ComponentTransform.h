@@ -2,6 +2,7 @@
 #define __ComponentTransform_H__
 #include "Component.h"
 #include "MathGeoLib.h"
+class JSON_Value;
 class ComponentTransform :
 	public Component
 {
@@ -10,6 +11,7 @@ public:
 	~ComponentTransform();
 	update_status Update() override;
 	void placeAt000();
+	void saveTransform(JSON_Value* val);
 
 	//variables
 	bool objectMoved = false;

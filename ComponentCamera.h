@@ -4,6 +4,7 @@
 #include "MathGeoLib.h"
 
 //class for the cameras that are not the editor camera
+class JSON_Value;
 class ComponentCamera :
 	public Component
 {
@@ -21,6 +22,7 @@ public:
 	void SetAspectRatio(float w, float h);
 	void mewModelLoaded();
 	ComponentCamera createComponentCamera(GameObject* dad);
+	void saveCamera(JSON_Value* val);
 
 	//variables
 	float aspectRatio;
