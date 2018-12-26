@@ -8,6 +8,7 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
 class ComponentTransform;
+class ComponentShape;
 class QuadNode;
 class JSON_Value;
 class GameObject
@@ -27,7 +28,6 @@ public:
 	void saveObject(JSON_Value* objValue);
 
 	//variables
-	component_type type;
 	unsigned int id;
 	bool active;
 	bool isStatic = true;
@@ -45,6 +45,7 @@ public:
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
 	std::vector<QuadNode*> nodesItAppears;
+	ComponentShape* shape = nullptr;
 
 private:
 	bool BBGenerated = false;

@@ -40,6 +40,7 @@ bool ComponentMesh::CleanUp() {
 void ComponentMesh::saveMesh(JSON_Value* val) {
 	JSON_Value* meshval = val->createValue();
 
+	meshval->addUint("ID", id);
 	meshval->addUint("VBO", mesh.vbo);
 	meshval->addUint("IBO", mesh.vio);
 	meshval->addUint("Material", mesh.material);

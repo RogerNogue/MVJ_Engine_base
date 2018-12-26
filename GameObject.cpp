@@ -16,10 +16,10 @@
 #include "ModuleDebugDraw.h"
 #include "QuadNode.h"
 #include "Serializer.h"
+#include "ComponentShape.h"
 
 GameObject::GameObject(char* n) :
-	name(n),
-	type(OBJECT)
+	name(n)
 {
 	active = true;
 	id = App->generateID();
@@ -34,8 +34,7 @@ GameObject::GameObject(char* n) :
 
 GameObject::GameObject(char* n, GameObject* parent) :
 	name(n),
-	parent(parent),
-	type(OBJECT)
+	parent(parent)
 {
 	active = true;
 	parent->children.push_back(this);
@@ -71,7 +70,6 @@ void GameObject::deleteObject() {
 	for (int i = 0; i < meshes.size(); ++i) {
 		for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 			if (App->modelLoader->allMeshes[j] == meshes[i]) {
-				//delete App->modelLoader->allMeshes[j];
 				App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin()+j);
 			}
 		}
@@ -84,6 +82,15 @@ void GameObject::deleteObject() {
 		delete materials[i];
 	}
 	materials.clear();
+	
+	if (shape != nullptr) {
+		for (int i = 0; i < App->modelLoader->allShapes.size(); ++i) {
+			if(App->modelLoader->allShapes[i] == shape)
+				App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + i);
+		}
+		shape->CleanUp();
+		shape = nullptr;
+	}
 }
 
 void GameObject::deleteChild(unsigned idc) {
@@ -168,6 +175,23 @@ void GameObject::updateQuadTree() {
 
 void GameObject::saveObject(JSON_Value* objValue) {
 	JSON_Value* currentValue = objValue->createValue();
+
+	currentValue->addUint("ID", id);
+	currentValue->addBool("Is active", active);
+	currentValue->addBool("Is static", isStatic);
+	currentValue->addBool("Bounding box painted", paintBB);
+	currentValue->addString("name: ", name);
+	currentValue->addBool("Has camera", hascamera);
+	currentValue->addBool("Has mesh", hasmesh);
+	currentValue->addBool("Has material", hasmaterial);
+	currentValue->addFloat("Min X", minX);
+	currentValue->addFloat("Min Y", minY);
+	currentValue->addFloat("Min Z", minZ);
+	currentValue->addFloat("Max X", maxX);
+	currentValue->addFloat("Max Y", maxY);
+	currentValue->addFloat("Max Z", maxZ);
+
+
 	//have to create a json value and pass it to every object and component
 	//saving components:
 	if (hascamera) {
@@ -185,6 +209,9 @@ void GameObject::saveObject(JSON_Value* objValue) {
 		}
 	}
 	transform->saveTransform(currentValue);
+
 	//children
 	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(currentValue);
+
+	objValue->addValue(name, currentValue);
 }
