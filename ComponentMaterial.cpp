@@ -26,6 +26,7 @@ bool ComponentMaterial::CleanUp() {
 void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	JSON_Value* mat = val->createValue();
 
+	mat->addUint("ID", id);
 	mat->addUint("Texture", material.texture0);
 	mat->addFloat("Width", material.sizeX);
 	mat->addFloat("Height", material.sizeY);

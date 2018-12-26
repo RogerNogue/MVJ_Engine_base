@@ -88,6 +88,7 @@ void ComponentTransform::placeAt000() {
 void ComponentTransform::saveTransform(JSON_Value* val) {
 	JSON_Value* transfVal = val->createValue();
 
+	transfVal->addUint("ID", id);
 	//probably should make it false
 	transfVal->addBool("object Moved", objectMoved);
 	transfVal->addVector3("Position", positionValues);
