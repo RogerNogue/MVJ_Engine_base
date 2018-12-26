@@ -33,16 +33,9 @@ JSON_File* Serializer::openWriteJSON(const char* path) {
 	else
 		return nullptr;
 }
-
+/*
 void Serializer::saveScene(const char* path, GameObject* oldBase) {
-	JSON_File* json = openWriteJSON(path);
-	//now we go over the object writing in the json
-	JSON_Value* objValue = json->createValue();
-	objValue->convertToArray();
-
-	oldBase->saveObject(objValue);
-
-	json->closeFile();
+	
 }
 
 void Serializer::loadScene(const char* path, GameObject* newBase) {
@@ -51,7 +44,7 @@ void Serializer::loadScene(const char* path, GameObject* newBase) {
 
 	json->closeFile();
 }
-
+*/
 // JSON FILE structure functions
 JSON_File::JSON_File(rapidjson::FileWriteStream* writeStream, FILE* fp) : writeStream(writeStream), fp(fp)
 {
@@ -226,6 +219,16 @@ void JSON_Value::addVector3(const char* name, float3 vec) {
 	f3.PushBack(vec.z, *allocator);
 	this->value->AddMember(index, f3, *allocator);
 }
+void JSON_Value::addVector4(const char* name, float4 vec) {
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	rapidjson::Value f4(rapidjson::kArrayType);
+	f4.PushBack(vec.x, *allocator);
+	f4.PushBack(vec.y, *allocator);
+	f4.PushBack(vec.z, *allocator);
+	f4.PushBack(vec.w, *allocator);
+	this->value->AddMember(index, f4, *allocator);
+}
 void JSON_Value::addQuat(const char* name, Quat quat) {
 	std::string str = name;
 	rapidjson::Value index(str.c_str(), str.size(), *allocator);
@@ -323,6 +326,24 @@ float3		JSON_Value::getVector3(const char* name) {
 	}
 
 	return float3();
+}
+float4		JSON_Value::getVector4(const char* name) {
+	if (value->HasMember(name))
+	{
+		rapidjson::Value& a = value->operator[](name);
+		if (a.IsArray() && a.Size() >= 4)
+		{
+			float4 ret;
+			ret.x = a[0].GetFloat();
+			ret.y = a[1].GetFloat();
+			ret.z = a[2].GetFloat();
+			ret.w = a[3].GetFloat();
+
+			return ret;
+		}
+	}
+
+	return float4();
 }
 Quat		JSON_Value::getQuat(const char* name) {
 	if (value->HasMember(name))
