@@ -19,6 +19,8 @@ public:
 	void setUpGameObjectMenu();
 	void addIntoQuadTree(GameObject* obj);
 	//add a save and load function
+	void saveScene(const char* name);
+	void loadScene(const char* name);
 
 	//variables
 	GameObject* objectSelected = nullptr;
@@ -26,7 +28,10 @@ public:
 	std::vector<GameObject*> allObjects;
 	QuadTreeGnoblin* quadTree;
 	bool drawQuadTree = false;
+	char* folderPath = "Scenes/";
+
 private:
+	int sceneNum = 1;
 	AABB sceneBoundingBox;
 	void paintGameObjectTree(GameObject* go);
 };

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "imgui.h"
 #include "QuadTreeGnoblin.h"
+#include "Serializer.h"
 
 ModuleScene::ModuleScene()
 {
@@ -29,11 +30,30 @@ void ModuleScene::createGameObject(char* c) {
 }
 void ModuleScene::setUpGameObjectMenu() {
 	if (ImGui::Button("Save scene")) {
-
+		char sceneName[100];
+		sprintf_s(sceneName, 100, "Scene_%d.GNOBLIN", sceneNum);
+		saveScene(sceneName);
+		++sceneNum;
 	}
-	if (ImGui::Button("Load scene")) {
+	//maybe drag and drop?
+	/*bool loading = true;
+	ImGui::Button("Load scene");
 
-	}
+	if (loading) {
+		if (ImGui::BeginPopupContextItem("load", 1)) {
+			loading = false;
+			
+			for()boost::f
+		}
+	}else loading = true;*/
+	/*if (ImGui::Button("Load scene")) {
+		bool loading = true;
+		
+		if (loading) {
+
+		}
+		else loading = true;
+	}*/
 
 	bool creating = true;
 	ImGui::Checkbox("Draw scene quad tree", &drawQuadTree);
@@ -101,4 +121,24 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 
 void ModuleScene::addIntoQuadTree(GameObject* obj) {
 	quadTree->Insert(obj);
+}
+
+void ModuleScene::saveScene(const char* name) {
+	char fullPath[100];
+	strcpy(fullPath, folderPath);
+	strcat(fullPath, name);
+	JSON_File* json = Serializer::openWriteJSON(fullPath);
+	
+	//now we go over the object writing in the json
+	JSON_Value* objValue = json->createValue();
+	objValue->convertToArray();
+
+	baseObject->saveObject(objValue);
+
+	json->addValue("Scene Objects", objValue);
+	json->Write();
+	json->closeFile();
+}
+void ModuleScene::loadScene(const char* name) {
+
 }
