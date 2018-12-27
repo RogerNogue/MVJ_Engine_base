@@ -104,7 +104,8 @@ void ModuleModelLoader::unloadModels() {
 }
 
 void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
-	ComponentMesh* newMesh = new ComponentMesh (Obj);
+	GameObject* meshObject = new GameObject("MeshObject", Obj, true);
+	ComponentMesh* newMesh = new ComponentMesh (meshObject);
 	//vbo
 	glGenBuffers(1, &newMesh->mesh.vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
@@ -160,8 +161,8 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
 	newMesh->mesh.material = mesh->mMaterialIndex;
 	newMesh->mesh.numIndices = mesh->mNumFaces*3;
 	newMesh->mesh.numVertices = mesh->mNumVertices;
-	Obj->meshes.push_back(newMesh);
-	Obj->hasmesh = true;
+	meshObject->mesh = newMesh;
+	meshObject->hasmesh = true;
 	allMeshes.push_back(newMesh);
 }
 

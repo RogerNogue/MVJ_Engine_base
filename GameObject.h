@@ -16,16 +16,17 @@ class GameObject
 public:
 	GameObject(char* n);
 	GameObject(char* n, GameObject* parent);
+	GameObject(char* n, GameObject* parent, bool physical);
 	~GameObject();
 	void deleteObject();
 	void deleteChild(unsigned idc);
-	void createEmptyComponent(component_type type);
 	void calculateAABB();
 	void ChangeName(char* n);
 	void activeToggled();
 	void staticToggled(bool first);
 	void updateQuadTree();
 	void saveObject(JSON_Value* objValue);
+	inline bool isPhysical() { return Physical; }
 
 	//variables
 	unsigned int id;
@@ -36,7 +37,9 @@ public:
 	bool hascamera = false;
 	bool hasmesh = false;
 	bool hasmaterial = false;
-	std::vector<ComponentMesh*> meshes;
+	ComponentMesh* mesh = nullptr;
+	ComponentShape* shape = nullptr;
+	std::vector<GameObject*> meshesOrShapes;
 	ComponentCamera* camera = nullptr;
 	std::vector<ComponentMaterial*> materials;
 	ComponentTransform* transform = nullptr;
@@ -45,9 +48,12 @@ public:
 	float minX, maxX, minY, maxY, minZ, maxZ;//variables for the bounding box
 	AABB boundingBox;
 	std::vector<QuadNode*> nodesItAppears;
-	ComponentShape* shape = nullptr;
 
 private:
+	//functions
+	void toggleMeshActivation();
+	//variables
+	bool Physical = false;
 	bool BBGenerated = false;
 };
 #endif

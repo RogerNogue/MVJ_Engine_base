@@ -111,6 +111,9 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 	}
 
 	if (children) {
+		for (int i = 0; i < go->meshesOrShapes.size(); ++i) {
+			paintGameObjectTree(go->meshesOrShapes[i]);
+		}
 		for (int i = 0; i < go->children.size(); ++i) {
 			paintGameObjectTree(go->children[i]);
 		}

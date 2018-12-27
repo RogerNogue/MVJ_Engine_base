@@ -97,14 +97,14 @@ void ModuleRender::Draw()
 		if (App->modelLoader->allMeshes[j]->active) {
 			glUseProgram(App->shaderProgram->programTexture);
 			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
-				"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->transform->transformMatrix[0][0]);
+				"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->parent->transform->transformMatrix[0][0]);
 			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
 				"view"), 1, GL_TRUE, &App->camera->view[0][0]);
 			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
 				"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
 			glActiveTexture(GL_TEXTURE0);
-			ComponentMaterial* temp = App->modelLoader->allMeshes[j]->dad->materials[App->modelLoader->allMeshes[j]->mesh.material];
+			ComponentMaterial* temp = App->modelLoader->allMeshes[j]->dad->parent->materials[App->modelLoader->allMeshes[j]->mesh.material];
 			if(temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
 			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
 

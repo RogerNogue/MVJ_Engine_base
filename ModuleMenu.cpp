@@ -15,6 +15,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
+#include "ComponentShape.h"
 
 ModuleMenu::ModuleMenu()
 {
@@ -171,10 +172,10 @@ update_status ModuleMenu::Update() {
 				if (ImGui::Checkbox("Active", &App->scene->objectSelected->active)) {
 					App->scene->objectSelected->activeToggled();
 				}
-				if (ImGui::Button("Toggle Bounding Box")) {
+				if (!App->scene->objectSelected->isPhysical() && ImGui::Button("Toggle Bounding Box")) {
 					App->scene->objectSelected->paintBB = !App->scene->objectSelected->paintBB;
 				}
-				if (ImGui::CollapsingHeader("Transform"))
+				if (!App->scene->objectSelected->isPhysical() && ImGui::CollapsingHeader("Transform"))
 				{
 					//if parent is 
 					if (App->scene->objectSelected->parent == App->scene->baseObject) {
@@ -227,13 +228,16 @@ update_status ModuleMenu::Update() {
 					}
 					App->scene->objectSelected->transform->Update();
 				}
-				if (App->scene->objectSelected->hasmesh) {
-					if (ImGui::CollapsingHeader("Meshes")){
-						for (int i = 0; i < App->scene->objectSelected->meshes.size(); ++i) {
-							ImGui::Text("Mesh %d", i);
-							ImGui::Checkbox("Active", &App->scene->objectSelected->meshes[i]->active);
-							ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->meshes[i]->mesh.numVertices/3);
-						}
+				if (App->scene->objectSelected->isPhysical()) {
+					if (App->scene->objectSelected->mesh != nullptr && ImGui::CollapsingHeader("Meshes")){
+						ImGui::Text("Mesh");
+						ImGui::Checkbox("Active", &App->scene->objectSelected->mesh->active);
+						ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->mesh->mesh.numVertices/3);
+					}
+					else if (App->scene->objectSelected->shape != nullptr && ImGui::CollapsingHeader("Meshes")) {
+						ImGui::Text("Shape");
+						ImGui::Checkbox("Active", &App->scene->objectSelected->shape->active);
+						ImGui::BulletText("slice count = %.d, stack count = %d", App->scene->objectSelected->shape->slices, App->scene->objectSelected->shape->stacks);
 					}
 				}
 				if (App->scene->objectSelected->hasmaterial) {
@@ -253,31 +257,33 @@ update_status ModuleMenu::Update() {
 					}
 				}
 				bool loadModule = true;
-				ImGui::Button("Load model");
+				if(!App->scene->objectSelected->isPhysical()){
+					ImGui::Button("Load model");
 
-				if (loadModule)
-				{
-					if (ImGui::BeginPopupContextItem("create", 0))
+					if (loadModule)
 					{
-						if (ImGui::Button("House")) {
-							App->modelLoader->unloadModels();
-							App->modelLoader->loadModel(1, App->scene->objectSelected);
-							loadModule = false;
+						if (ImGui::BeginPopupContextItem("create", 0))
+						{
+							if (ImGui::Button("House")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->loadModel(1, App->scene->objectSelected);
+								loadModule = false;
+							}
+							if (ImGui::Button("Banana")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->loadModel(2, App->scene->objectSelected);
+								loadModule = false;
+							}
+							if (ImGui::Button("Shield")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->loadModel(3, App->scene->objectSelected);
+								loadModule = false;
+							}
+							ImGui::EndPopup();
 						}
-						if (ImGui::Button("Banana")) {
-							App->modelLoader->unloadModels();
-							App->modelLoader->loadModel(2, App->scene->objectSelected);
-							loadModule = false;
-						}
-						if (ImGui::Button("Shield")) {
-							App->modelLoader->unloadModels();
-							App->modelLoader->loadModel(3, App->scene->objectSelected);
-							loadModule = false;
-						}
-						ImGui::EndPopup();
 					}
+					else loadModule = true;
 				}
-				else loadModule = true;
 			}
 			ImGui::EndTabItem();
 		}

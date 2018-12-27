@@ -48,6 +48,23 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	updateQuadTree();
 }
 
+GameObject::GameObject(char* n, GameObject* parent, bool physical) :
+	name(n),
+	parent(parent),
+	Physical(physical)
+{
+	active = true;
+	if (physical) {
+		parent->meshesOrShapes.push_back(this);
+	}
+	else {
+		parent->children.push_back(this);
+		transform = new ComponentTransform(this);
+	}
+	id = App->generateID();
+	App->scene->allObjects.push_back(this);
+}
+
 GameObject::~GameObject()
 {
 }
@@ -67,16 +84,24 @@ void GameObject::deleteObject() {
 	}
 	parent->deleteChild(id);
 	children.clear();
-	for (int i = 0; i < meshes.size(); ++i) {
-		for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-			if (App->modelLoader->allMeshes[j] == meshes[i]) {
-				App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin()+j);
+	if(!Physical){
+		for (int i = 0; i < meshesOrShapes.size(); ++i) {
+			for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
+				if (App->modelLoader->allMeshes[j] == meshesOrShapes[i]->mesh) {
+					App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
+				}
+				if (App->modelLoader->allShapes[j] == meshesOrShapes[i]->shape) {
+					App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
+				}
 			}
+			meshesOrShapes[i]->deleteObject();
+			delete meshesOrShapes[i];
 		}
-		meshes[i]->CleanUp();
-		delete meshes[i];
+		meshesOrShapes.clear();
+	}else {
+		if (mesh != nullptr) mesh->CleanUp();
+		if (shape != nullptr) shape->CleanUp();
 	}
-	meshes.clear();
 	for (int i = 0; i < materials.size(); ++i) {
 		materials[i]->CleanUp();
 		delete materials[i];
@@ -91,6 +116,10 @@ void GameObject::deleteObject() {
 		shape->CleanUp();
 		shape = nullptr;
 	}
+	if (transform != nullptr) {
+		transform->CleanUp();
+		delete transform;
+	}
 }
 
 void GameObject::deleteChild(unsigned idc) {
@@ -98,39 +127,6 @@ void GameObject::deleteChild(unsigned idc) {
 		if (children[i]->id == idc) {
 			children.erase(children.begin()+i);
 			return;
-		}
-	}
-}
-
-void GameObject::createEmptyComponent(component_type type) {
-	switch (type) {
-		case CAMERA:
-		{
-			if (!hascamera) {
-				char* b = new char[100];
-				sprintf(b, "This object already has a camera and cannot have more than one \n\n");
-				App->menu->console.AddLog(b);
-				delete[] b;
-			}
-			else {
-				camera = new ComponentCamera(this);
-				hascamera = true;
-			}
-			break;
-		}
-		case MESH:
-		{
-			hasmesh = true;
-			ComponentMesh c = App->renderer->createComponentMesh(this);
-			meshes.push_back(&c);
-			break;
-		}
-		case MATERIAL:
-		{
-			hasmaterial = true;
-			ComponentMaterial c = App->textures->createComponentMaterial(this);
-			materials.push_back(&c);
-			break;
 		}
 	}
 }
@@ -145,9 +141,26 @@ void GameObject::ChangeName(char* n) {
 	name = n;
 }
 
+void GameObject::toggleMeshActivation() {
+	if (mesh != nullptr) {
+		mesh->active = active;
+	}
+	if (shape != nullptr) {
+		shape->active = active;
+	}
+}
+
 void GameObject::activeToggled() {
-	for (int i = 0; i < meshes.size(); ++i) {
-		meshes[i]->active = active;
+	if (Physical) {
+		parent->active = !parent->active;
+		active = parent->active;
+		toggleMeshActivation();
+	}
+	else {
+		for (int i = 0; i < meshesOrShapes.size(); ++i) {
+			meshesOrShapes[i]->active = active;
+			meshesOrShapes[i]->toggleMeshActivation();
+		}
 	}
 	for (int i = 0; i < materials.size(); ++i) {
 		materials[i]->active = active;
@@ -155,7 +168,7 @@ void GameObject::activeToggled() {
 	if (hascamera) {
 		camera->active = active;
 	}
-	transform->active = active;
+	if(transform != nullptr) transform->active = active;
 }
 
 void GameObject::staticToggled(bool first) {
@@ -203,10 +216,12 @@ void GameObject::saveObject(JSON_Value* objValue) {
 			materials[i]->saveMaterial(currentValue);
 		}
 	}
-	if (hasmesh) {
-		for (int i = 0; i < meshes.size(); ++i) {
-			meshes[i]->saveMesh(currentValue);
-		}
+	for (int i = 0; i < meshesOrShapes.size(); ++i) {
+		meshesOrShapes[i]->saveObject(currentValue);
+	}
+	if (Physical) {
+		if (mesh != nullptr) mesh->saveMesh(currentValue);
+		if (shape != nullptr) shape->saveShape(currentValue);
 	}
 	transform->saveTransform(currentValue);
 
