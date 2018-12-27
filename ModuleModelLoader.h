@@ -10,6 +10,7 @@ class aiMesh;
 class aiMaterial;
 class ComponentMesh;
 class ComponentMaterial;
+class ComponentShape;
 class GameObject;
 
 class ModuleModelLoader :
@@ -24,11 +25,15 @@ public:
 	void deleteVBO(unsigned vbo);
 	void deleteVIO(unsigned vio);
 	void unloadTexture(unsigned tex0);
+	bool loadSphere(GameObject* object);
+	bool loadCylinder(GameObject* object);
+	bool loadTorus(GameObject* object);
 	
 	//variables
 	unsigned currentModel;
 	int currentModelTriangleCount;
 	std::vector<ComponentMesh*> allMeshes;
+	std::vector<ComponentShape*> allShapes;
 	
 private:
 	//const aiScene* scene;

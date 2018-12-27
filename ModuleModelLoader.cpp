@@ -21,12 +21,7 @@
 
 ModuleModelLoader::ModuleModelLoader()
 {
-	/*LoadSphere("sphere0", math::float3(1.0f, 1.0f, 1.0f), math::Quat::identity, 1.0f, 20, 20, math::float4(0.5f, 0.0f, 0.5f, 1.0f));
-	materials.back().k_specular = 0.9f;
-	materials.back().shininess = 64.0f;
-	materials.back().k_specular = 0.6f;
-	materials.back().k_diffuse = 0.5f;
-	materials.back().k_ambient = 1.0f;*/
+
 }
 
 
@@ -186,3 +181,18 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	Obj->hasmaterial = true;
 }
 
+bool ModuleModelLoader::loadSphere(GameObject* object) {
+	if (object == nullptr) object = new GameObject("Sphere", App->scene->baseObject);
+
+	return true;
+}
+bool ModuleModelLoader::loadCylinder(GameObject* object) {
+	if (object == nullptr) object = new GameObject("Cylinder", App->scene->baseObject);
+
+	return true;
+}
+bool ModuleModelLoader::loadTorus(GameObject* object) {
+	if (object == nullptr) object = new GameObject("Torus", App->scene->baseObject);
+
+	return true;
+}
