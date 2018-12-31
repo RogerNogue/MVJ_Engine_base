@@ -19,6 +19,7 @@ enum component_type{
 	MESH,
 	MATERIAL,
 	TRANSFORM,
+	SHAPE,
 	OBJECT
 };
 

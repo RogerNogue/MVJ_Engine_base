@@ -3,6 +3,8 @@
 #include "imgui.h"
 #include "QuadTreeGnoblin.h"
 #include "Serializer.h"
+#include "Application.h"
+#include "ModuleMenu.h"
 
 ModuleScene::ModuleScene()
 {
@@ -25,7 +27,7 @@ bool ModuleScene::Init() {
 	return true;
 }
 
-void ModuleScene::createGameObject(char* c) {
+void ModuleScene::createGameObject(const char* c) {
 	GameObject newObject(c);
 }
 void ModuleScene::setUpGameObjectMenu() {
@@ -34,6 +36,11 @@ void ModuleScene::setUpGameObjectMenu() {
 		sprintf_s(sceneName, 100, "Scene_%d.GNOBLIN", sceneNum);
 		saveScene(sceneName);
 		++sceneNum;
+	}
+	if (ImGui::Button("Load scene")) {
+		char sceneName[100];
+		sprintf_s(sceneName, 100, "Scene_%d.GNOBLIN", sceneNum);
+		loadScene(sceneName);
 	}
 	//maybe drag and drop?
 	/*bool loading = true;
@@ -127,6 +134,15 @@ void ModuleScene::addIntoQuadTree(GameObject* obj) {
 }
 
 void ModuleScene::saveScene(const char* name) {
+
+	char* b = new char[100];
+	sprintf(b, "Saving Scene: ");
+	App->menu->console.AddLog(b);
+	App->menu->console.AddLog(name);
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
+
 	char fullPath[100];
 	strcpy(fullPath, folderPath);
 	strcat(fullPath, name);
@@ -143,5 +159,58 @@ void ModuleScene::saveScene(const char* name) {
 	json->closeFile();
 }
 void ModuleScene::loadScene(const char* name) {
+	char* b = new char[100];
+	sprintf(b, "Loading Scene: ");
+	App->menu->console.AddLog(b);
+	App->menu->console.AddLog("Scene_1.GNOBLIN");
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
 
+	//delete current scene
+	baseObject->deleteObject();
+
+	//load new scene
+	char fullPath[100];
+	strcpy(fullPath, folderPath);
+	strcat(fullPath, "Scene_1.GNOBLIN");
+	JSON_File* json = Serializer::openReadJSON(fullPath);
+	if (json == nullptr) {
+		char* b = new char[100];
+		sprintf(b, "Scene with name ");
+		App->menu->console.AddLog(b);
+		App->menu->console.AddLog(name);
+		sprintf(b, "Does not exist.\n\n");
+		App->menu->console.AddLog(b);
+		delete[] b;
+		return;
+	}
+	JSON_Value* sceneObjects = json->getValue("Scene Objects");
+	if (sceneObjects->getRapidJSONValue()->IsArray()) {
+		std::vector<GameObject*> redObjects;
+		for (int i = 0; i < sceneObjects->getRapidJSONValue()->Size(); ++i) {
+			GameObject* obj = new GameObject(sceneObjects->getValueFromArray(i));
+			redObjects.push_back(obj);
+		}
+		for (int i = 0; i < redObjects.size(); ++i) {
+			if (redObjects[i]->parentId != 0 && redObjects[i]->parent == nullptr) {
+				//if it has a parent, we look for him like the good people we are
+				for (int j = 0; j < redObjects.size(); ++j) {
+					if (redObjects[j]->id == redObjects[i]->parentId) {
+						redObjects[i]->parent = redObjects[j];
+						if (redObjects[i]->isPhysical()) {
+							redObjects[j]->meshesOrShapes.push_back(redObjects[i]);
+						}
+						else {
+							redObjects[j]->children.push_back(redObjects[i]);
+						}
+					}
+				}
+			}
+			else {
+				baseObject = redObjects[i];
+			}
+		}
+	}
+	json->closeFile();
 }

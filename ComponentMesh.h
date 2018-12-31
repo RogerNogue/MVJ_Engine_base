@@ -8,6 +8,7 @@ class ComponentMesh :
 {
 public:
 	ComponentMesh(GameObject* dad);
+	ComponentMesh(JSON_Value* mesh, GameObject* dad);
 	~ComponentMesh();
 	bool CleanUp() override;
 	void saveMesh(JSON_Value* val);

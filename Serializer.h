@@ -43,7 +43,7 @@ public:
 	int getInt(const char* name);
 	unsigned int getUint(const char* name);
 	float getFloat(const char* name);
-	const char* getString(const char* name);
+	char* getString(char* name);
 	bool getBool(const char* name);
 	float2 getVector2(const char* name);
 	float3 getVector3(const char* name);

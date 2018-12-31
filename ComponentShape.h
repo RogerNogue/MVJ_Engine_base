@@ -9,6 +9,7 @@ class ComponentShape :
 {
 public:
 	ComponentShape(GameObject* dad);
+	ComponentShape(JSON_Value* shapeFile, GameObject* dad);
 	~ComponentShape();
 	bool CleanUp()override;
 	void generateSphere(unsigned slices, unsigned stacks, math::float4* color);

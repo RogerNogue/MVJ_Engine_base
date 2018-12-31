@@ -15,7 +15,7 @@ public:
 	~ModuleScene();
 
 	bool Init()override;
-	void createGameObject(char* c);
+	void createGameObject(const char* c);
 	void setUpGameObjectMenu();
 	void addIntoQuadTree(GameObject* obj);
 	//add a save and load function

@@ -46,7 +46,7 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 	const aiScene* scene;
 	currentModel = model;
 	currentModelTriangleCount = 0;
-	char* modelName;
+	const char* modelName;
 	if (model == 1) {
 		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Baker House";

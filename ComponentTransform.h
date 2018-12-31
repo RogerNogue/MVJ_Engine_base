@@ -8,6 +8,7 @@ class ComponentTransform :
 {
 public:
 	ComponentTransform(GameObject* dad);
+	ComponentTransform(JSON_Value* transfFile, GameObject* dad);
 	~ComponentTransform();
 	update_status Update() override;
 	void placeAt000();

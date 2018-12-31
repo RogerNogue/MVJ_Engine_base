@@ -10,6 +10,7 @@ class ComponentCamera :
 {
 public:
 	ComponentCamera(GameObject* dad);
+	ComponentCamera(JSON_Value* camFile, GameObject* dad);
 	~ComponentCamera();
 
 	bool Init() override;

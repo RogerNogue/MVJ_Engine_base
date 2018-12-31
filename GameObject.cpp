@@ -18,9 +18,11 @@
 #include "Serializer.h"
 #include "ComponentShape.h"
 
-GameObject::GameObject(char* n) :
-	name(n)
-{
+GameObject::GameObject(const char* n){
+	char* copyName = new char[strlen(n)];
+	strcpy(copyName, n);
+	name = copyName;
+
 	active = true;
 	id = App->generateID();
 	transform = new ComponentTransform(this);	
@@ -30,12 +32,16 @@ GameObject::GameObject(char* n) :
 	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
+	parentId = 0;
 }
 
-GameObject::GameObject(char* n, GameObject* parent) :
-	name(n),
+GameObject::GameObject(const char* n, GameObject* parent):
 	parent(parent)
 {
+	char* copyName = new char[strlen(n)];
+	strcpy(copyName, n);
+	name = copyName;
+
 	active = true;
 	parent->children.push_back(this);
 	id = App->generateID();
@@ -46,13 +52,17 @@ GameObject::GameObject(char* n, GameObject* parent) :
 	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
+	parentId = parent->id;
 }
 
-GameObject::GameObject(char* n, GameObject* parent, bool physical) :
-	name(n),
+GameObject::GameObject(const char* n, GameObject* parent, bool physical) :
 	parent(parent),
 	Physical(physical)
 {
+	char* copyName = new char[strlen(n)];
+	strcpy(copyName, n);
+	name = copyName;
+
 	active = true;
 	if (physical) {
 		parent->meshesOrShapes.push_back(this);
@@ -61,7 +71,60 @@ GameObject::GameObject(char* n, GameObject* parent, bool physical) :
 		parent->children.push_back(this);
 		transform = new ComponentTransform(this);
 	}
+	minX = minY = minZ = -1;
+	maxX = maxY = maxZ = 1;
 	id = App->generateID();
+	App->scene->allObjects.push_back(this);
+	parentId = parent->id;
+}
+
+GameObject::GameObject(JSON_Value* objValue) {
+	id = objValue->getUint("ID");
+	parentId = objValue->getUint("ParentID");
+	active = objValue->getBool("Is active");
+	isStatic = objValue->getBool("Is static");
+	paintBB = objValue->getBool("Bounding box painted");
+	name = objValue->getString("name");
+	hascamera = objValue->getBool("Has camera");
+	hasmesh = objValue->getBool("Has mesh");
+	hasmaterial = objValue->getBool("Has material");
+	hasShape = objValue->getBool("Has shape");
+	minX = objValue->getFloat("Min X");
+	minY = objValue->getFloat("Min Y");
+	minZ = objValue->getFloat("Min Z");
+	maxX = objValue->getFloat("Max X");
+	maxY = objValue->getFloat("Max Y");
+	maxZ = objValue->getFloat("Max Z");
+	Physical = objValue->getBool("Physical");
+	BBGenerated = objValue->getBool("BBgen");
+
+	JSON_Value* Components = objValue->getValue("Component"); //It is an array of values
+	if (Components->getRapidJSONValue()->IsArray()) //Just make sure
+	{
+		ComponentMaterial* mat = nullptr;
+		for (int i = 0; i < Components->getRapidJSONValue()->Size(); i++)
+		{
+			JSON_Value* componentData = Components->getValueFromArray(i); //Get the component data
+			switch (componentData->getInt("Type")) {
+			case MESH:
+				mesh = new ComponentMesh(componentData, this);
+				break;
+			case CAMERA:
+				camera = new ComponentCamera(componentData, this);
+				break;
+			case MATERIAL:
+				mat = new ComponentMaterial(componentData, this);
+				materials.push_back(mat);
+				break;
+			case TRANSFORM:
+				transform = new ComponentTransform(componentData, this);
+				break;
+			case SHAPE:
+				shape = new ComponentShape(componentData, this);
+				break;
+			}
+		}
+	}
 	App->scene->allObjects.push_back(this);
 }
 
@@ -80,17 +143,19 @@ void GameObject::deleteObject() {
 
 	for (int i = 0; i < children.size(); ++i) {
 		children[i]->deleteObject();
-		delete children[i];
+		//delete children[i];
 	}
-	parent->deleteChild(id);
+	if(parent != nullptr) parent->deleteChild(id);
 	children.clear();
 	if(!Physical){
 		for (int i = 0; i < meshesOrShapes.size(); ++i) {
 			for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-				if (App->modelLoader->allMeshes[j] == meshesOrShapes[i]->mesh) {
+				if (App->modelLoader->allMeshes[j]->id == meshesOrShapes[i]->mesh->id) {
 					App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
 				}
-				if (App->modelLoader->allShapes[j] == meshesOrShapes[i]->shape) {
+			}
+			for (int j = 0; j < App->modelLoader->allShapes.size(); ++j) {
+				if (App->modelLoader->allShapes[j]->id == meshesOrShapes[i]->shape->id) {
 					App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
 				}
 			}
@@ -190,43 +255,57 @@ void GameObject::saveObject(JSON_Value* objValue) {
 	JSON_Value* currentValue = objValue->createValue();
 
 	currentValue->addUint("ID", id);
+	currentValue->addUint("ParentID", parentId);
 	currentValue->addBool("Is active", active);
 	currentValue->addBool("Is static", isStatic);
 	currentValue->addBool("Bounding box painted", paintBB);
-	currentValue->addString("name: ", name);
+	currentValue->addString("name", name);
 	currentValue->addBool("Has camera", hascamera);
 	currentValue->addBool("Has mesh", hasmesh);
 	currentValue->addBool("Has material", hasmaterial);
+	currentValue->addBool("Has shape", hasShape);
 	currentValue->addFloat("Min X", minX);
 	currentValue->addFloat("Min Y", minY);
 	currentValue->addFloat("Min Z", minZ);
 	currentValue->addFloat("Max X", maxX);
 	currentValue->addFloat("Max Y", maxY);
 	currentValue->addFloat("Max Z", maxZ);
+	currentValue->addBool("BBgen", BBGenerated);
+	currentValue->addBool("Physical", Physical);
+
+	JSON_Value* Components = currentValue->createValue();
+	Components->convertToArray();
 
 
 	//have to create a json value and pass it to every object and component
 	//saving components:
 	if (hascamera) {
 		//when cameras are implemented should do this
-		camera->saveCamera(currentValue);
+		camera->saveCamera(Components);
 	}
 	if (hasmaterial) {
 		for (int i = 0; i < materials.size(); ++i) {
-			materials[i]->saveMaterial(currentValue);
+			materials[i]->saveMaterial(Components);
 		}
 	}
 	for (int i = 0; i < meshesOrShapes.size(); ++i) {
-		meshesOrShapes[i]->saveObject(currentValue);
+		meshesOrShapes[i]->saveObject(Components);
 	}
 	if (Physical) {
-		if (mesh != nullptr) mesh->saveMesh(currentValue);
-		if (shape != nullptr) shape->saveShape(currentValue);
+		if (mesh != nullptr) mesh->saveMesh(Components);
+		if (shape != nullptr) shape->saveShape(Components);
 	}
-	transform->saveTransform(currentValue);
+	else {
+		transform->saveTransform(Components);
+	}
+
+	currentValue->addValue("Component", Components);
 
 	//children
 	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(currentValue);
 
 	objValue->addValue(name, currentValue);
+}
+void GameObject::DrawProperties() {
+	ImGui::InputText("Name", (char*)name, 150.0f);
 }

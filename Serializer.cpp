@@ -282,9 +282,9 @@ float		JSON_Value::getFloat(const char* name) {
 	else
 		return 0.0f;
 }
-const char* JSON_Value::getString(const char* name) {
+char* JSON_Value::getString(char* name) {
 	if (value->HasMember(name))
-		return value->operator[](name).GetString();
+		return strdup(value->operator[](name).GetString());
 	else
 		return "";
 }

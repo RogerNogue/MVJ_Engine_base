@@ -14,9 +14,10 @@ class JSON_Value;
 class GameObject
 {
 public:
-	GameObject(char* n);
-	GameObject(char* n, GameObject* parent);
-	GameObject(char* n, GameObject* parent, bool physical);
+	GameObject(const char* n);
+	GameObject(const char* n, GameObject* parent);
+	GameObject(const char* n, GameObject* parent, bool physical);
+	GameObject(JSON_Value* objValue);
 	~GameObject();
 	void deleteObject();
 	void deleteChild(unsigned idc);
@@ -27,16 +28,19 @@ public:
 	void updateQuadTree();
 	void saveObject(JSON_Value* objValue);
 	inline bool isPhysical() { return Physical; }
+	void DrawProperties();
 
 	//variables
-	unsigned int id;
-	bool active;
+	unsigned int id = 0u;
+	unsigned int parentId = 0u;
+	bool active = true;
 	bool isStatic = true;
 	bool paintBB = false;
-	char* name;
+	const char* name = nullptr;
 	bool hascamera = false;
 	bool hasmesh = false;
 	bool hasmaterial = false;
+	bool hasShape = false;
 	ComponentMesh* mesh = nullptr;
 	ComponentShape* shape = nullptr;
 	std::vector<GameObject*> meshesOrShapes;

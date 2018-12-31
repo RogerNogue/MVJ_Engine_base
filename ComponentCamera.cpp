@@ -17,6 +17,11 @@ ComponentCamera::ComponentCamera(GameObject* dad):
 	id = App->generateID();
 }
 
+ComponentCamera::ComponentCamera(JSON_Value* camFile, GameObject* dad) :
+	Component(dad) {
+	type = CAMERA;
+}
+
 
 ComponentCamera::~ComponentCamera()
 {

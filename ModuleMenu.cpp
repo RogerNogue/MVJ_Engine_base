@@ -168,7 +168,9 @@ update_status ModuleMenu::Update() {
 				ImGui::Text("No object selected");
 			}
 			else {
-				ImGui::InputText("", App->scene->objectSelected->name, 150);
+				//ImGui::InputText("Name", (char*)App->scene->objectSelected->name, 150);
+				App->scene->objectSelected->DrawProperties();
+
 				if (ImGui::Checkbox("Active", &App->scene->objectSelected->active)) {
 					App->scene->objectSelected->activeToggled();
 				}

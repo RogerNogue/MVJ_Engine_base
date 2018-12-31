@@ -7,6 +7,7 @@ class ComponentMaterial :
 {
 public:
 	ComponentMaterial(GameObject* dad);
+	ComponentMaterial(JSON_Value* matFile, GameObject* dad);
 	~ComponentMaterial();
 	bool CleanUp() override;
 	void saveMaterial(JSON_Value* val);

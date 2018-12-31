@@ -38,6 +38,19 @@ ComponentTransform::ComponentTransform(GameObject* dad):
 	}
 }
 
+ComponentTransform::ComponentTransform(JSON_Value* transfFile, GameObject* dad) :
+	Component(dad) 
+{
+	type = TRANSFORM;
+	id = transfFile->getUint("ID");
+	active = transfFile->getBool("Active");
+	objectMoved = false;//may have to switch this, but unlikely
+	positionValues = transfFile->getVector3("Position");
+	rotationValues = transfFile->getVector3("Rotation");
+	scaleValues = transfFile->getVector3("Scale");
+	transformMatrix = transfFile->getTransform("Transform matrix");
+}
+
 
 ComponentTransform::~ComponentTransform()
 {
@@ -87,9 +100,11 @@ void ComponentTransform::placeAt000() {
 
 void ComponentTransform::saveTransform(JSON_Value* val) {
 	JSON_Value* transfVal = val->createValue();
+	//transfVal->convertToArray();
 
 	transfVal->addUint("ID", id);
-	//probably should make it false
+	transfVal->addInt("Type", type);
+	transfVal->addBool("Active", active);
 	transfVal->addBool("object Moved", objectMoved);
 	transfVal->addVector3("Position", positionValues);
 	transfVal->addVector3("Rotation", rotationValues);

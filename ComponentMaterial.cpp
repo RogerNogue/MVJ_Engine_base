@@ -12,6 +12,14 @@ ComponentMaterial::ComponentMaterial(GameObject* dad):
 	id = App->generateID();
 }
 
+ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
+	Component(dad) {
+	type = MATERIAL;
+	active = matFile->getBool("Active");
+	material.texture0 = matFile->getUint("Texture");
+	material.sizeX = matFile->getFloat("Width");
+	material.sizeY = matFile->getFloat("Height");
+}
 
 ComponentMaterial::~ComponentMaterial()
 {
@@ -25,8 +33,11 @@ bool ComponentMaterial::CleanUp() {
 
 void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	JSON_Value* mat = val->createValue();
+	//mat->convertToArray();
 
 	mat->addUint("ID", id);
+	mat->addInt("Type", type);
+	mat->addBool("Active", active);
 	mat->addUint("Texture", material.texture0);
 	mat->addFloat("Width", material.sizeX);
 	mat->addFloat("Height", material.sizeY);
