@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ComponentCamera.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentShape.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\AABB.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\BitOps.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Capsule.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Circle.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Time\Clock.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Cone.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Cylinder.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float2.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float3.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float3x3.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float3x4.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float4.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\float4x4.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Frustum.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_demo.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_draw.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_widgets.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Algorithm\Random\LCG.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Line.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\LineSegment.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\OBB.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Plane.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Polygon.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Polyhedron.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\Polynomial.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\Quat.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Ray.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Sphere.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\SSEMath.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\TransformOps.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\Triangle.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Geometry\TriangleMesh.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\MathFunc.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\MathLog.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="MathGeoLib\include\Math\MathOps.cpp">
+      <Filter>zzshiet</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCamera.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleDebugDraw.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleInput.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleMenu.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleModelLoader.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleProgram.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRender.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTextures.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTimer.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleWindow.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadNode.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeGnoblin.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentShape.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\AABB.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\AABB2D.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\BitOps.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Capsule.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Circle.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Time\Clock.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\Complex.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Cone.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\CoordinateAxisConvention.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Cylinder.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="debugdraw.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\FixedPoint.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float2.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float3.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float3x3.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float3x4.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4_neon.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4_sse.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4x4.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4x4_neon.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\float4x4_sse.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\FloatCmp.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Frustum.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\assume.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\GeometryAll.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\GeomType.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\HitInfo.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imconfig.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui_internal.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_rectpack.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_textedit.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_truetype.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\KDTree.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Algorithm\Random\LCG.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Line.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\LineSegment.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\Polynomial.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\myassert.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\OBB.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\PBVolume.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Plane.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Polygon.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Polyhedron.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\QuadTree.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\Quat.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\quat_simd.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Ray.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\Rect.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\Reinterpret.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Sphere.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\sse_mathfun.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\SSEMath.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\TransformOps.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\Triangle.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Geometry\TriangleMesh.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MatrixProxy.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathAll.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathConstants.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathFunc.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathLog.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathNamespace.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="MathGeoLib\include\Math\MathTypes.h">
+      <Filter>zzshiet</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleCamera.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleDebugDraw.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleInput.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleMenu.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleModelLoader.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleProgram.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRender.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTextures.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTimer.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleWindow.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadNode.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeGnoblin.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Game\Default.fs">
+      <Filter>zzshiet</Filter>
+    </None>
+    <None Include="Game\Default.vs">
+      <Filter>zzshiet</Filter>
+    </None>
+    <None Include="IMGUI\.travis.yml">
+      <Filter>zzshiet</Filter>
+    </None>
+    <None Include="Game\lineFragment.fs">
+      <Filter>zzshiet</Filter>
+    </None>
+    <None Include="Game\lineVertex.vs">
+      <Filter>zzshiet</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{4fdd2662-e101-4497-9b1d-ff532c9feb85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{726cadb0-1606-49c9-81c5-d5cc8a4ef9b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zzshiet">
+      <UniqueIdentifier>{16f68c23-8489-4526-94d7-4ad365d841ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Others">
+      <UniqueIdentifier>{aae61387-4688-422b-ae49-9dcab9bd6d9e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

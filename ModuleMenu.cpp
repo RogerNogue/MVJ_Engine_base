@@ -29,6 +29,9 @@ ModuleMenu::~ModuleMenu()
 bool ModuleMenu::Init() {
 	// Setup window
 	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
 	ImGui_ImplOpenGL3_Init(GLSL_VERSION);
 	//setting up the vars for the logs
@@ -110,6 +113,10 @@ update_status ModuleMenu::Update() {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Demo window")) {
+			ImGui::ShowDemoWindow();
+		}
+
 		if (ImGui::BeginMenu("Exit")) {
 			return UPDATE_STOP;
 		}
@@ -121,7 +128,7 @@ update_status ModuleMenu::Update() {
 
 	ImGui::Begin("Editor Properties", &displaying);
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
-	if (ImGui::BeginTabBar("MyTabBar", tab_bar_flags))
+	if (ImGui::BeginTabBar("MyTabBar"))
 	{
 		if (ImGui::BeginTabItem("Application details"))
 		{
