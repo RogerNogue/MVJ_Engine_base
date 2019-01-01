@@ -1,5 +1,6 @@
 #include "ComponentMaterial.h"
 #include "Application.h"
+#include "ModuleModelLoader.h"
 #include "ModuleTextures.h"
 #include "Application.h"
 #include "Serializer.h"
@@ -16,9 +17,11 @@ ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
 	Component(dad) {
 	type = MATERIAL;
 	active = matFile->getBool("Active");
-	material.texture0 = matFile->getUint("Texture");
-	material.sizeX = matFile->getFloat("Width");
-	material.sizeY = matFile->getFloat("Height");
+	id = matFile->getUint("ID");
+	numModel = matFile->getInt("numModel");
+	numMaterial = matFile->getInt("numMaterial");
+
+	App->modelLoader->GenerateOneMaterialData(this);
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -38,9 +41,8 @@ void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	mat->addUint("ID", id);
 	mat->addInt("Type", type);
 	mat->addBool("Active", active);
-	mat->addUint("Texture", material.texture0);
-	mat->addFloat("Width", material.sizeX);
-	mat->addFloat("Height", material.sizeY);
-
+	mat->addInt("numModel", numModel);
+	mat->addInt("numMaterial", numMaterial);
+	
 	val->addValue("Material", mat);
 }

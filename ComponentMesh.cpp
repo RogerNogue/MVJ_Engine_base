@@ -2,6 +2,7 @@
 #include "GL/glew.h"
 #include "Application.h"
 #include "Serializer.h"
+#include "ModuleModelLoader.h"
 
 ComponentMesh::ComponentMesh(GameObject* dad):
 	Component(dad)
@@ -17,12 +18,10 @@ ComponentMesh::ComponentMesh(JSON_Value* meshFile, GameObject* dad) :
 	type = MESH;
 	active = meshFile->getBool("Active");
 	id = meshFile->getUint("ID");
-	mesh.material = meshFile->getUint("Material");
-	mesh.numIndices = meshFile->getUint("Number of indices");
-	mesh.numVertices = meshFile->getUint("Number of vertices");
-	mesh.vbo = meshFile->getUint("VBO");
-	mesh.vio = meshFile->getUint("IBO");
-
+	numMesh = meshFile->getUint("numMesh");
+	numModel = meshFile->getUint("numModel");
+	
+	App->modelLoader->GenerateOneMeshData(this);
 }
 
 ComponentMesh::~ComponentMesh()
@@ -58,11 +57,8 @@ void ComponentMesh::saveMesh(JSON_Value* val) {
 	meshval->addBool("Active", active);
 	meshval->addUint("ID", id);
 	meshval->addInt("Type", type);
-	meshval->addUint("VBO", mesh.vbo);
-	meshval->addUint("IBO", mesh.vio);
-	meshval->addUint("Material", mesh.material);
-	meshval->addUint("Number of vertices", mesh.numVertices);
-	meshval->addUint("Number of indices", mesh.numIndices);
+	meshval->addUint("numModel", numModel);
+	meshval->addUint("numMesh", numMesh);
 
 	val->addValue("Mesh", meshval);
 }

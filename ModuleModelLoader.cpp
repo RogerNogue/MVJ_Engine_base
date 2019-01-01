@@ -87,13 +87,13 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		GenerateMeshData(scene->mMeshes[i], object);
+		GenerateMeshData(scene->mMeshes[i], object, i, model);
 		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices / 3;
 	}
 	object->calculateAABB();
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
-		GenerateMaterialData(scene->mMaterials[i], object);
+		GenerateMaterialData(scene->mMaterials[i], object, model, i);
 	}
 	aiReleaseImport(scene);
 	App->camera->mewModelLoaded();
@@ -103,9 +103,11 @@ void ModuleModelLoader::unloadModels() {
 	CleanUp();
 }
 
-void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
+void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel) {
 	GameObject* meshObject = new GameObject("MeshObject", Obj, true);
 	ComponentMesh* newMesh = new ComponentMesh (meshObject);
+	newMesh->numMesh = numMesh;
+	newMesh->numModel = numModel;
 	//vbo
 	glGenBuffers(1, &newMesh->mesh.vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
@@ -166,7 +168,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj) {
 	allMeshes.push_back(newMesh);
 }
 
-void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj) {
+void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i) {
 	ComponentMaterial* newMat = new ComponentMaterial(Obj);
 
 	aiString file;
@@ -179,6 +181,8 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("models/shield/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
 	
 	Obj->materials.push_back(newMat);
+	Obj->materials[Obj->materials.size() - 1]->numModel = model;
+	Obj->materials[Obj->materials.size() - 1]->numMaterial = i;
 	Obj->hasmaterial = true;
 }
 
@@ -196,4 +200,80 @@ bool ModuleModelLoader::loadTorus(GameObject* object) {
 	if (object == nullptr) object = new GameObject("Torus", App->scene->baseObject);
 
 	return true;
+}
+
+void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
+	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	if (newMesh->numModel == 1) {
+		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	else if (newMesh->numModel == 2) {
+		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	else if (newMesh->numModel == 3) {
+		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+
+	//vbo
+	glGenBuffers(1, &newMesh->mesh.vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
+
+	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*scene->mMeshes[newMesh->numMesh]->mNumVertices, nullptr, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, scene->mMeshes[newMesh->numMesh]->mNumVertices * 3 * sizeof(float), scene->mMeshes[newMesh->numMesh]->mVertices);
+
+	//buffer for the faces (vio)
+	math::float2* textureCoords = (math::float2*) glMapBufferRange(GL_ARRAY_BUFFER, 
+		scene->mMeshes[newMesh->numMesh]->mNumVertices * 3 * sizeof(float),
+		scene->mMeshes[newMesh->numMesh]->mNumVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
+	for (unsigned i = 0; i < scene->mMeshes[newMesh->numMesh]->mNumVertices; ++i) {
+		textureCoords[i] = math::float2(scene->mMeshes[newMesh->numMesh]->mTextureCoords[0][i].x, scene->mMeshes[newMesh->numMesh]->mTextureCoords[0][i].y);
+		//i use this loop to update the bounding box values
+	}
+	glUnmapBuffer(GL_ARRAY_BUFFER);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &newMesh->mesh.vio);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh->mesh.vio);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*scene->mMeshes[newMesh->numMesh]->mNumFaces * 3, nullptr, GL_STATIC_DRAW);
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
+		sizeof(unsigned)*scene->mMeshes[newMesh->numMesh]->mNumFaces * 3, GL_MAP_WRITE_BIT);
+
+	for (unsigned i = 0; i < scene->mMeshes[newMesh->numMesh]->mNumFaces; ++i)
+	{
+		assert(scene->mMeshes[newMesh->numMesh]->mFaces[i].mNumIndices == 3);
+
+		*(indices++) = scene->mMeshes[newMesh->numMesh]->mFaces[i].mIndices[0];
+		*(indices++) = scene->mMeshes[newMesh->numMesh]->mFaces[i].mIndices[1];
+		*(indices++) = scene->mMeshes[newMesh->numMesh]->mFaces[i].mIndices[2];
+	}
+
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	newMesh->mesh.material = scene->mMeshes[newMesh->numMesh]->mMaterialIndex;
+	newMesh->mesh.numIndices = scene->mMeshes[newMesh->numMesh]->mNumFaces * 3;
+	newMesh->mesh.numVertices = scene->mMeshes[newMesh->numMesh]->mNumVertices;
+	allMeshes.push_back(newMesh);
+}
+
+void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) {
+	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	if (newMaterial->numModel == 1) {
+		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	else if (newMaterial->numModel == 2) {
+		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	else if (newMaterial->numModel == 3) {
+		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	aiString file;
+	aiTextureMapping mapping;
+	unsigned uvindex = 0;
+	if (scene->mMaterials[newMaterial->numMaterial]->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
+		newMaterial->material.texture0 = App->textures->Load(file.data, false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	}
+	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("models/banana/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("models/shield/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+
 }

@@ -28,6 +28,8 @@ public:
 	bool loadSphere(GameObject* object);
 	bool loadCylinder(GameObject* object);
 	bool loadTorus(GameObject* object);
+	void GenerateOneMeshData(ComponentMesh* newMesh);
+	void GenerateOneMaterialData(ComponentMaterial* newMaterial);
 	
 	//variables
 	unsigned currentModel;
@@ -37,8 +39,8 @@ public:
 	
 private:
 	//const aiScene* scene;
-	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj);
-	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj);
+	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel);
+	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i);
 	//variables
 	
 };

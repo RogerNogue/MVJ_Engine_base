@@ -24,5 +24,7 @@ public:
 
 	//vars
 	myMesh mesh;
+	unsigned numModel = 0;
+	unsigned numMesh = 0;
 };
 #endif

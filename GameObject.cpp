@@ -273,7 +273,7 @@ void GameObject::saveObject(JSON_Value* objValue) {
 	currentValue->addBool("BBgen", BBGenerated);
 	currentValue->addBool("Physical", Physical);
 
-	JSON_Value* Components = currentValue->createValue();
+	JSON_Value* Components = objValue->createValue();
 	Components->convertToArray();
 
 
@@ -289,7 +289,7 @@ void GameObject::saveObject(JSON_Value* objValue) {
 		}
 	}
 	for (int i = 0; i < meshesOrShapes.size(); ++i) {
-		meshesOrShapes[i]->saveObject(Components);
+		meshesOrShapes[i]->saveObject(objValue);
 	}
 	if (Physical) {
 		if (mesh != nullptr) mesh->saveMesh(Components);
@@ -301,10 +301,10 @@ void GameObject::saveObject(JSON_Value* objValue) {
 
 	currentValue->addValue("Component", Components);
 
-	//children
-	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(currentValue);
+	objValue->addValue("", currentValue);
 
-	objValue->addValue(name, currentValue);
+	//children
+	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(objValue);
 }
 void GameObject::DrawProperties() {
 	ImGui::InputText("Name", (char*)name, 150.0f);

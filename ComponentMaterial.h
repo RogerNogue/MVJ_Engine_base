@@ -21,5 +21,7 @@ public:
 
 	//vars
 	myMaterial material;
+	int numModel = 0;
+	int numMaterial = 0;
 };
 #endif
