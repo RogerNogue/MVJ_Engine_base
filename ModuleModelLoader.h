@@ -12,6 +12,7 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentShape;
 class GameObject;
+struct par_shapes_mesh;
 
 class ModuleModelLoader :
 	public Module
@@ -25,15 +26,22 @@ public:
 	void deleteVBO(unsigned vbo);
 	void deleteVIO(unsigned vio);
 	void unloadTexture(unsigned tex0);
-	bool loadSphere(GameObject* object);
-	bool loadCylinder(GameObject* object);
-	bool loadTorus(GameObject* object);
+	bool CreateSphere(GameObject* object);
+	bool CreateCube(GameObject* object);
+	bool CreateCylinder(GameObject* object);
+	bool CreateTorus(GameObject* object);
+
+	bool LoadSphere(ComponentShape* sphere);
+	bool LoadCube(ComponentShape* cube);
+	bool LoadCylinder(ComponentShape* cylinder);
+	bool LoadTorus(ComponentShape* torus);
+
 	void GenerateOneMeshData(ComponentMesh* newMesh);
 	void GenerateOneMaterialData(ComponentMaterial* newMaterial);
 	
 	//variables
-	unsigned currentModel;
-	int currentModelTriangleCount;
+	unsigned currentModel = 0;
+	int currentModelTriangleCount = 0;
 	std::vector<ComponentMesh*> allMeshes;
 	std::vector<ComponentShape*> allShapes;
 	
@@ -41,6 +49,7 @@ private:
 	//const aiScene* scene;
 	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel);
 	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i);
+	void generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat);
 	//variables
 	
 };

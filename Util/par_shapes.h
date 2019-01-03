@@ -48,14 +48,14 @@ extern "C" {
 #define PAR_SHAPES_T uint16_t
 #endif
 
-typedef struct par_shapes_mesh_s {
+typedef struct par_shapes_mesh {
     float* points;           // Flat list of 3-tuples (X Y Z X Y Z...)
     int npoints;             // Number of points
     PAR_SHAPES_T* triangles; // Flat list of 3-tuples (I J K I J K...)
     int ntriangles;          // Number of triangles
     float* normals;          // Optional list of 3-tuples (X Y Z X Y Z...)
     float* tcoords;          // Optional list of 2-tuples (U V U V U V...)
-} par_shapes_mesh;
+};
 
 void par_shapes_free_mesh(par_shapes_mesh*);
 

@@ -22,6 +22,12 @@ enum component_type{
 	SHAPE,
 	OBJECT
 };
+enum shape_type {
+	SPHERE,
+	CUBE,
+	TORUS,
+	CYLINDER
+};
 
 // Configuration -----------
 #define SCREEN_WIDTH 1600

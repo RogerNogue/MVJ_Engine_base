@@ -20,6 +20,8 @@ ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
 	id = matFile->getUint("ID");
 	numModel = matFile->getInt("numModel");
 	numMaterial = matFile->getInt("numMaterial");
+	isTexture = matFile->getBool("isTexture");
+	surface.color = matFile->getVector4("Color");
 
 	App->modelLoader->GenerateOneMaterialData(this);
 }
@@ -43,6 +45,8 @@ void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	mat->addBool("Active", active);
 	mat->addInt("numModel", numModel);
 	mat->addInt("numMaterial", numMaterial);
-	
+	mat->addBool("isTexture", isTexture);
+	mat->addVector4("Color", surface.color);
+
 	val->addValue("Material", mat);
 }

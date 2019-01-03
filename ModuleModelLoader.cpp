@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModuleCamera.h"
 #include "ComponentMesh.h"
+#include "ComponentShape.h"
 #include "ComponentMaterial.h"
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
@@ -105,7 +106,7 @@ void ModuleModelLoader::unloadModels() {
 
 void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel) {
 	GameObject* meshObject = new GameObject("MeshObject", Obj, true);
-	ComponentMesh* newMesh = new ComponentMesh (meshObject);
+	ComponentMesh* newMesh = new ComponentMesh(meshObject);
 	newMesh->numMesh = numMesh;
 	newMesh->numModel = numModel;
 	//vbo
@@ -186,20 +187,149 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	Obj->hasmaterial = true;
 }
 
-bool ModuleModelLoader::loadSphere(GameObject* object) {
-	if (object == nullptr) object = new GameObject("Sphere", App->scene->baseObject);
+
+bool ModuleModelLoader::CreateSphere(GameObject* object) {
+	GameObject* shapeObject = new GameObject("ShapeObject", object, true);
+	ComponentShape* newShape = new ComponentShape(shapeObject, SPHERE);
+	
+	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	newShape->material = newShape->dad->parent->materials.size();
+	newShape->dad->parent->materials.push_back(mat);
+
+	LoadSphere(newShape);
+	return true;
+}
+bool ModuleModelLoader::CreateCube(GameObject* object) {
+	GameObject* shapeObject = new GameObject("ShapeObject", object, true);
+	ComponentShape* newShape = new ComponentShape(shapeObject, CUBE);
+
+	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	newShape->material = newShape->dad->parent->materials.size();
+	newShape->dad->parent->materials.push_back(mat);
+
+	LoadCube(newShape);
+	return true;
+}
+bool ModuleModelLoader::CreateCylinder(GameObject* object) {
+	GameObject* shapeObject = new GameObject("ShapeObject", object, true);
+	ComponentShape* newShape = new ComponentShape(shapeObject, CYLINDER);
+
+	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	newShape->material = newShape->dad->parent->materials.size();
+	newShape->dad->parent->materials.push_back(mat);
+
+	LoadCylinder(newShape);
+	return true;
+}
+bool ModuleModelLoader::CreateTorus(GameObject* object) {
+	GameObject* shapeObject = new GameObject("ShapeObject", object, true);
+	ComponentShape* newShape = new ComponentShape(shapeObject, TORUS);
+
+	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	newShape->material = newShape->dad->parent->materials.size();
+	newShape->dad->parent->materials.push_back(mat);
+
+	LoadTorus(newShape);
+	return true;
+}
+
+bool ModuleModelLoader::LoadSphere(ComponentShape* sphere) {
+
+	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(int(5), int(5));
+
+	if (mesh)
+	{
+		par_shapes_scale(mesh, sphere->size1, sphere->size1, sphere->size1);
+
+		generateShape(mesh, sphere, sphere->dad->parent->materials[sphere->material]);
+		par_shapes_free_mesh(mesh);
+
+		
+
+		return true;
+	}
+	return false;
+}
+bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
 
 	return true;
 }
-bool ModuleModelLoader::loadCylinder(GameObject* object) {
-	if (object == nullptr) object = new GameObject("Cylinder", App->scene->baseObject);
+bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
 
 	return true;
 }
-bool ModuleModelLoader::loadTorus(GameObject* object) {
-	if (object == nullptr) object = new GameObject("Torus", App->scene->baseObject);
+bool ModuleModelLoader::LoadTorus(ComponentShape* torus) {
 
 	return true;
+}
+
+void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat) {
+	glGenBuffers(1, &comp->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, comp->vbo);
+
+	// bounding box calculation
+	for (unsigned i = 0; i< unsigned(shape->npoints); ++i)
+	{
+		math::float3 point(shape->points[i * 3], shape->points[i * 3 + 1], shape->points[i * 3 + 2]);
+		
+		comp->dad->parent->minX = min(comp->dad->parent->minX, point[0]);
+		comp->dad->parent->maxX = min(comp->dad->parent->maxX, point[0]);
+		comp->dad->parent->minY = min(comp->dad->parent->minY, point[1]);
+		comp->dad->parent->maxY = min(comp->dad->parent->maxY, point[1]);
+		comp->dad->parent->minZ = min(comp->dad->parent->minZ, point[2]);
+		comp->dad->parent->maxZ = min(comp->dad->parent->maxZ, point[2]);
+	}
+
+	unsigned offset_acc = sizeof(math::float3);
+
+	if (shape->normals)
+	{
+		comp->normals_offset = offset_acc;
+		offset_acc += sizeof(math::float3);
+	}
+
+	comp->numVertices = offset_acc;
+
+	glBufferData(GL_ARRAY_BUFFER, comp->numVertices*shape->npoints, nullptr, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(math::float3)*shape->npoints, shape->points);
+
+	// normals
+
+	if (shape->normals)
+	{
+		glBufferSubData(GL_ARRAY_BUFFER, comp->normals_offset*shape->npoints, sizeof(math::float3)*shape->npoints, shape->normals);
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// indices
+
+	glGenBuffers(1, &comp->vio);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, comp->vio);
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned)*shape->ntriangles * 3, nullptr, GL_STATIC_DRAW);
+
+	unsigned* indices = (unsigned*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0,
+		sizeof(unsigned)*shape->ntriangles * 3, GL_MAP_WRITE_BIT);
+
+	for (unsigned i = 0; i< unsigned(shape->ntriangles * 3); ++i)
+	{
+		*(indices++) = shape->triangles[i];
+	}
+
+	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	comp->material = 0;
+	comp->numVertices = shape->npoints;
+	comp->numIndices = shape->ntriangles * 3;
+
+
+	//GenerateVAO(dst_mesh);
+	allShapes.push_back(comp);
+
+	/*bsphere.center = (max_v + min_v)*0.5f;
+	bsphere.radius = (max_v - min_v).Length()*0.5f;*/
 }
 
 void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {

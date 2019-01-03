@@ -2,22 +2,34 @@
 #define __ComponentShape_H__
 
 #include "Component.h"
-#include "MathGeoLib.h"
 class JSON_Value;
+class par_shapes_mesh;
 class ComponentShape :
 	public Component
 {
 public:
-	ComponentShape(GameObject* dad);
+	ComponentShape(GameObject* dad, shape_type type);
 	ComponentShape(JSON_Value* shapeFile, GameObject* dad);
 	~ComponentShape();
 	bool CleanUp()override;
-	void generateSphere(unsigned slices, unsigned stacks, math::float4* color);
 	void saveShape(JSON_Value* val);
 
 	//variables
-	math::float4 color;
-	unsigned slices;
-	unsigned stacks;
+	shape_type shapeType;
+	unsigned slices = 5;
+	unsigned stacks = 5;
+	float size1 = 1;
+	float size2 = 1;
+	unsigned vbo = 0;
+	unsigned vio = 0;
+	unsigned material = 0;
+	unsigned numVertices = 0;
+	unsigned numIndices = 0;
+	unsigned texCoords_offset = 0;
+	unsigned normals_offset = 0;
+
+private:
+	par_shapes_mesh* mesh = nullptr;
+
 };
 #endif

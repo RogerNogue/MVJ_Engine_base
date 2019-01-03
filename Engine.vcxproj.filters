@@ -285,9 +285,6 @@
     <ClInclude Include="MathGeoLib\include\Geometry\GeomType.h">
       <Filter>zzshiet</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>zzshiet</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\include\Geometry\HitInfo.h">
       <Filter>zzshiet</Filter>
     </ClInclude>
@@ -456,22 +453,25 @@
     <ClInclude Include="Serializer.h">
       <Filter>Others</Filter>
     </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Game\Default.fs">
-      <Filter>zzshiet</Filter>
-    </None>
-    <None Include="Game\Default.vs">
-      <Filter>zzshiet</Filter>
-    </None>
     <None Include="IMGUI\.travis.yml">
       <Filter>zzshiet</Filter>
     </None>
+    <None Include="Game\Default.fs">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="Game\Default.vs">
+      <Filter>Others</Filter>
+    </None>
     <None Include="Game\lineFragment.fs">
-      <Filter>zzshiet</Filter>
+      <Filter>Others</Filter>
     </None>
     <None Include="Game\lineVertex.vs">
-      <Filter>zzshiet</Filter>
+      <Filter>Others</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

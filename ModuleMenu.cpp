@@ -288,6 +288,26 @@ update_status ModuleMenu::Update() {
 								App->modelLoader->loadModel(3, App->scene->objectSelected);
 								loadModule = false;
 							}
+							if (ImGui::Button("Sphere")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateSphere(App->scene->objectSelected);
+								loadModule = false;
+							}
+							if (ImGui::Button("Cylinder")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateCylinder(App->scene->objectSelected);
+								loadModule = false;
+							}
+							if (ImGui::Button("Torus")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateTorus(App->scene->objectSelected);
+								loadModule = false;
+							}
+							if (ImGui::Button("Cube")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateCube(App->scene->objectSelected);
+								loadModule = false;
+							}
 							ImGui::EndPopup();
 						}
 					}
