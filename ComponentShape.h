@@ -16,8 +16,8 @@ public:
 
 	//variables
 	shape_type shapeType;
-	unsigned slices = 5;
-	unsigned stacks = 5;
+	unsigned slices = 20;
+	unsigned stacks = 20;
 	float size1 = 1;
 	float size2 = 1;
 	unsigned vbo = 0;

@@ -235,7 +235,7 @@ bool ModuleModelLoader::CreateTorus(GameObject* object) {
 
 bool ModuleModelLoader::LoadSphere(ComponentShape* sphere) {
 
-	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(int(5), int(5));
+	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(sphere->slices, sphere->stacks);
 
 	if (mesh)
 	{
@@ -244,15 +244,51 @@ bool ModuleModelLoader::LoadSphere(ComponentShape* sphere) {
 		generateShape(mesh, sphere, sphere->dad->parent->materials[sphere->material]);
 		par_shapes_free_mesh(mesh);
 
-		
-
 		return true;
 	}
 	return false;
 }
 bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
+	par_shapes_mesh* mesh = par_shapes_create_plane(1, 1);
+	par_shapes_mesh* top = par_shapes_create_plane(1, 1);
+	par_shapes_mesh* bottom = par_shapes_create_plane(1, 1);
+	par_shapes_mesh* back = par_shapes_create_plane(1, 1);
+	par_shapes_mesh* left = par_shapes_create_plane(1, 1);
+	par_shapes_mesh* right = par_shapes_create_plane(1, 1);
 
-	return true;
+	par_shapes_translate(mesh, -0.5f, -0.5f, 0.5f);
+
+	par_shapes_rotate(top, -float(PAR_PI*0.5), (float*)&math::float3::unitX);
+	par_shapes_translate(top, -0.5f, 0.5f, 0.5f);
+
+	par_shapes_rotate(bottom, float(PAR_PI*0.5), (float*)&math::float3::unitX);
+	par_shapes_translate(bottom, -0.5f, -0.5f, -0.5f);
+
+	par_shapes_rotate(back, float(PAR_PI), (float*)&math::float3::unitX);
+	par_shapes_translate(back, -0.5f, 0.5f, -0.5f);
+
+	par_shapes_rotate(left, float(-PAR_PI * 0.5), (float*)&math::float3::unitY);
+	par_shapes_translate(left, -0.5f, -0.5f, -0.5f);
+
+	par_shapes_rotate(right, float(PAR_PI*0.5), (float*)&math::float3::unitY);
+	par_shapes_translate(right, 0.5f, -0.5f, 0.5f);
+
+	par_shapes_merge_and_free(mesh, top);
+	par_shapes_merge_and_free(mesh, bottom);
+	par_shapes_merge_and_free(mesh, back);
+	par_shapes_merge_and_free(mesh, left);
+	par_shapes_merge_and_free(mesh, right);
+
+	if (mesh)
+	{
+		par_shapes_scale(mesh, cube->size1, cube->size1, cube->size1);
+		generateShape(mesh, cube, cube->dad->parent->materials[cube->material]);
+		par_shapes_free_mesh(mesh);
+
+		return true;
+	}
+
+	return false;
 }
 bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
 

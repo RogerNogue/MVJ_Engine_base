@@ -18,6 +18,7 @@
 #include "ComponentTransform.h"
 #include "ModuleScene.h"
 #include "QuadTreeGnoblin.h"
+#include "ComponentShape.h"
 
 ModuleRender::ModuleRender()
 {
@@ -81,17 +82,7 @@ void ModuleRender::UpdateEditorCamera() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-// Called every draw update
-void ModuleRender::Draw()
-{
-	BROFILER_CATEGORY("RendererDrawFunction", Profiler::Color::Chartreuse)
-
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
-	glViewport(0, 0, App->camera->screenWidth, App->camera->screenHeight);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+void ModuleRender::RenderMeshes() {
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (App->modelLoader->allMeshes[j]->active) {
@@ -105,7 +96,7 @@ void ModuleRender::Draw()
 
 			glActiveTexture(GL_TEXTURE0);
 			ComponentMaterial* temp = App->modelLoader->allMeshes[j]->dad->parent->materials[App->modelLoader->allMeshes[j]->mesh.material];
-			if(temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
+			if (temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
 			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
 
 			glEnableVertexAttribArray(0);
@@ -128,6 +119,61 @@ void ModuleRender::Draw()
 			glUseProgram(0);
 		}
 	}
+}
+
+void ModuleRender::RenderShapes() {
+	for (unsigned j = 0; j < App->modelLoader->allShapes.size(); ++j) {
+		if (App->modelLoader->allShapes[j]->active) {
+			glUseProgram(App->shaderProgram->programTexture);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"model"), 1, GL_TRUE, &App->modelLoader->allShapes[j]->dad->parent->transform->transformMatrix[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"view"), 1, GL_TRUE, &App->camera->view[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+				"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
+
+			glActiveTexture(GL_TEXTURE0);
+			ComponentMaterial* temp = App->modelLoader->allShapes[j]->dad->parent->materials[App->modelLoader->allShapes[j]->material];
+			if (temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
+			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->allShapes[j]->vbo);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->modelLoader->allShapes[j]->numVertices * 3));
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->allShapes[j]->vio);
+
+			glDrawElements(GL_TRIANGLES, App->modelLoader->allShapes[j]->numIndices, GL_UNSIGNED_INT, nullptr);
+
+
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glUseProgram(0);
+		}
+	}
+}
+
+// Called every draw update
+void ModuleRender::Draw()
+{
+	BROFILER_CATEGORY("RendererDrawFunction", Profiler::Color::Chartreuse)
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glViewport(0, 0, App->camera->screenWidth, App->camera->screenHeight);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	RenderMeshes();
+
+	RenderShapes();
+
 	dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
 	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
 	//loop to paint all the bounding boxes
