@@ -291,8 +291,32 @@ bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
 	return false;
 }
 bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
+	//cylinder size1 = radius, size2 = height
+	par_shapes_mesh* mesh = par_shapes_create_cylinder(int(cylinder->slices), int(cylinder->stacks));
+	par_shapes_rotate(mesh, -float(PAR_PI*0.5), (float*)&math::float3::unitX);
+	par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 
-	return true;
+	par_shapes_mesh* top = par_shapes_create_disk(cylinder->size1, int(cylinder->slices), (const float*)&math::float3::zero, (const float*)&math::float3::unitZ);
+	par_shapes_rotate(top, -float(PAR_PI*0.5), (float*)&math::float3::unitX);
+	par_shapes_translate(top, 0.0f, cylinder->size2*0.5f, 0.0f);
+
+	par_shapes_mesh* bottom = par_shapes_create_disk(cylinder->size1, int(cylinder->slices), (const float*)&math::float3::zero, (const float*)&math::float3::unitZ);
+	par_shapes_rotate(bottom, float(PAR_PI*0.5), (float*)&math::float3::unitX);
+	par_shapes_translate(bottom, 0.0f, cylinder->size2*-0.5f, 0.0f);
+
+	if (mesh)
+	{
+		par_shapes_scale(mesh, cylinder->size1, cylinder->size2, cylinder->size1);
+		par_shapes_merge_and_free(mesh, top);
+		par_shapes_merge_and_free(mesh, bottom);
+
+		generateShape(mesh, cylinder, cylinder->dad->parent->materials[cylinder->material]);
+		par_shapes_free_mesh(mesh);
+
+		return true;
+	}
+
+	return false;
 }
 bool ModuleModelLoader::LoadTorus(ComponentShape* torus) {
 
