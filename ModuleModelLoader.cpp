@@ -319,8 +319,19 @@ bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
 	return false;
 }
 bool ModuleModelLoader::LoadTorus(ComponentShape* torus) {
+	//size1 = inner radius, size2 = outer radius
+	par_shapes_mesh* mesh = par_shapes_create_torus(torus->slices, torus->stacks, torus->size1);
 
-	return true;
+	if (mesh)
+	{
+		par_shapes_scale(mesh, torus->size2, torus->size2, torus->size2);
+		generateShape(mesh, torus, torus->dad->parent->materials[torus->material]);
+		par_shapes_free_mesh(mesh);
+
+		return true;
+	}
+
+	return false;
 }
 
 void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat) {
