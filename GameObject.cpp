@@ -313,3 +313,14 @@ void GameObject::DrawProperties() {
 void GameObject::DrawShapeEditor() {
 	shape->drawEditorMenu();
 }
+
+void GameObject::LoadNextMaterial() {
+	if (hasmesh) {
+		++mesh->mesh.material;
+		if (mesh->mesh.material >= parent->materials.size()) mesh->mesh.material = 0;
+	}
+	else if (hasShape) {
+		++shape->material;
+		if (shape->material >= parent->materials.size()) shape->material = 0;
+	}
+}

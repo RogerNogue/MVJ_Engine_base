@@ -30,6 +30,7 @@ public:
 	inline bool isPhysical() { return Physical; }
 	void DrawProperties();
 	void DrawShapeEditor();
+	void LoadNextMaterial();
 
 	//variables
 	unsigned int id = 0u;

@@ -317,6 +317,9 @@ update_status ModuleMenu::Update() {
 							ImGui::BulletText("slice count = %.d, stack count = %d", App->scene->objectSelected->shape->slices, App->scene->objectSelected->shape->stacks);
 						}
 					}
+					if (ImGui::Button("Load next material")) {
+						App->scene->objectSelected->LoadNextMaterial();
+					}
 				}
 			}
 			ImGui::EndTabItem();
