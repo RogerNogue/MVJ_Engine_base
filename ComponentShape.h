@@ -13,13 +13,15 @@ public:
 	~ComponentShape();
 	bool CleanUp()override;
 	void saveShape(JSON_Value* val);
+	void drawEditorMenu();
 
 	//variables
 	shape_type shapeType;
-	unsigned slices = 20;
-	unsigned stacks = 20;
+	int slices = 20;
+	int stacks = 20;
 	float size1 = 1;
 	float size2 = 2;
+	float size3 = 2;
 	unsigned vbo = 0;
 	unsigned vio = 0;
 	unsigned material = 0;
@@ -29,6 +31,12 @@ public:
 	unsigned normals_offset = 0;
 
 private:
+	void SphereEditor();
+	void CubeEditor();
+	void CylinderEditor();
+	void TorusEditor();
+
+	//variables
 	par_shapes_mesh* mesh = nullptr;
 
 };

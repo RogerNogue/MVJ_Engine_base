@@ -29,6 +29,7 @@ public:
 	void saveObject(JSON_Value* objValue);
 	inline bool isPhysical() { return Physical; }
 	void DrawProperties();
+	void DrawShapeEditor();
 
 	//variables
 	unsigned int id = 0u;

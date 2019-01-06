@@ -309,3 +309,7 @@ void GameObject::saveObject(JSON_Value* objValue) {
 void GameObject::DrawProperties() {
 	ImGui::InputText("Name", (char*)name, 150.0f);
 }
+
+void GameObject::DrawShapeEditor() {
+	shape->drawEditorMenu();
+}

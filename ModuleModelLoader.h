@@ -31,10 +31,10 @@ public:
 	bool CreateCylinder(GameObject* object);
 	bool CreateTorus(GameObject* object);
 
-	bool LoadSphere(ComponentShape* sphere);
-	bool LoadCube(ComponentShape* cube);
-	bool LoadCylinder(ComponentShape* cylinder);
-	bool LoadTorus(ComponentShape* torus);
+	bool LoadSphere(ComponentShape* sphere, bool newSphere);
+	bool LoadCube(ComponentShape* cube, bool newCube);
+	bool LoadCylinder(ComponentShape* cylinder, bool newCylinder);
+	bool LoadTorus(ComponentShape* torus, bool newTorus);
 
 	void GenerateOneMeshData(ComponentMesh* newMesh);
 	void GenerateOneMaterialData(ComponentMaterial* newMaterial);
@@ -49,7 +49,7 @@ private:
 	//const aiScene* scene;
 	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel);
 	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i);
-	void generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat);
+	void generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat, bool isNew);
 	//variables
 	
 };

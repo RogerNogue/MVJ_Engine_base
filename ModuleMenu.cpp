@@ -237,18 +237,6 @@ update_status ModuleMenu::Update() {
 					}
 					App->scene->objectSelected->transform->Update();
 				}
-				if (App->scene->objectSelected->isPhysical()) {
-					if (App->scene->objectSelected->mesh != nullptr && ImGui::CollapsingHeader("Meshes")){
-						ImGui::Text("Mesh");
-						ImGui::Checkbox("Active", &App->scene->objectSelected->mesh->active);
-						ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->mesh->mesh.numVertices/3);
-					}
-					else if (App->scene->objectSelected->shape != nullptr && ImGui::CollapsingHeader("Meshes")) {
-						ImGui::Text("Shape");
-						ImGui::Checkbox("Active", &App->scene->objectSelected->shape->active);
-						ImGui::BulletText("slice count = %.d, stack count = %d", App->scene->objectSelected->shape->slices, App->scene->objectSelected->shape->stacks);
-					}
-				}
 				if (App->scene->objectSelected->hasmaterial) {
 					if (ImGui::CollapsingHeader("Materials"))
 					{
@@ -312,6 +300,23 @@ update_status ModuleMenu::Update() {
 						}
 					}
 					else loadModule = true;
+				}
+				if (App->scene->objectSelected->isPhysical()) {
+					if (App->scene->objectSelected->mesh != nullptr && ImGui::CollapsingHeader("Meshes")) {
+						ImGui::Text("Mesh");
+						ImGui::Checkbox("Active", &App->scene->objectSelected->mesh->active);
+						ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->mesh->mesh.numVertices / 3);
+					}
+					else if (App->scene->objectSelected->shape != nullptr) {
+						App->scene->objectSelected->DrawShapeEditor();
+
+						//meshs loader button
+						if (ImGui::CollapsingHeader("Meshes")) {
+							ImGui::Text("Shape");
+							ImGui::Checkbox("Active", &App->scene->objectSelected->shape->active);
+							ImGui::BulletText("slice count = %.d, stack count = %d", App->scene->objectSelected->shape->slices, App->scene->objectSelected->shape->stacks);
+						}
+					}
 				}
 			}
 			ImGui::EndTabItem();

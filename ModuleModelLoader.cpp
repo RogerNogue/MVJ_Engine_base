@@ -196,7 +196,7 @@ bool ModuleModelLoader::CreateSphere(GameObject* object) {
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
-	LoadSphere(newShape);
+	LoadSphere(newShape, true);
 	return true;
 }
 bool ModuleModelLoader::CreateCube(GameObject* object) {
@@ -207,7 +207,7 @@ bool ModuleModelLoader::CreateCube(GameObject* object) {
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
-	LoadCube(newShape);
+	LoadCube(newShape, true);
 	return true;
 }
 bool ModuleModelLoader::CreateCylinder(GameObject* object) {
@@ -218,7 +218,7 @@ bool ModuleModelLoader::CreateCylinder(GameObject* object) {
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
-	LoadCylinder(newShape);
+	LoadCylinder(newShape, true);
 	return true;
 }
 bool ModuleModelLoader::CreateTorus(GameObject* object) {
@@ -229,11 +229,11 @@ bool ModuleModelLoader::CreateTorus(GameObject* object) {
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
-	LoadTorus(newShape);
+	LoadTorus(newShape, true);
 	return true;
 }
 
-bool ModuleModelLoader::LoadSphere(ComponentShape* sphere) {
+bool ModuleModelLoader::LoadSphere(ComponentShape* sphere, bool newSphere) {
 
 	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(sphere->slices, sphere->stacks);
 
@@ -241,14 +241,14 @@ bool ModuleModelLoader::LoadSphere(ComponentShape* sphere) {
 	{
 		par_shapes_scale(mesh, sphere->size1, sphere->size1, sphere->size1);
 
-		generateShape(mesh, sphere, sphere->dad->parent->materials[sphere->material]);
+		generateShape(mesh, sphere, sphere->dad->parent->materials[sphere->material], newSphere);
 		par_shapes_free_mesh(mesh);
 
 		return true;
 	}
 	return false;
 }
-bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
+bool ModuleModelLoader::LoadCube(ComponentShape* cube, bool newCube) {
 	par_shapes_mesh* mesh = par_shapes_create_plane(1, 1);
 	par_shapes_mesh* top = par_shapes_create_plane(1, 1);
 	par_shapes_mesh* bottom = par_shapes_create_plane(1, 1);
@@ -281,8 +281,8 @@ bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
 
 	if (mesh)
 	{
-		par_shapes_scale(mesh, cube->size1, cube->size1, cube->size1);
-		generateShape(mesh, cube, cube->dad->parent->materials[cube->material]);
+		par_shapes_scale(mesh, cube->size1, cube->size2, cube->size3);
+		generateShape(mesh, cube, cube->dad->parent->materials[cube->material], newCube);
 		par_shapes_free_mesh(mesh);
 
 		return true;
@@ -290,7 +290,7 @@ bool ModuleModelLoader::LoadCube(ComponentShape* cube) {
 
 	return false;
 }
-bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
+bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder, bool newCylinder) {
 	//cylinder size1 = radius, size2 = height
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(int(cylinder->slices), int(cylinder->stacks));
 	par_shapes_rotate(mesh, -float(PAR_PI*0.5), (float*)&math::float3::unitX);
@@ -310,7 +310,7 @@ bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
 		par_shapes_merge_and_free(mesh, top);
 		par_shapes_merge_and_free(mesh, bottom);
 
-		generateShape(mesh, cylinder, cylinder->dad->parent->materials[cylinder->material]);
+		generateShape(mesh, cylinder, cylinder->dad->parent->materials[cylinder->material], newCylinder);
 		par_shapes_free_mesh(mesh);
 
 		return true;
@@ -318,14 +318,14 @@ bool ModuleModelLoader::LoadCylinder(ComponentShape* cylinder) {
 
 	return false;
 }
-bool ModuleModelLoader::LoadTorus(ComponentShape* torus) {
+bool ModuleModelLoader::LoadTorus(ComponentShape* torus, bool newTorus) {
 	//size1 = inner radius, size2 = outer radius
 	par_shapes_mesh* mesh = par_shapes_create_torus(torus->slices, torus->stacks, torus->size1);
 
 	if (mesh)
 	{
 		par_shapes_scale(mesh, torus->size2, torus->size2, torus->size2);
-		generateShape(mesh, torus, torus->dad->parent->materials[torus->material]);
+		generateShape(mesh, torus, torus->dad->parent->materials[torus->material], newTorus);
 		par_shapes_free_mesh(mesh);
 
 		return true;
@@ -334,7 +334,7 @@ bool ModuleModelLoader::LoadTorus(ComponentShape* torus) {
 	return false;
 }
 
-void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat) {
+void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat, bool isNew) {
 	glGenBuffers(1, &comp->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, comp->vbo);
 
@@ -397,7 +397,7 @@ void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* co
 
 
 	//GenerateVAO(dst_mesh);
-	allShapes.push_back(comp);
+	if(isNew) allShapes.push_back(comp);
 
 	/*bsphere.center = (max_v + min_v)*0.5f;
 	bsphere.radius = (max_v - min_v).Length()*0.5f;*/

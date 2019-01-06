@@ -3,10 +3,13 @@
 #include "Application.h"
 #include "Serializer.h"
 #include "ModuleModelLoader.h"
+#include "GameObject.h"
 
 ComponentMesh::ComponentMesh(GameObject* dad):
 	Component(dad)
 {
+	dad->mesh = this;
+	dad->hasmesh = true;
 	type = MESH;
 	active = true;
 	id = App->generateID();
