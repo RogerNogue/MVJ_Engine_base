@@ -22,6 +22,7 @@ public:
 	ComponentMaterial createComponentMaterial(GameObject* dad);
 	unsigned createFrameBuffer(char* name, float width, float height);
 	void deleteFrameBuffer(unsigned buffer);
+	void CreateMaterial(std::string path, unsigned& textureID, int& width, int& height);
 
 private:
 };

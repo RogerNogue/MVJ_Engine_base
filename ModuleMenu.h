@@ -13,8 +13,8 @@ public:
 	bool            Init();
 	update_status   PreUpdate() override;
 	update_status   Update() override;
-	update_status   PostUpdate() override;
 	bool            CleanUp() override;
+	void DrawMenu();
 	void consoleLog(const char* str);
 	struct ExampleAppLog
 	{

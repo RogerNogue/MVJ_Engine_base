@@ -324,3 +324,70 @@ void GameObject::LoadNextMaterial() {
 		if (shape->material >= parent->materials.size()) shape->material = 0;
 	}
 }
+
+void GameObject::DrawMaterialCreator() {
+	if (ImGui::CollapsingHeader("Create manual material")) {
+		math::float3 diffuse(0.0f, 0.0f, 0.0f);
+		if (ImGui::CollapsingHeader("Diffuse")) {
+			ImGui::ColorEdit3("Diffuse color", (float*)&diffuse);
+			//DrawComboBoxMaterials("DiffuseComboTextures", MaterialType::DIFFUSE_MAP, diffuseSelected);
+			ImGui::Text("Dimensions: %dx%d", 200, 200);
+			//ImGui::Image((ImTextureID)material.diffuseMap, ImVec2(200, 200));
+			//ImGui::SliderFloat("K diffuse", &material.diffuseK, 0.0f, 1.0f);
+		}
+
+		/*if (ImGui::CollapsingHeader("Ambient")) {
+			DrawComboBoxMaterials("OcclusionComboTextures", MaterialType::OCCLUSION_MAP, occlusionSelected);
+			ImGui::Text("Dimensions: %dx%d", material.ambientWidth, material.ambientHeight);
+			ImGui::Image((ImTextureID)material.occlusionMap, ImVec2(200, 200));
+			ImGui::SliderFloat("K ambient", &material.ambientK, 0.0f, 1.0f);
+		}
+
+		if (ImGui::CollapsingHeader("Specular")) {
+			ImGui::ColorEdit3("Specular color", (float*)&material.specularColor);
+			DrawComboBoxMaterials("SpecularComboTextures", MaterialType::SPECULAR_MAP, specularSelected);
+			ImGui::Text("Dimensions: %dx%d", material.specularWidth, material.specularHeight);
+			ImGui::Image((ImTextureID)material.specularMap, ImVec2(200, 200));
+			ImGui::SliderFloat("K specular", &material.specularK, 0.0f, 1.0f);
+			ImGui::SliderFloat("K shininess", &material.shininess, 0.0f, 128.0f);
+		}
+
+		if (ImGui::CollapsingHeader("Emissive")) {
+			ImGui::ColorEdit3("Emissive color", (float*)&material.emissiveColor);
+			DrawComboBoxMaterials("EmissiveComboTextures", MaterialType::EMISSIVE_MAP, emissiveSelected);
+			ImGui::Text("Dimensions: %dx%d", material.emissiveWidth, material.emissiveHeight);
+			ImGui::Image((ImTextureID)material.emissiveMap, ImVec2(200, 200));
+		}
+
+		if (ImGui::Button("save")) {
+			ComponentMaterial* mat = new ComponentMaterial(this);
+			mat->isTexture = false;
+
+		}*/
+	}
+}
+
+void GameObject::DrawComboBoxMaterials(const char* id, ComponentMaterial mat, static std::string& currentTexture) {
+	/*//std::vector<std::string> fileTexturesList = App->library->fileTexturesList;
+	fileTexturesList.insert(fileTexturesList.begin(), "Select a Texture");
+
+	if (fileTexturesList.size() > 0) {
+		ImGui::PushID(id);
+		if (ImGui::BeginCombo("##", currentTexture.c_str())) {
+			for (std::vector<std::string>::iterator iterator = fileTexturesList.begin(); iterator != fileTexturesList.end(); ++iterator) {
+				bool isSelected = (currentTexture == (*iterator).c_str());
+				if (ImGui::Selectable((*iterator).c_str(), isSelected)) {
+					currentTexture = (*iterator).c_str();
+					//App->textures->LoadMaterial(currentTexture.c_str(), this, matType);
+					if (isSelected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		ImGui::PopID();
+	}*/
+}

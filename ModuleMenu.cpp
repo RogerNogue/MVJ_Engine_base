@@ -67,7 +67,7 @@ update_status ModuleMenu::PreUpdate() {
 }
 
 update_status ModuleMenu::Update() {
-	BROFILER_CATEGORY("Menu update", Profiler::Color::Teal)
+	//BROFILER_CATEGORY("Menu update", Profiler::Color::Teal)
 	menubarHeight = App->camera->screenHeight/4.5;
 	menubarWidth = App->camera->screenWidth/4.5;
 	// Menu
@@ -253,6 +253,7 @@ update_status ModuleMenu::Update() {
 						}
 					}
 				}
+				App->scene->objectSelected->DrawMaterialCreator();
 				bool loadModule = true;
 				if(!App->scene->objectSelected->isPhysical()){
 					ImGui::Button("Load model");
@@ -364,10 +365,9 @@ update_status ModuleMenu::Update() {
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleMenu::PostUpdate() {
+void ModuleMenu::DrawMenu() {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleMenu::CleanUp() {

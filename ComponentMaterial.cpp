@@ -21,7 +21,12 @@ ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
 	numModel = matFile->getInt("numModel");
 	numMaterial = matFile->getInt("numMaterial");
 	isTexture = matFile->getBool("isTexture");
-	surface.color = matFile->getVector4("Color");
+	if (!isTexture) {
+		surface.ambientColor = matFile->getVector4("Ambient color");
+		surface.difuseColor = matFile->getVector4("Difuse color");
+		surface.specularColor = matFile->getVector4("Specular color");
+		surface.emisiveColor = matFile->getVector4("Emissive color");
+	}
 
 	App->modelLoader->GenerateOneMaterialData(this);
 }
@@ -46,7 +51,13 @@ void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	mat->addInt("numModel", numModel);
 	mat->addInt("numMaterial", numMaterial);
 	mat->addBool("isTexture", isTexture);
-	mat->addVector4("Color", surface.color);
+	if (!isTexture) {
+		mat->addVector4("Ambient color", surface.ambientColor);
+		mat->addVector4("Difuse color", surface.difuseColor);
+		mat->addVector4("Specular color", surface.specularColor);
+		mat->addVector4("Emissive color", surface.emisiveColor);
+	}
+	
 
 	val->addValue("Material", mat);
 }

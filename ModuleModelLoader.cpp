@@ -49,15 +49,15 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 	currentModelTriangleCount = 0;
 	const char* modelName;
 	if (model == 1) {
-		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Baker House";
 	}
 	else if (model == 2) {
-		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Banana";
 	}
 	else if (model == 3) {
-		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Shield";
 	}
 	if (scene == nullptr) {
@@ -178,8 +178,8 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMat->material.texture0 = App->textures->Load(file.data, false, &newMat->material.sizeX, &newMat->material.sizeY);
 	}
-	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("models/banana/banana.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
-	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("models/shield/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
+	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("Assets/models/banana/banana.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
+	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("Assets/models/shield/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
 	
 	Obj->materials.push_back(newMat);
 	Obj->materials[Obj->materials.size() - 1]->numModel = model;
@@ -406,13 +406,13 @@ void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* co
 void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	if (newMesh->numModel == 1) {
-		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMesh->numModel == 2) {
-		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMesh->numModel == 3) {
-		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 
 	//vbo
@@ -460,13 +460,13 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) {
 	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	if (newMaterial->numModel == 1) {
-		scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMaterial->numModel == 2) {
-		scene = aiImportFile("models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMaterial->numModel == 3) {
-		scene = aiImportFile("models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	aiString file;
 	aiTextureMapping mapping;
@@ -474,7 +474,7 @@ void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) 
 	if (scene->mMaterials[newMaterial->numMaterial]->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMaterial->material.texture0 = App->textures->Load(file.data, false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
 	}
-	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("models/banana/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
-	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("models/shield/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("Assets/models/banana/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("Assets/models/shield/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
 
 }

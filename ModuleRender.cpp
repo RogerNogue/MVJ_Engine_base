@@ -19,6 +19,7 @@
 #include "ModuleScene.h"
 #include "QuadTreeGnoblin.h"
 #include "ComponentShape.h"
+#include "ModuleMenu.h"
 
 ModuleRender::ModuleRender()
 {
@@ -195,8 +196,8 @@ void ModuleRender::Draw()
 
 update_status ModuleRender::PostUpdate()
 {
+	App->menu->DrawMenu();
 	SDL_GL_SwapWindow(App->window->window);
-
 	return UPDATE_CONTINUE;
 }
 

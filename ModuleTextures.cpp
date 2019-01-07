@@ -118,3 +118,47 @@ void ModuleTextures::deleteFrameBuffer(unsigned buffer) {
 	ilDeleteImages(1, &buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void ModuleTextures::CreateMaterial(std::string path, unsigned& textureID, int& width, int& height) {
+	unsigned imageID;
+
+	ilGenImages(1, &imageID);
+
+	ilBindImage(imageID);
+
+	path.insert(0, "/Library/Textures/");
+
+	LOG("Loading material %s", path.c_str());
+
+	char* fileBuffer;
+	//unsigned lenghBuffer = App->fileSystem->Load(path.c_str(), &fileBuffer);
+	unsigned lenghBuffer = 0;
+	if (ilLoadL(IL_DDS, fileBuffer, lenghBuffer)) {
+		ILinfo ImageInfo;
+		iluGetImageInfo(&ImageInfo);
+		if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT) {
+			iluFlipImage();
+		}
+
+		if (!ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
+			LOG("Error: Image conversion failed %s", iluErrorString(ilGetError()));
+			return;
+		}
+
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		width = ilGetInteger(IL_IMAGE_WIDTH);
+		height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), width, height, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+	}
+
+	ilDeleteImages(1, &imageID);
+	LOG("Material creation successful.");
+}

@@ -20,10 +20,10 @@ public:
 		float sizeY = 0;
 	};
 	struct mySurface {
-		float specular = 0.0f;
-		float difuse = 0.0f;
-		float shininess = 0.0f;
-		math::float4 color = math::float4(0, 0, 0, 1);
+		math::float4 ambientColor = math::float4(0, 0, 0, 1);
+		math::float4 difuseColor = math::float4(0, 0, 0, 1);
+		math::float4 specularColor = math::float4(0, 0, 0, 1);
+		math::float4 emisiveColor = math::float4(0, 0, 0, 1);
 		unsigned program = 0;
 	};
 

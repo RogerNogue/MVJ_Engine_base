@@ -31,6 +31,7 @@ public:
 	void DrawProperties();
 	void DrawShapeEditor();
 	void LoadNextMaterial();
+	void DrawMaterialCreator();
 
 	//variables
 	unsigned int id = 0u;
@@ -58,6 +59,7 @@ public:
 private:
 	//functions
 	void toggleMeshActivation();
+	void DrawComboBoxMaterials(const char* id, ComponentMaterial mat, static std::string& currentTexture);
 	//variables
 	bool Physical = false;
 	bool BBGenerated = false;
