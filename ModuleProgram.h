@@ -16,6 +16,7 @@ public:
 
 	GLuint programTexture;
 	GLuint programGeometry;
+	GLuint programBlinnPhong;
 };
 
 #endif

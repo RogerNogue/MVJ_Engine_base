@@ -231,6 +231,8 @@
     <ClCompile Include="Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Game\Blinn_phong.fs" />
+    <None Include="Game\Blinn_phong.vs" />
     <None Include="Game\Default.fs" />
     <None Include="Game\Default.vs" />
     <None Include="Game\lineFragment.fs" />
