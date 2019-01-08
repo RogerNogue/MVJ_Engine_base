@@ -253,7 +253,7 @@ update_status ModuleMenu::Update() {
 						}
 					}
 				}
-				App->scene->objectSelected->DrawMaterialCreator();
+				//App->scene->objectSelected->DrawMaterialCreator();
 				bool loadModule = true;
 				if(!App->scene->objectSelected->isPhysical()){
 					ImGui::Button("Load model");

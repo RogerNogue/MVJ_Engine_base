@@ -325,7 +325,7 @@ void GameObject::LoadNextMaterial() {
 	}
 }
 
-void GameObject::DrawMaterialCreator() {
+/*void GameObject::DrawMaterialCreator() {
 	if (ImGui::CollapsingHeader("Create manual material")) {
 		math::float3 diffuse(0.0f, 0.0f, 0.0f);
 		if (ImGui::CollapsingHeader("Diffuse")) {
@@ -336,7 +336,7 @@ void GameObject::DrawMaterialCreator() {
 			//ImGui::SliderFloat("K diffuse", &material.diffuseK, 0.0f, 1.0f);
 		}
 
-		/*if (ImGui::CollapsingHeader("Ambient")) {
+		if (ImGui::CollapsingHeader("Ambient")) {
 			DrawComboBoxMaterials("OcclusionComboTextures", MaterialType::OCCLUSION_MAP, occlusionSelected);
 			ImGui::Text("Dimensions: %dx%d", material.ambientWidth, material.ambientHeight);
 			ImGui::Image((ImTextureID)material.occlusionMap, ImVec2(200, 200));
@@ -363,12 +363,12 @@ void GameObject::DrawMaterialCreator() {
 			ComponentMaterial* mat = new ComponentMaterial(this);
 			mat->isTexture = false;
 
-		}*/
+		}
 	}
-}
+}*/
 
-void GameObject::DrawComboBoxMaterials(const char* id, ComponentMaterial mat, static std::string& currentTexture) {
-	/*//std::vector<std::string> fileTexturesList = App->library->fileTexturesList;
+/*void GameObject::DrawComboBoxMaterials(const char* id, ComponentMaterial mat, static std::string& currentTexture) {
+	//std::vector<std::string> fileTexturesList = App->library->fileTexturesList;
 	fileTexturesList.insert(fileTexturesList.begin(), "Select a Texture");
 
 	if (fileTexturesList.size() > 0) {
@@ -389,5 +389,5 @@ void GameObject::DrawComboBoxMaterials(const char* id, ComponentMaterial mat, st
 		}
 
 		ImGui::PopID();
-	}*/
-}
+	}
+}*/
