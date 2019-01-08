@@ -102,9 +102,11 @@ void ModuleRender::RenderMeshes() {
 
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
 			glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vbo);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->modelLoader->allMeshes[j]->mesh.numVertices * 3));
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(App->modelLoader->allMeshes[j]->mesh.numVertices * App->modelLoader->allMeshes[j]->mesh.texCoordsOffset));
+			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(App->modelLoader->allMeshes[j]->mesh.normalsOffset*App->modelLoader->allMeshes[j]->mesh.numVertices));
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->allMeshes[j]->mesh.vio);
 

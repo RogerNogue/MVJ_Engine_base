@@ -109,13 +109,35 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, in
 	ComponentMesh* newMesh = new ComponentMesh(meshObject);
 	newMesh->numMesh = numMesh;
 	newMesh->numModel = numModel;
+
+	unsigned offset_acc = sizeof(math::float3);
+
+	if (mesh->HasTextureCoords(0))
+	{
+		newMesh->mesh.texCoordsOffset = offset_acc;
+		offset_acc += sizeof(math::float2);
+	}
+
+	if (mesh->HasNormals())
+	{
+		newMesh->mesh.normalsOffset = offset_acc;
+		offset_acc += sizeof(math::float3);
+	}
+
+
 	//vbo
 	glGenBuffers(1, &newMesh->mesh.vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
 
-	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*mesh->mNumVertices, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, offset_acc*mesh->mNumVertices, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, mesh->mNumVertices * 3 * sizeof(float), mesh->mVertices);
 	
+	// Normals
+	if (mesh->HasNormals())
+	{
+		glBufferSubData(GL_ARRAY_BUFFER, newMesh->mesh.normalsOffset *mesh->mNumVertices, sizeof(float) * 3 * mesh->mNumVertices, mesh->mNormals);
+	}
+
 	//buffer for the faces (vio)
 	math::float2* textureCoords = (math::float2*) glMapBufferRange(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(float), mesh->mNumVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {

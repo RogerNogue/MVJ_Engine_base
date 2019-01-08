@@ -20,6 +20,8 @@ public:
 		unsigned material = 0;
 		unsigned numVertices = 0;
 		unsigned numIndices = 0;
+		unsigned normalsOffset = 0;
+		unsigned texCoordsOffset = 0;
 	};
 
 	//vars
