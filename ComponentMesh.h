@@ -22,6 +22,7 @@ public:
 		unsigned numIndices = 0;
 		unsigned normalsOffset = 0;
 		unsigned texCoordsOffset = 0;
+		bool normals = false;
 	};
 
 	//vars

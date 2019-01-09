@@ -122,6 +122,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, in
 	{
 		newMesh->mesh.normalsOffset = offset_acc;
 		offset_acc += sizeof(math::float3);
+		newMesh->mesh.normals = true;
 	}
 
 
@@ -381,9 +382,9 @@ void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* co
 		offset_acc += sizeof(math::float3);
 	}
 
-	comp->numVertices = offset_acc;
+	comp->numVertices = shape->npoints;
 
-	glBufferData(GL_ARRAY_BUFFER, comp->numVertices*shape->npoints, nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, offset_acc*shape->npoints, nullptr, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(math::float3)*shape->npoints, shape->points);
 
 	// normals

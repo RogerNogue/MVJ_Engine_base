@@ -36,6 +36,8 @@ public:
 private:
 	void RenderMeshes();
 	void RenderShapes();
+	void RenderWithNormals();
+	void RenderWithNoNormals();
 
 	//variables
 	float texWidth, texHeight;

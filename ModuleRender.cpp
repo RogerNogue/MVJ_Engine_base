@@ -83,6 +83,14 @@ void ModuleRender::UpdateEditorCamera() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void ModuleRender::RenderWithNormals() {
+
+}
+
+void ModuleRender::RenderWithNoNormals() {
+
+}
+
 void ModuleRender::RenderMeshes() {
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
@@ -115,6 +123,7 @@ void ModuleRender::RenderMeshes() {
 
 			glDisableVertexAttribArray(0);
 			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -141,10 +150,16 @@ void ModuleRender::RenderShapes() {
 			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
 
 			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
+			
 			glBindBuffer(GL_ARRAY_BUFFER, App->modelLoader->allShapes[j]->vbo);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * App->modelLoader->allShapes[j]->numVertices * 3));
+			
+
+			if (App->modelLoader->allShapes[j]->normals_offset != 0) {
+				glEnableVertexAttribArray(2);
+				glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(App->modelLoader->allShapes[j]->numVertices * App->modelLoader->allShapes[j]->normals_offset));
+				
+			}
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->modelLoader->allShapes[j]->vio);
 
@@ -152,7 +167,8 @@ void ModuleRender::RenderShapes() {
 
 
 			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
+			
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
