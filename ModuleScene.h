@@ -26,6 +26,7 @@ public:
 	GameObject* objectSelected = nullptr;
 	GameObject* baseObject = nullptr;
 	std::vector<GameObject*> allObjects;
+	std::vector<GameObject*> allLights;
 	QuadTreeGnoblin* quadTree;
 	bool drawQuadTree = false;
 	char* folderPath = "Scenes/";

@@ -17,6 +17,7 @@ public:
 	GameObject(const char* n);
 	GameObject(const char* n, GameObject* parent);
 	GameObject(const char* n, GameObject* parent, bool physical);
+	GameObject(const char* n, GameObject* parent, int signal, bool light);
 	GameObject(JSON_Value* objValue);
 	~GameObject();
 	void deleteObject();
@@ -28,6 +29,7 @@ public:
 	void updateQuadTree();
 	void saveObject(JSON_Value* objValue);
 	inline bool isPhysical() { return Physical; }
+	inline bool IsLight() { return light; }
 	void DrawProperties();
 	void DrawShapeEditor();
 	void LoadNextMaterial();
@@ -61,6 +63,7 @@ private:
 	void toggleMeshActivation();
 	void DrawComboBoxMaterials(const char* id, ComponentMaterial mat, static std::string& currentTexture);
 	//variables
+	bool light = false;
 	bool Physical = false;
 	bool BBGenerated = false;
 };

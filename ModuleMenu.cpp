@@ -94,7 +94,7 @@ update_status ModuleMenu::Update() {
 		if (ImGui::BeginMenu("About")) {
 			ImGui::BulletText("Engine name: GNOBLIN");
 			ImGui::Text("Description");
-			ImGui::BulletText("GNOBLIN allows you to create AAA-quality games with little to none effort.");
+			ImGui::BulletText("GNOBLIN allows you to create quality games with little to none effort.");
 			ImGui::Text("Authors");
 			ImGui::BulletText("Roger Nogue Ballbe.");
 			ImGui::Text("Libraries");
@@ -255,7 +255,7 @@ update_status ModuleMenu::Update() {
 				}
 				//App->scene->objectSelected->DrawMaterialCreator();
 				bool loadModule = true;
-				if(!App->scene->objectSelected->isPhysical()){
+				if(!App->scene->objectSelected->isPhysical() && !App->scene->objectSelected->IsLight()){
 					ImGui::Button("Load model");
 
 					if (loadModule)

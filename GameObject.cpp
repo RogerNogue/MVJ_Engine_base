@@ -26,7 +26,6 @@ GameObject::GameObject(const char* n){
 	active = true;
 	id = App->generateID();
 	transform = new ComponentTransform(this);	
-	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
 	calculateAABB();
@@ -46,7 +45,6 @@ GameObject::GameObject(const char* n, GameObject* parent):
 	parent->children.push_back(this);
 	id = App->generateID();
 	transform = new ComponentTransform(this);
-	camera = nullptr;
 	minX = minY = minZ = -1;
 	maxX = maxY = maxZ = 1;
 	calculateAABB();
@@ -78,6 +76,30 @@ GameObject::GameObject(const char* n, GameObject* parent, bool physical) :
 	parentId = parent->id;
 }
 
+GameObject::GameObject(const char* n, GameObject* parent, int signal, bool light) :
+	parent(parent),
+	light(light)
+{
+	char* copyName = new char[strlen(n)];
+	strcpy(copyName, n);
+	name = copyName;
+
+	active = true;
+	minX = minY = minZ = -1;
+	maxX = maxY = maxZ = 1;
+	id = App->generateID();
+	App->scene->allObjects.push_back(this);
+	parentId = parent->id;
+
+	parent->children.push_back(this);
+	transform = new ComponentTransform(this);
+	calculateAABB();
+	App->scene->allObjects.push_back(this);
+	
+	parentId = parent->id;
+	paintBB = true;
+}
+
 GameObject::GameObject(JSON_Value* objValue) {
 	id = objValue->getUint("ID");
 	parentId = objValue->getUint("ParentID");
@@ -97,6 +119,7 @@ GameObject::GameObject(JSON_Value* objValue) {
 	maxZ = objValue->getFloat("Max Z");
 	Physical = objValue->getBool("Physical");
 	BBGenerated = objValue->getBool("BBgen");
+	light = objValue->getBool("Light");
 
 	JSON_Value* Components = objValue->getValue("Component"); //It is an array of values
 	if (Components->getRapidJSONValue()->IsArray()) //Just make sure
@@ -272,6 +295,7 @@ void GameObject::saveObject(JSON_Value* objValue) {
 	currentValue->addFloat("Max Z", maxZ);
 	currentValue->addBool("BBgen", BBGenerated);
 	currentValue->addBool("Physical", Physical);
+	currentValue->addBool("Light", light);
 
 	JSON_Value* Components = objValue->createValue();
 	Components->convertToArray();

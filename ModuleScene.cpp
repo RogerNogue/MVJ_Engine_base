@@ -72,8 +72,14 @@ void ModuleScene::setUpGameObjectMenu() {
 		{
 			if (ImGui::Button("Camera"))
 			{
-				//App->scene_intro->AddCamera();
 
+				creating = false;
+			}
+
+			if (ImGui::Button("Light"))
+			{
+				GameObject* obj = new GameObject("Light source", baseObject, 1, true);
+				allLights.push_back(obj);
 				creating = false;
 			}
 
