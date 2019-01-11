@@ -14,7 +14,7 @@ void main()
 {
  uv0 = vertex_uv0;
  vertPos	 = (model*vec4(vertex_position, 1.0)).xyz;
- normal      = (model*vec4(vertex_normal, 0.0)).xyz;
+ normal      = normalize((model*vec4(vertex_normal, 0.0)).xyz);
 
  gl_Position = proj*view*model*vec4(vertex_position, 1.0);
 }

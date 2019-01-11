@@ -27,6 +27,7 @@ public:
 
 	//vars
 	myMesh mesh;
+	float ambient = 0.3f;
 	unsigned numModel = 0;
 	unsigned numMesh = 0;
 };

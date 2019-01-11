@@ -95,18 +95,50 @@ void ModuleRender::RenderMeshes() {
 	//drawing the model
 	for (unsigned j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
 		if (App->modelLoader->allMeshes[j]->active) {
-			glUseProgram(App->shaderProgram->programTexture);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			GLuint* currentprog = nullptr;
+			if (App->modelLoader->allMeshes[j]->mesh.normalsOffset != 0) {
+				currentprog = &App->shaderProgram->programBlinnPhong;
+
+				ComponentMaterial* currentMat = App->modelLoader->allMeshes[j]->dad->parent->materials[App->modelLoader->allMeshes[j]->mesh.material];
+				glUniform4f(glGetUniformLocation(*currentprog,
+					"object_color"), currentMat->surface.difuseColor.x, currentMat->surface.difuseColor.y,
+					currentMat->surface.difuseColor.z, currentMat->surface.difuseColor.w);
+				const int size = App->scene->allLights.size() * 3;
+				float* arrayLights = (float*)malloc(sizeof(float)*App->scene->allLights.size() * 3);
+				//now we fill an array of lights to pass the shader
+				for (int i = 0; i < App->scene->allLights.size(); ++i) {
+					arrayLights[sizeof(float)*i * 3] = App->scene->allLights[i]->transform->positionValues.x;
+					arrayLights[sizeof(float)*i * 3 + 1] = App->scene->allLights[i]->transform->positionValues.y;
+					arrayLights[sizeof(float)*i * 3 + 2] = App->scene->allLights[i]->transform->positionValues.z;
+				}
+				glUniform3fv(glGetUniformLocation(*currentprog,
+					"light_pos"), App->scene->allLights.size(), arrayLights);
+
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"ambient"), App->modelLoader->allMeshes[j]->ambient);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"shininess"), currentMat->shininess);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_ambient"), currentMat->k_ambient);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_diffuse"), currentMat->k_diffuse);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_specular"), currentMat->k_specular);
+				delete arrayLights;
+
+			}
+			else currentprog = &App->shaderProgram->programTexture;
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"model"), 1, GL_TRUE, &App->modelLoader->allMeshes[j]->dad->parent->transform->transformMatrix[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
 			glActiveTexture(GL_TEXTURE0);
 			ComponentMaterial* temp = App->modelLoader->allMeshes[j]->dad->parent->materials[App->modelLoader->allMeshes[j]->mesh.material];
 			if (temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
-			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+			glUniform1i(glGetUniformLocation(*currentprog, "texture0"), 0);
 
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
@@ -136,18 +168,23 @@ void ModuleRender::RenderMeshes() {
 void ModuleRender::RenderShapes() {
 	for (unsigned j = 0; j < App->modelLoader->allShapes.size(); ++j) {
 		if (App->modelLoader->allShapes[j]->active) {
-			glUseProgram(App->shaderProgram->programTexture);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			GLuint* currentprog = nullptr;
+			if (App->modelLoader->allShapes[j]->normals_offset != 0) {
+				currentprog = &App->shaderProgram->programBlinnPhong;
+			}
+			else currentprog = &App->shaderProgram->programTexture;
+			glUseProgram(*currentprog);
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"model"), 1, GL_TRUE, &App->modelLoader->allShapes[j]->dad->parent->transform->transformMatrix[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"view"), 1, GL_TRUE, &App->camera->view[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->programTexture,
+			glUniformMatrix4fv(glGetUniformLocation(*currentprog,
 				"proj"), 1, GL_TRUE, &App->camera->projection[0][0]);
 
 			glActiveTexture(GL_TEXTURE0);
 			ComponentMaterial* temp = App->modelLoader->allShapes[j]->dad->parent->materials[App->modelLoader->allShapes[j]->material];
 			if (temp->active) glBindTexture(GL_TEXTURE_2D, temp->material.texture0);
-			glUniform1i(glGetUniformLocation(App->shaderProgram->programTexture, "texture0"), 0);
+			glUniform1i(glGetUniformLocation(*currentprog, "texture0"), 0);
 
 			glEnableVertexAttribArray(0);
 			
@@ -156,6 +193,35 @@ void ModuleRender::RenderShapes() {
 			
 
 			if (App->modelLoader->allShapes[j]->normals_offset != 0) {
+				ComponentMaterial* currentMat = App->modelLoader->allShapes[j]->dad->parent->materials[App->modelLoader->allShapes[j]->material];
+				glUniform4f(glGetUniformLocation(*currentprog,
+					"object_color"),	currentMat->surface.difuseColor.x, currentMat->surface.difuseColor.y,
+								currentMat->surface.difuseColor.z, currentMat->surface.difuseColor.w);
+				const int size = App->scene->allLights.size() * 3;
+				float* arrayLights = (float*)malloc(sizeof(float)*App->scene->allLights.size() *3);
+				//now we fill an array of lights to pass the shader
+				for (int i = 0; i < App->scene->allLights.size(); ++i) {
+					arrayLights[sizeof(float)*i * 3] = App->scene->allLights[i]->transform->positionValues.x;
+					arrayLights[sizeof(float)*i * 3 + 1] = App->scene->allLights[i]->transform->positionValues.y;
+					arrayLights[sizeof(float)*i * 3 + 2] = App->scene->allLights[i]->transform->positionValues.z;
+				}
+				/*glUniform3fv(glGetUniformLocation(*currentprog,
+					"light_pos"), 1, arrayLights[0]);*/
+				glUniform3f(glGetUniformLocation(*currentprog,
+					"light_pos"), arrayLights[0], arrayLights[1], arrayLights[2]);
+
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"ambient"),  App->modelLoader->allShapes[j]->ambient);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"shininess"), currentMat->shininess);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_ambient"), currentMat->k_ambient);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_diffuse"), currentMat->k_diffuse);
+				glUniform1f(glGetUniformLocation(*currentprog,
+					"k_specular"), currentMat->k_specular);
+				delete arrayLights;
+
 				glEnableVertexAttribArray(2);
 				glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(App->modelLoader->allShapes[j]->numVertices * App->modelLoader->allShapes[j]->normals_offset));
 				

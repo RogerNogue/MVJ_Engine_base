@@ -22,6 +22,7 @@ public:
 	float size1 = 1;
 	float size2 = 2;
 	float size3 = 2;
+	float ambient = 0.3f;
 	unsigned vbo = 0;
 	unsigned vio = 0;
 	unsigned material = 0;

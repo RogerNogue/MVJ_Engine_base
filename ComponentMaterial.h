@@ -30,7 +30,7 @@ public:
 	//vars
 	myMaterial material;
 	mySurface surface;
-	float k_specular = 0.9f;
+	float k_specular = 0.6f;
 	float shininess = 64.0f;
 	float k_diffuse = 0.5f;
 	float k_ambient = 1.0f;
