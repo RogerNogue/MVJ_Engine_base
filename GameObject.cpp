@@ -189,6 +189,12 @@ void GameObject::deleteObject() {
 	}else {
 		if (mesh != nullptr) mesh->CleanUp();
 		if (shape != nullptr) shape->CleanUp();
+		//delete parents reference to this
+		for (int i = 0; i < parent->meshesOrShapes.size(); ++i) {
+			if (parent->meshesOrShapes[i]->id == id) {
+				parent->meshesOrShapes.erase(parent->meshesOrShapes.begin() + i);
+			}
+		}
 	}
 	for (int i = 0; i < materials.size(); ++i) {
 		materials[i]->CleanUp();
