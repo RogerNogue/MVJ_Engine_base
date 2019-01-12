@@ -479,6 +479,12 @@
     <None Include="Game\Blinn_phong.vs">
       <Filter>Others</Filter>
     </None>
+    <None Include="Game\Blinn_texture.fs">
+      <Filter>Others</Filter>
+    </None>
+    <None Include="Game\Blinn_texture.vs">
+      <Filter>Others</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

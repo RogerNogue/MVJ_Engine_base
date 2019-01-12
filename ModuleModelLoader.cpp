@@ -216,9 +216,10 @@ bool ModuleModelLoader::CreateSphere(GameObject* object) {
 	ComponentShape* newShape = new ComponentShape(shapeObject, SPHERE);
 	
 	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	mat->isTexture = false;
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
-
+	App;
 	LoadSphere(newShape, true);
 	return true;
 }
@@ -227,6 +228,7 @@ bool ModuleModelLoader::CreateCube(GameObject* object) {
 	ComponentShape* newShape = new ComponentShape(shapeObject, CUBE);
 
 	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	mat->isTexture = false;
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
@@ -238,6 +240,7 @@ bool ModuleModelLoader::CreateCylinder(GameObject* object) {
 	ComponentShape* newShape = new ComponentShape(shapeObject, CYLINDER);
 
 	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	mat->isTexture = false;
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
@@ -249,6 +252,7 @@ bool ModuleModelLoader::CreateTorus(GameObject* object) {
 	ComponentShape* newShape = new ComponentShape(shapeObject, TORUS);
 
 	ComponentMaterial* mat = new ComponentMaterial(newShape->dad->parent);
+	mat->isTexture = false;
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
 
@@ -414,7 +418,7 @@ void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* co
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	comp->material = 0;
+	//comp->material = 0;
 	comp->numVertices = shape->npoints;
 	comp->numIndices = shape->ntriangles * 3;
 

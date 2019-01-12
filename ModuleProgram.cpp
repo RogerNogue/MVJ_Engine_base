@@ -101,7 +101,8 @@ bool            ModuleProgram::Init() {
 
 	programTexture = loadShaders("Default.vs", "Default.fs");
 	programGeometry = loadShaders("lineVertex.vs", "lineFragment.fs");
-	programBlinnPhong = loadShaders("Blinn_phong.vs","Blinn_phong.fs");
+	programBlinnPhong = loadShaders("Blinn_phong.vs", "Blinn_phong.fs");
+	programBlinnPhongTexture = loadShaders("Blinn_texture.vs", "Blinn_texture.fs");
 	
 	return true;
 }
