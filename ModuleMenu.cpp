@@ -113,10 +113,6 @@ update_status ModuleMenu::Update() {
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Demo window")) {
-			ImGui::ShowDemoWindow();
-		}
-
 		if (ImGui::BeginMenu("Exit")) {
 			return UPDATE_STOP;
 		}
@@ -166,6 +162,8 @@ update_status ModuleMenu::Update() {
 				ImGui::InputFloat("zFar Plane", &App->camera->frustum.farPlaneDistance);
 				ImGui::InputFloat("keys movement speed", &App->camera->movementSpeed);
 				ImGui::InputFloat("mouse rotation speed", &App->camera->mouseRotSpeed);
+
+				ImGui::Checkbox("Draw mouse picking ray", &App->scene->drawSegment);
 			}
 			ImGui::EndTabItem();
 		}

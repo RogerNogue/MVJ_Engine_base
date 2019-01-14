@@ -6,6 +6,7 @@
 #include "ModuleMenu.h"
 #include "SDL/include/SDL.h"
 #include "Brofiler.h"
+#include "ModuleScene.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -61,9 +62,11 @@ update_status ModuleInput::PreUpdate() {
 				rightclickPressed = true;
 			}
 			//if left click, check 
-			/*else if () {
-
-			}*/
+			else if (sdlEvent.button.button == SDL_BUTTON_LEFT) {
+				int mouseX, mouseY;
+				SDL_GetMouseState(&mouseX, &mouseY);
+				App->scene->mouseClick(mouseX, mouseY);
+			}
 			break;
 
 		case SDL_MOUSEBUTTONUP:

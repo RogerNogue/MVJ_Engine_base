@@ -17,12 +17,12 @@ childNumber(num)
 {
 	area = AABB(float3(section.minPoint.x, 0, section.minPoint.z), float3(section.maxPoint.x, 0, section.maxPoint.z));
 	treeDepth = parent->treeDepth + 1;
-	char* b = new char[100];
+	/*char* b = new char[100];
 	sprintf(b, "Creating new quad node with depth = %d\n", treeDepth);
 	App->menu->console.AddLog(b);
 	sprintf(b, "\n\n");
 	App->menu->console.AddLog(b);
-	delete[] b;
+	delete[] b;*/
 }
 
 QuadNode::~QuadNode()

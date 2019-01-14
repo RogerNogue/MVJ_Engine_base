@@ -38,6 +38,8 @@ public:
 	float3 modelCenter;
 	float modelWidth, modelHeight;
 	bool cameraChanged;
+	float znear = 1.0f;
+	float zfar = 100.0f;
 
 private:
 	//variables

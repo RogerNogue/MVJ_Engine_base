@@ -52,11 +52,11 @@ public:
 	float* fps_log = nullptr;
 	float* ms_log = nullptr;
 	ExampleAppLog console;
+	float menubarWidth, menubarHeight;
 private:
 	void updateFramerates();
 	//variables
 	ImVec2 viewportSize;
-	float menubarWidth, menubarHeight;
 	bool nameCopied = false;
 };
 

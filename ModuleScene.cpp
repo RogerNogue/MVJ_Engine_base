@@ -5,6 +5,7 @@
 #include "Serializer.h"
 #include "Application.h"
 #include "ModuleMenu.h"
+#include "ModuleCamera.h"
 
 ModuleScene::ModuleScene()
 {
@@ -219,4 +220,54 @@ void ModuleScene::loadScene(const char* name) {
 		}
 	}
 	json->closeFile();
+}
+
+void ModuleScene::mouseClick(int mouseXi, int mouseYi) {
+	float mouseX = (float)mouseXi;
+	float mouseY = (float)mouseYi;
+	math::float2 viewportTopLeft(App->menu->menubarWidth, 20.0f);
+	math::float2 viewportSize(App->camera->screenWidth - 2 * App->menu->menubarWidth, App->camera->screenHeight - App->menu->menubarHeight - 20);
+	math::float2 windowSize(App->camera->screenWidth, App->camera->screenHeight);
+	float endpointX = App->menu->menubarWidth + App->camera->screenWidth - 2 * App->menu->menubarWidth;
+	float endpointY = 20.0f + App->camera->screenHeight - App->menu->menubarHeight - 20;
+	if (mouseX > App->menu->menubarWidth && mouseX < (endpointX) &&
+		mouseY > 20.0f && mouseY < endpointY) {
+		float sy, sx, ty, tx;
+		/*sy = (1 + 1) / (-viewportSize.y);
+		sx = (1 + 1) / (viewportSize.x);
+		ty = (-(viewportSize.y + viewportTopLeft.y) - viewportTopLeft.y) / (-viewportSize.y);
+		tx = (-(viewportSize.x + viewportTopLeft.x) - viewportTopLeft.x) / (viewportSize.x);*/
+
+		sy = (1 + 1) / (-windowSize.y);
+		sx = (1 + 1) / (windowSize.x);
+		ty = (-(windowSize.y + viewportTopLeft.y) - viewportTopLeft.y) / (-windowSize.y);
+		tx = (-(windowSize.x + viewportTopLeft.x) - viewportTopLeft.x) / (windowSize.x);
+
+		float normX = sx*(mouseX) + tx - 0.01;
+		float normY = sy*(mouseY) + ty + 0.06;
+		ray = App->camera->frustum.UnProjectLineSegment(normX, normY);
+
+		//future implementation: make quadtree work fully and use it to make this algorithm more efficient
+		//now we check collisions
+		std::vector<GameObject*> collisions;
+		for (int i = 0; i < allObjects.size(); ++i) {
+			if (ray.Intersects(allObjects[i]->boundingBox)) {
+				collisions.push_back(allObjects[i]);
+			}
+		}
+		GameObject* picked = nullptr;
+		if(collisions.size() > 0) picked = collisions[0];
+		for (int i = 0; i < collisions.size(); ++i) {
+			picked = closestToCam(picked, collisions[i]);
+		}
+		//now that we have the picked object, make it selected
+		if (picked != nullptr) {
+			objectSelected = picked;
+		}
+	}
+}
+
+GameObject* ModuleScene::closestToCam(GameObject* go1, GameObject* go2) {
+	if (go1->boundingBox.Distance(App->camera->frustum.pos) < go2->boundingBox.Distance(App->camera->frustum.pos)) return go1;
+	else return go2;
 }

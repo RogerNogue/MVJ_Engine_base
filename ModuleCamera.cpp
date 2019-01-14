@@ -47,8 +47,8 @@ bool            ModuleCamera::Init() {
 	frustum.pos = math::float3(0, 4, -7);
 	frustum.front = (vrp - frustum.pos).Normalized();
 	frustum.up = math::Cross(frustum.front, math::float3(1, 0, 0));
-	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 100.0f;
+	frustum.nearPlaneDistance = znear;
+	frustum.farPlaneDistance = zfar;
 	frustum.verticalFov = math::pi / 4.0f;
 	screenWidth = SCREEN_WIDTH;
 	screenHeight = SCREEN_HEIGHT;
@@ -71,14 +71,10 @@ update_status   ModuleCamera::Update() {
 
 		if (App->input->keyboard[SDL_SCANCODE_Q]) {
 			frustum.pos -= frustum.up * movementSpeed;
-			vrp -= math::float3(0, 1, 0) * movementSpeed;
-			frustum.front = (vrp - frustum.pos).Normalized();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_E]) {
 			frustum.pos += frustum.up * movementSpeed;
-			vrp += math::float3(0, 1, 0) * movementSpeed;
-			frustum.front = (vrp - frustum.pos).Normalized();
 			cameraChanged = true;
 		}
 		if (App->input->keyboard[SDL_SCANCODE_W]) {

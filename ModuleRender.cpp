@@ -280,6 +280,21 @@ void ModuleRender::Draw()
 			dd::aabb(App->scene->allObjects[i]->boundingBox.minPoint, App->scene->allObjects[i]->boundingBox.maxPoint, float3(0.4f,0.8f,0.2f));
 		}
 	}
+	//draw ray from mouse picking
+	if (App->scene->drawSegment) {
+		for (int i = 0; i < 10; ++i) {
+			for (int j = 0; j < 10; ++j) {
+				float newStartX = App->scene->ray.a.x +0.001*i;
+				float newStartY = App->scene->ray.a.y +0.001*j;
+				float newEndX = App->scene->ray.b.x +0.001*i;
+				float newEndY = App->scene->ray.b.y +0.001*j;
+				math:float3 newStart(newStartX, newStartY, App->scene->ray.a.z);
+				math::float3 newEnd(newEndX, newEndY, App->scene->ray.b.z);
+
+				dd::line(newStart, newEnd, math::float3(0.8, 0.3, 0.3));
+			}
+		}
+	}
 	//check if quad tree is to be painted
 	if (App->scene->drawQuadTree) {
 		App->scene->quadTree->DrawQuadTree();

@@ -21,6 +21,8 @@ public:
 	//add a save and load function
 	void saveScene(const char* name);
 	void loadScene(const char* name);
+	//mouse picking function
+	void mouseClick(int mouseXi, int mouseYi);
 
 	//variables
 	GameObject* objectSelected = nullptr;
@@ -30,10 +32,14 @@ public:
 	QuadTreeGnoblin* quadTree;
 	bool drawQuadTree = false;
 	char* folderPath = "Scenes/";
+	math::LineSegment ray = LineSegment(float3(-100, -100, -100), float3(-100, -100, -100));
+	bool drawSegment = false;
+
 
 private:
 	int sceneNum = 1;
 	AABB sceneBoundingBox;
 	void paintGameObjectTree(GameObject* go);
+	GameObject* closestToCam(GameObject* go1, GameObject* go2);
 };
 #endif
