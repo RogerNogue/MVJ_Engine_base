@@ -416,16 +416,20 @@ void ModuleRender::drawGizmo() {
 	}
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 
-	ComponentTransform* objTransf = App->scene->objectSelected->transform;
+	/*GameObject* current = App->scene->objectSelected;
+	if (current->transform != nullptr) {
+		ComponentTransform* objTransf = current->transform;
+
+		math::float4x4 modelMatrix = objTransf->transformMatrix;
+		math::float4x4 viewMatrix = App->camera->frustum.ViewMatrix();
+		math::float4x4 projectionMatrix = App->camera->projection;
+
+		modelMatrix.Transpose();
+		ImGuizmo::SetOrthographic(false);
+
+		ImGuizmo::Manipulate((float*)&viewMatrix.Transposed(), (float*)&projectionMatrix.Transposed(), transformType, mCurrentGizmoMode, (float*)&modelMatrix, NULL, NULL, NULL, NULL);
+
+		objTransf->setValues(modelMatrix.Transposed());
+	}*/
 	
-	math::float4x4 modelMatrix = objTransf->transformMatrix;
-	math::float4x4 viewMatrix = App->camera->frustum.ViewMatrix();
-	math::float4x4 projectionMatrix = App->camera->projection;
-
-	modelMatrix.Transpose();
-	ImGuizmo::SetOrthographic(false);
-
-	ImGuizmo::Manipulate((float*)&viewMatrix.Transposed(), (float*)&projectionMatrix.Transposed(), transformType, mCurrentGizmoMode, (float*)&modelMatrix, NULL, NULL, NULL, NULL);
-
-	objTransf->setValues(modelMatrix.Transposed());
 }

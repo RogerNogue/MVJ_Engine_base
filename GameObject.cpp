@@ -171,19 +171,25 @@ void GameObject::deleteObject() {
 	if(parent != nullptr) parent->deleteChild(id);
 	children.clear();
 	if(!Physical){
-		for (int i = 0; i < meshesOrShapes.size(); ++i) {
-			for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-				if (App->modelLoader->allMeshes[j]->id == meshesOrShapes[i]->mesh->id) {
-					App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
+		for (int k = 0; k < meshesOrShapes.size(); ++k) {
+			//delete the mesh or shape from object and from AllMeshes and AllShapes
+			if (meshesOrShapes[k]->mesh != nullptr) {
+				for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
+					if (App->modelLoader->allMeshes[j]->id == meshesOrShapes[k]->mesh->id) {
+						App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
+					}
+				}
+
+			}
+			if (meshesOrShapes[k]->shape != nullptr) {
+				for (int j = 0; j < App->modelLoader->allShapes.size(); ++j) {
+					if (App->modelLoader->allShapes[j]->id == meshesOrShapes[k]->shape->id) {
+						App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
+					}
 				}
 			}
-			for (int j = 0; j < App->modelLoader->allShapes.size(); ++j) {
-				if (App->modelLoader->allShapes[j]->id == meshesOrShapes[i]->shape->id) {
-					App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
-				}
-			}
-			meshesOrShapes[i]->deleteObject();
-			delete meshesOrShapes[i];
+			meshesOrShapes[k]->deleteObject();
+			//meshesOrShapes.erase(meshesOrShapes.begin()+k);
 		}
 		meshesOrShapes.clear();
 	}else {
@@ -215,7 +221,7 @@ void GameObject::deleteObject() {
 		delete transform;
 	}
 	//delete object if is not light
-	if (!IsLight) {
+	if (!IsLight()) {
 		for (int i = 0; i < App->scene->allObjects.size(); ++i)
 			if (App->scene->allObjects[i]->id == id) App->scene->allObjects.erase(App->scene->allObjects.begin() + i);
 	}
@@ -342,7 +348,7 @@ void GameObject::saveObject(JSON_Value* objValue) {
 	objValue->addValue("", currentValue);
 
 	//meshes or shapes
-	for (int i = 0; i < meshesOrShapes.size(); ++i) meshesOrShapes[i]->saveObject(objValue);
+	for (int k = 0; k < meshesOrShapes.size(); ++k) meshesOrShapes[k]->saveObject(objValue);
 	
 	//children
 	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(objValue);
