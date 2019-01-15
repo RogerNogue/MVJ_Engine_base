@@ -222,8 +222,11 @@ void GameObject::deleteObject() {
 	}
 	//delete object if is not light
 	if (!IsLight()) {
-		for (int i = 0; i < App->scene->allObjects.size(); ++i)
-			if (App->scene->allObjects[i]->id == id) App->scene->allObjects.erase(App->scene->allObjects.begin() + i);
+		for (int l = 0; l < App->scene->allObjects.size(); ++l)
+			if (App->scene->allObjects[l]->id == id) {
+				App->scene->allObjects.erase(App->scene->allObjects.begin() + l);
+				return;
+			}
 	}
 	else {
 		for (int i = 0; i < App->scene->allLights.size(); ++i)

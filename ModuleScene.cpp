@@ -23,8 +23,6 @@ bool ModuleScene::Init() {
 	quadTree->Create(sceneBoundingBox);
 
 	baseObject =  new GameObject ("BaseObject");
-	//i could also declare the editor camera here
-	allObjects.push_back(baseObject);
 	return true;
 }
 
