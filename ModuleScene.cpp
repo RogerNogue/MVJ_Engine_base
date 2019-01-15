@@ -225,9 +225,10 @@ void ModuleScene::loadScene(const char* name) {
 void ModuleScene::mouseClick(int mouseXi, int mouseYi) {
 	float mouseX = (float)mouseXi;
 	float mouseY = (float)mouseYi;
-	math::float2 viewportTopLeft(App->menu->menubarWidth, 20.0f);
+	math::float2 viewportTopLeft(App->menu->menubarWidth, 50.0f);
 	math::float2 viewportSize(App->camera->screenWidth - 2 * App->menu->menubarWidth, App->camera->screenHeight - App->menu->menubarHeight - 20);
 	math::float2 windowSize(App->camera->screenWidth, App->camera->screenHeight);
+	float consoleH = App->menu->menubarHeight;
 	float endpointX = App->menu->menubarWidth + App->camera->screenWidth - 2 * App->menu->menubarWidth;
 	float endpointY = 20.0f + App->camera->screenHeight - App->menu->menubarHeight - 20;
 	if (mouseX > App->menu->menubarWidth && mouseX < (endpointX) &&
@@ -240,11 +241,11 @@ void ModuleScene::mouseClick(int mouseXi, int mouseYi) {
 
 		sy = (1 + 1) / (-windowSize.y);
 		sx = (1 + 1) / (windowSize.x);
-		ty = (-(windowSize.y + viewportTopLeft.y) - viewportTopLeft.y) / (-windowSize.y);
+		ty = (-(viewportTopLeft.y) - (viewportTopLeft.y + windowSize.y)) / (-windowSize.y);
 		tx = (-(windowSize.x + viewportTopLeft.x) - viewportTopLeft.x) / (windowSize.x);
 
 		float normX = sx*(mouseX) + tx - 0.01;
-		float normY = sy*(mouseY) + ty + 0.06;
+		float normY = sy*(mouseY) + ty;
 		ray = App->camera->frustum.UnProjectLineSegment(normX, normY);
 
 		//future implementation: make quadtree work fully and use it to make this algorithm more efficient
