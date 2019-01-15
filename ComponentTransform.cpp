@@ -3,6 +3,12 @@
 #include "Application.h"
 #include "Serializer.h"
 
+//local functions
+bool different(math::float3 a, math::float3 b) {
+	if (a.x == b.x && a.y == b.y && a.z == b.z) return true;
+	else return false;
+}
+
 ComponentTransform::ComponentTransform(GameObject* dad):
 	Component(dad)
 {
@@ -115,10 +121,13 @@ void ComponentTransform::saveTransform(JSON_Value* val) {
 }
 
 void ComponentTransform::setValues(math::float4x4 newMat) {
-	positionValues.x = newMat[0][3]; positionValues.y = newMat[1][3]; positionValues.z = newMat[2][3];
-	scaleValues = newMat.ExtractScale();
+	float3 newPos, newScale, newRot;
+	newPos.x = newMat[0][3]; newPos.y = newMat[1][3]; newPos.z = newMat[2][3];
+	newScale = newMat.ExtractScale();
 	float3x3 rotmat = newMat.RotatePart();
-	rotationValues = rotmat.ToEulerXYZ();
-	objectMoved = true;
-	Update();
+	newRot = rotmat.ToEulerXYZ();
+	if (different(newPos, positionValues) || different(newScale, scaleValues) || different(newRot, rotationValues)) {
+		objectMoved = true;
+		Update();
+	}
 }

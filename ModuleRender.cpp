@@ -416,7 +416,7 @@ void ModuleRender::drawGizmo() {
 	}
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 
-	/*GameObject* current = App->scene->objectSelected;
+	GameObject* current = App->scene->objectSelected;
 	if (current->transform != nullptr) {
 		ComponentTransform* objTransf = current->transform;
 
@@ -430,6 +430,6 @@ void ModuleRender::drawGizmo() {
 		ImGuizmo::Manipulate((float*)&viewMatrix.Transposed(), (float*)&projectionMatrix.Transposed(), transformType, mCurrentGizmoMode, (float*)&modelMatrix, NULL, NULL, NULL, NULL);
 
 		objTransf->setValues(modelMatrix.Transposed());
-	}*/
+	}
 	
 }
