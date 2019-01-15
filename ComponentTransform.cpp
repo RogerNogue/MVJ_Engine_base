@@ -5,8 +5,8 @@
 
 //local functions
 bool different(math::float3 a, math::float3 b) {
-	if (a.x == b.x && a.y == b.y && a.z == b.z) return true;
-	else return false;
+	if (a.x == b.x && a.y == b.y && a.z == b.z) return false;
+	else return true;
 }
 
 ComponentTransform::ComponentTransform(GameObject* dad):
@@ -127,6 +127,9 @@ void ComponentTransform::setValues(math::float4x4 newMat) {
 	float3x3 rotmat = newMat.RotatePart();
 	newRot = rotmat.ToEulerXYZ();
 	if (different(newPos, positionValues) || different(newScale, scaleValues) || different(newRot, rotationValues)) {
+		positionValues = newPos;
+		rotationValues = newRot;
+		scaleValues = newScale;
 		objectMoved = true;
 		Update();
 	}
