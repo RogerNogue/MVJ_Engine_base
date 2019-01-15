@@ -214,6 +214,17 @@ void GameObject::deleteObject() {
 		transform->CleanUp();
 		delete transform;
 	}
+	//delete object if is not light
+	if (!IsLight) {
+		for (int i = 0; i < App->scene->allObjects.size(); ++i)
+			if (App->scene->allObjects[i]->id == id) App->scene->allObjects.erase(App->scene->allObjects.begin() + i);
+	}
+	else {
+		for (int i = 0; i < App->scene->allLights.size(); ++i)
+			if (App->scene->allLights[i]->id == id) App->scene->allLights.erase(App->scene->allLights.begin() + i);
+	}
+	//delete object if is light
+	
 }
 
 void GameObject::deleteChild(unsigned idc) {
@@ -318,9 +329,6 @@ void GameObject::saveObject(JSON_Value* objValue) {
 			materials[i]->saveMaterial(Components);
 		}
 	}
-	for (int i = 0; i < meshesOrShapes.size(); ++i) {
-		meshesOrShapes[i]->saveObject(objValue);
-	}
 	if (Physical) {
 		if (mesh != nullptr) mesh->saveMesh(Components);
 		if (shape != nullptr) shape->saveShape(Components);
@@ -333,6 +341,9 @@ void GameObject::saveObject(JSON_Value* objValue) {
 
 	objValue->addValue("", currentValue);
 
+	//meshes or shapes
+	for (int i = 0; i < meshesOrShapes.size(); ++i) meshesOrShapes[i]->saveObject(objValue);
+	
 	//children
 	for (int i = 0; i < children.size(); ++i) children[i]->saveObject(objValue);
 }
