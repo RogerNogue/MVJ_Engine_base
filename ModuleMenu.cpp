@@ -190,7 +190,8 @@ update_status ModuleMenu::Update() {
 							App->scene->objectSelected->staticToggled(true);
 						}
 					}
-					else if(App->scene->objectSelected->parent->isStatic) ImGui::Text("Parent is Static");
+					else if(App->scene->objectSelected->parent != nullptr &&
+							App->scene->objectSelected->parent->isStatic) ImGui::Text("Parent is Static");
 					else ImGui::Text("Parent is Dynamic");
 					
 

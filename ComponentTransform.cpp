@@ -9,7 +9,7 @@ ComponentTransform::ComponentTransform(GameObject* dad):
 	type = TRANSFORM;
 	active = false;
 	id = App->generateID();
-	if (dad->parent != nullptr) {
+	if (dad->parent != nullptr && dad->parent->transform != nullptr) {
 		positionValues = dad->parent->transform->positionValues;
 		rotationValues = dad->parent->transform->rotationValues;
 		scaleValues = dad->parent->transform->scaleValues;
