@@ -13,6 +13,7 @@ public:
 	update_status Update() override;
 	void placeAt000();
 	void saveTransform(JSON_Value* val);
+	void setValues(math::float4x4 newMat);
 
 	//variables
 	bool objectMoved = false;

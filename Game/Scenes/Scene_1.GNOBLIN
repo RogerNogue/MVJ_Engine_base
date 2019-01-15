@@ -1,7 +1,7 @@
 {
     "Scene Objects": [
         {
-            "ID": 3126891730,
+            "ID": 2262361894,
             "ParentID": 0,
             "Is active": true,
             "Is static": true,
@@ -19,9 +19,10 @@
             "Max Z": 1.0,
             "BBgen": false,
             "Physical": false,
+            "Light": false,
             "Component": [
                 {
-                    "ID": 1642361878,
+                    "ID": 633937705,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
@@ -62,8 +63,8 @@
             ]
         },
         {
-            "ID": 3231355355,
-            "ParentID": 3180188381,
+            "ID": 959538121,
+            "ParentID": 93377856,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
@@ -80,10 +81,11 @@
             "Max Z": 1.0,
             "BBgen": false,
             "Physical": true,
+            "Light": false,
             "Component": [
                 {
                     "Active": true,
-                    "ID": 3655104287,
+                    "ID": 2294760769,
                     "Type": 1,
                     "numModel": 1,
                     "numMesh": 0
@@ -91,8 +93,8 @@
             ]
         },
         {
-            "ID": 123388488,
-            "ParentID": 3180188381,
+            "ID": 3705814012,
+            "ParentID": 93377856,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
@@ -109,10 +111,11 @@
             "Max Z": 1.0,
             "BBgen": false,
             "Physical": true,
+            "Light": false,
             "Component": [
                 {
                     "Active": true,
-                    "ID": 1870002112,
+                    "ID": 2233209988,
                     "Type": 1,
                     "numModel": 1,
                     "numMesh": 1
@@ -120,8 +123,8 @@
             ]
         },
         {
-            "ID": 3180188381,
-            "ParentID": 3126891730,
+            "ID": 93377856,
+            "ParentID": 2262361894,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
@@ -138,28 +141,30 @@
             "Max Z": 1.906912922859192,
             "BBgen": false,
             "Physical": false,
+            "Light": false,
             "Component": [
                 {
-                    "ID": 1712958874,
+                    "ID": 2994161452,
                     "Type": 2,
                     "Active": true,
                     "numModel": 1,
-                    "numMaterial": 0
+                    "numMaterial": 0,
+                    "isTexture": true
                 },
                 {
-                    "ID": 650021001,
+                    "ID": 1736054354,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
                     "Position": [
-                        6.943999767303467,
+                        4.359771728515625,
                         0.0,
                         0.0
                     ],
                     "Rotation": [
+                        -0.0,
                         0.0,
-                        0.0,
-                        0.0
+                        -0.0
                     ],
                     "Scale": [
                         1.0,
@@ -170,7 +175,7 @@
                         1.0,
                         0.0,
                         0.0,
-                        6.943999767303467,
+                        4.359771728515625,
                         0.0,
                         1.0,
                         0.0,
@@ -188,104 +193,40 @@
             ]
         },
         {
-            "ID": 1384466159,
-            "ParentID": 2608032897,
+            "ID": 329495012,
+            "ParentID": 2262361894,
             "Is active": true,
             "Is static": true,
-            "Bounding box painted": false,
-            "name": "MeshObject",
-            "Has camera": false,
-            "Has mesh": true,
-            "Has material": false,
-            "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
-            "BBgen": false,
-            "Physical": true,
-            "Component": [
-                {
-                    "Active": true,
-                    "ID": 3918598157,
-                    "Type": 1,
-                    "numModel": 1,
-                    "numMesh": 0
-                }
-            ]
-        },
-        {
-            "ID": 2260711428,
-            "ParentID": 2608032897,
-            "Is active": true,
-            "Is static": true,
-            "Bounding box painted": false,
-            "name": "MeshObject",
-            "Has camera": false,
-            "Has mesh": true,
-            "Has material": false,
-            "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
-            "BBgen": false,
-            "Physical": true,
-            "Component": [
-                {
-                    "Active": true,
-                    "ID": 323578880,
-                    "Type": 1,
-                    "numModel": 1,
-                    "numMesh": 1
-                }
-            ]
-        },
-        {
-            "ID": 2608032897,
-            "ParentID": 3180188381,
-            "Is active": true,
-            "Is static": true,
-            "Bounding box painted": false,
-            "name": "New Object",
+            "Bounding box painted": true,
+            "name": "Light source",
             "Has camera": false,
             "Has mesh": false,
-            "Has material": true,
+            "Has material": false,
             "Has shape": false,
-            "Min X": -1.5340535640716553,
+            "Min X": -1.0,
             "Min Y": -1.0,
-            "Min Z": -2.060347080230713,
-            "Max X": 2.2668659687042238,
-            "Max Y": 3.555873394012451,
-            "Max Z": 1.906912922859192,
+            "Min Z": -1.0,
+            "Max X": 1.0,
+            "Max Y": 1.0,
+            "Max Z": 1.0,
             "BBgen": false,
             "Physical": false,
+            "Light": true,
             "Component": [
                 {
-                    "ID": 2461339245,
-                    "Type": 2,
-                    "Active": true,
-                    "numModel": 1,
-                    "numMaterial": 0
-                },
-                {
-                    "ID": 1576841243,
+                    "ID": 3963260331,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
                     "Position": [
-                        5.556000232696533,
                         0.0,
+                        6.019000053405762,
                         0.0
                     ],
                     "Rotation": [
+                        -0.0,
                         0.0,
-                        0.0,
-                        0.0
+                        -0.0
                     ],
                     "Scale": [
                         1.0,
@@ -296,11 +237,11 @@
                         1.0,
                         0.0,
                         0.0,
-                        12.5,
+                        0.0,
                         0.0,
                         1.0,
                         0.0,
-                        0.0,
+                        6.019000053405762,
                         0.0,
                         0.0,
                         1.0,
@@ -314,16 +255,16 @@
             ]
         },
         {
-            "ID": 991604103,
-            "ParentID": 3377175176,
+            "ID": 2701447668,
+            "ParentID": 112573173,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
-            "name": "MeshObject",
+            "name": "ShapeObject",
             "Has camera": false,
-            "Has mesh": true,
+            "Has mesh": false,
             "Has material": false,
-            "Has shape": false,
+            "Has shape": true,
             "Min X": -1.0,
             "Min Y": -1.0,
             "Min Z": -1.0,
@@ -332,57 +273,52 @@
             "Max Z": 1.0,
             "BBgen": false,
             "Physical": true,
+            "Light": false,
             "Component": [
                 {
+                    "ID": 115697962,
+                    "Type": 4,
                     "Active": true,
-                    "ID": 511243364,
-                    "Type": 1,
-                    "numModel": 2,
-                    "numMesh": 0
+                    "Slices": 20,
+                    "Stacks": 20
                 }
             ]
         },
         {
-            "ID": 3377175176,
-            "ParentID": 3126891730,
+            "ID": 112573173,
+            "ParentID": 2262361894,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
             "name": "New Object",
             "Has camera": false,
             "Has mesh": false,
-            "Has material": true,
+            "Has material": false,
             "Has shape": false,
-            "Min X": -1.0077791213989258,
-            "Min Y": -5.670136451721191,
-            "Min Z": -1.0346074104309083,
-            "Max X": 2.4589037895202638,
-            "Max Y": 4.678233623504639,
-            "Max Z": 1.036881685256958,
+            "Min X": -1.0,
+            "Min Y": -1.0,
+            "Min Z": -1.0,
+            "Max X": -1.0,
+            "Max Y": -1.0,
+            "Max Z": -1.0,
             "BBgen": false,
             "Physical": false,
+            "Light": false,
             "Component": [
                 {
-                    "ID": 3641525109,
-                    "Type": 2,
-                    "Active": true,
-                    "numModel": 2,
-                    "numMaterial": 0
-                },
-                {
-                    "ID": 4123955214,
+                    "ID": 4164378912,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
                     "Position": [
-                        -3.7039999961853029,
-                        0.0,
-                        -7.869999885559082
-                    ],
-                    "Rotation": [
-                        0.0,
+                        -4.630000114440918,
                         0.0,
                         0.0
+                    ],
+                    "Rotation": [
+                        -0.0,
+                        0.0,
+                        -0.0
                     ],
                     "Scale": [
                         1.0,
@@ -393,7 +329,7 @@
                         1.0,
                         0.0,
                         0.0,
-                        -3.7039999961853029,
+                        -4.630000114440918,
                         0.0,
                         1.0,
                         0.0,
@@ -401,7 +337,7 @@
                         0.0,
                         0.0,
                         1.0,
-                        -7.869999885559082,
+                        0.0,
                         0.0,
                         0.0,
                         0.0,

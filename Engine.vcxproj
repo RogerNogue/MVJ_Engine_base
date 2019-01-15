@@ -166,6 +166,7 @@
     <ClInclude Include="QuadNode.h" />
     <ClInclude Include="QuadTreeGnoblin.h" />
     <ClInclude Include="Serializer.h" />
+    <ClInclude Include="Util\ImGuizmo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -229,6 +230,7 @@
     <ClCompile Include="QuadNode.cpp" />
     <ClCompile Include="QuadTreeGnoblin.cpp" />
     <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="Util\ImGuizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Blinn_phong.fs" />

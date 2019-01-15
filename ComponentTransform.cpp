@@ -113,3 +113,12 @@ void ComponentTransform::saveTransform(JSON_Value* val) {
 
 	val->addValue("Transform", transfVal);
 }
+
+void ComponentTransform::setValues(math::float4x4 newMat) {
+	positionValues.x = newMat[0][3]; positionValues.y = newMat[1][3]; positionValues.z = newMat[2][3];
+	scaleValues = newMat.ExtractScale();
+	float3x3 rotmat = newMat.RotatePart();
+	rotationValues = rotmat.ToEulerXYZ();
+	objectMoved = true;
+	Update();
+}
