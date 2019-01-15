@@ -171,7 +171,7 @@ void GameObject::deleteObject() {
 	if(parent != nullptr) parent->deleteChild(id);
 	children.clear();
 	if(!Physical){
-		for (int k = 0; k < meshesOrShapes.size(); ++k) {
+		for (int k = 0; k < meshesOrShapes.size();) {
 			//delete the mesh or shape from object and from AllMeshes and AllShapes
 			if (meshesOrShapes[k]->mesh != nullptr) {
 				for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
