@@ -428,5 +428,4 @@ void ModuleRender::drawGizmo() {
 	ImGuizmo::Manipulate((float*)&viewMatrix.Transposed(), (float*)&projectionMatrix.Transposed(), transformType, mCurrentGizmoMode, (float*)&modelMatrix, NULL, NULL, NULL, NULL);
 
 	objTransf->setValues(modelMatrix.Transposed());
-	//ImGui::SetCursorPos({ 20,30 });
 }

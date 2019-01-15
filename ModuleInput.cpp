@@ -42,6 +42,9 @@ update_status ModuleInput::PreUpdate() {
 	if (keyboard[SDL_SCANCODE_ESCAPE]) {
 		return UPDATE_STOP;
 	}
+	if (keyboard[SDL_SCANCODE_T])App->renderer->gizmoTransf = 0;
+	if (keyboard[SDL_SCANCODE_R])App->renderer->gizmoTransf = 1;
+	if (keyboard[SDL_SCANCODE_E])App->renderer->gizmoTransf = 2;
 	SDL_Event sdlEvent;
 	if (SDL_PollEvent(&sdlEvent) != 0) {
 		// Esc button is pressed
