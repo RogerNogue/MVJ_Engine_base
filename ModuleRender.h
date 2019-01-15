@@ -28,19 +28,24 @@ public:
 	void setUpViewport();
 	//variables
 	void* context = nullptr;
-	unsigned editorCameraBuffer;
-	unsigned editorTexture;
+	unsigned editorCameraBuffer = 0;
+	unsigned editorTexture = 0;
 	unsigned int frameBuffer = 0;
 	unsigned int renderTexture = 0;
 	unsigned int depthBuffer = 0;
+	unsigned gizmoTransf = 0;
 private:
 	void RenderMeshes();
 	void RenderShapes();
 	void RenderWithNormals();
 	void RenderWithNoNormals();
+	void drawGizmo();
 
 	//variables
-	float texWidth, texHeight;
+	float screenWidth = 0;
+	float screenHeight = 0;
+	float texWidth = 0;
+	float texHeight = 0;
 
 };
 

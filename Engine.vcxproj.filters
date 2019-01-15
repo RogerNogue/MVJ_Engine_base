@@ -184,6 +184,9 @@
     <ClCompile Include="Serializer.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="Util\ImGuizmo.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentTransform.h">
@@ -454,6 +457,9 @@
       <Filter>Others</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ImGuizmo.h">
       <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>

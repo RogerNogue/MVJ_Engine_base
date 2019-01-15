@@ -20,6 +20,7 @@
 #include "QuadTreeGnoblin.h"
 #include "ComponentShape.h"
 #include "ModuleMenu.h"
+#include "ImGuizmo.h"
 
 ModuleRender::ModuleRender()
 {
@@ -301,7 +302,12 @@ void ModuleRender::Draw()
 	}
 
 	App->debugDraw->Draw(App->camera, frameBuffer, App->camera->screenWidth, App->camera->screenHeight);
-	
+
+	//draw gizmo
+	if (App->scene->objectSelected != nullptr) {
+		drawGizmo();
+	}
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
@@ -340,6 +346,7 @@ ComponentMesh ModuleRender::createComponentMesh(GameObject* dad) {
 void ModuleRender::setUpViewport() {
 	//generating texture
 	if (texWidth != App->camera->screenWidth || texHeight != App->camera->screenHeight) {
+
 		texWidth = App->camera->screenWidth;
 		texHeight = App->camera->screenHeight;
 		if (renderTexture != 0)
@@ -388,5 +395,38 @@ void ModuleRender::setUpViewport() {
 		ImVec2(ImGui::GetCursorScreenPos().x + texWidth,
 			ImGui::GetCursorScreenPos().y + texHeight),
 		ImVec2(0, 1), ImVec2(1, 0));
+}
+
+void ModuleRender::drawGizmo() {
+	ImGuizmo::Enable(true);
+	ImGuizmo::SetDrawlist();
+	ImVec2 pos = ImGui::GetWindowPos();
+	ImGuizmo::SetRect(pos.x, pos.y, App->camera->screenWidth, App->camera->screenHeight);
+	ImGuizmo::OPERATION transformType = ImGuizmo::TRANSLATE;
+	switch (gizmoTransf) {
+	case 0:
+		transformType = ImGuizmo::TRANSLATE;
+		break;
+	case 1:
+		transformType = ImGuizmo::ROTATE;
+		break;
+	case 2:
+		transformType = ImGuizmo::SCALE;
+		break;
+	}
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+
+	ComponentTransform* objTransf = App->scene->objectSelected->transform;
 	
+	math::float4x4 modelMatrix = objTransf->transformMatrix;
+	math::float4x4 viewMatrix = App->camera->frustum.ViewMatrix();
+	math::float4x4 projectionMatrix = App->camera->projection;
+
+	modelMatrix.Transpose();
+	ImGuizmo::SetOrthographic(false);
+
+	ImGuizmo::Manipulate((float*)&viewMatrix.Transposed(), (float*)&projectionMatrix.Transposed(), transformType, mCurrentGizmoMode, (float*)&modelMatrix, NULL, NULL, NULL, NULL);
+
+	objTransf->setValues(modelMatrix.Transposed());
+	//ImGui::SetCursorPos({ 20,30 });
 }
