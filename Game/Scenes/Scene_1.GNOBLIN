@@ -1,7 +1,7 @@
 {
     "Scene Objects": [
         {
-            "ID": 2262361894,
+            "ID": 246421061,
             "ParentID": 0,
             "Is active": true,
             "Is static": true,
@@ -11,18 +11,18 @@
             "Has mesh": false,
             "Has material": false,
             "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
             "BBgen": false,
             "Physical": false,
             "Light": false,
             "Component": [
                 {
-                    "ID": 633937705,
+                    "ID": 1626891294,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
@@ -63,108 +63,82 @@
             ]
         },
         {
-            "ID": 959538121,
-            "ParentID": 93377856,
+            "ID": 3732634749,
+            "ParentID": 246421061,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
-            "name": "MeshObject",
-            "Has camera": false,
-            "Has mesh": true,
-            "Has material": false,
-            "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
-            "BBgen": false,
-            "Physical": true,
-            "Light": false,
-            "Component": [
-                {
-                    "Active": true,
-                    "ID": 2294760769,
-                    "Type": 1,
-                    "numModel": 1,
-                    "numMesh": 0
-                }
-            ]
-        },
-        {
-            "ID": 3705814012,
-            "ParentID": 93377856,
-            "Is active": true,
-            "Is static": true,
-            "Bounding box painted": false,
-            "name": "MeshObject",
-            "Has camera": false,
-            "Has mesh": true,
-            "Has material": false,
-            "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
-            "BBgen": false,
-            "Physical": true,
-            "Light": false,
-            "Component": [
-                {
-                    "Active": true,
-                    "ID": 2233209988,
-                    "Type": 1,
-                    "numModel": 1,
-                    "numMesh": 1
-                }
-            ]
-        },
-        {
-            "ID": 93377856,
-            "ParentID": 2262361894,
-            "Is active": true,
-            "Is static": true,
-            "Bounding box painted": false,
-            "name": "Baker House",
+            "name": "Dropped object",
             "Has camera": false,
             "Has mesh": false,
             "Has material": true,
             "Has shape": false,
-            "Min X": -1.5340535640716553,
-            "Min Y": 0.012897372245788575,
-            "Min Z": -2.060347080230713,
-            "Max X": 2.2668659687042238,
-            "Max Y": 3.555873394012451,
-            "Max Z": 1.906912922859192,
+            "Min X": -282.92962646484377,
+            "Min Y": -3.433213233947754,
+            "Min Z": -4941.87255859375,
+            "Max X": 4941.87158203125,
+            "Max Y": 4161.3056640625,
+            "Max Z": 72.7421875,
             "BBgen": false,
             "Physical": false,
             "Light": false,
             "Component": [
                 {
-                    "ID": 2994161452,
+                    "ID": 2353211771,
                     "Type": 2,
                     "Active": true,
-                    "numModel": 1,
+                    "numModel": 0,
                     "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 3874405382,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/WallDiffuse.png",
                     "isTexture": true
                 },
                 {
-                    "ID": 1736054354,
+                    "ID": 63661370,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
                     "Position": [
-                        4.359771728515625,
+                        0.0,
                         0.0,
                         0.0
                     ],
                     "Rotation": [
-                        -0.0,
                         0.0,
-                        -0.0
+                        0.0,
+                        0.0
                     ],
                     "Scale": [
                         1.0,
@@ -175,7 +149,7 @@
                         1.0,
                         0.0,
                         0.0,
-                        4.359771728515625,
+                        0.0,
                         0.0,
                         1.0,
                         0.0,
@@ -193,127 +167,1021 @@
             ]
         },
         {
-            "ID": 329495012,
-            "ParentID": 2262361894,
-            "Is active": true,
-            "Is static": true,
-            "Bounding box painted": true,
-            "name": "Light source",
-            "Has camera": false,
-            "Has mesh": false,
-            "Has material": false,
-            "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
-            "BBgen": false,
-            "Physical": false,
-            "Light": true,
-            "Component": [
-                {
-                    "ID": 3963260331,
-                    "Type": 3,
-                    "Active": false,
-                    "object Moved": false,
-                    "Position": [
-                        0.0,
-                        6.019000053405762,
-                        0.0
-                    ],
-                    "Rotation": [
-                        -0.0,
-                        0.0,
-                        -0.0
-                    ],
-                    "Scale": [
-                        1.0,
-                        1.0,
-                        1.0
-                    ],
-                    "Transform matrix": [
-                        1.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        1.0,
-                        0.0,
-                        6.019000053405762,
-                        0.0,
-                        0.0,
-                        1.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        1.0
-                    ]
-                }
-            ]
-        },
-        {
-            "ID": 2701447668,
-            "ParentID": 112573173,
+            "ID": 3292849893,
+            "ParentID": 3732634749,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
-            "name": "ShapeObject",
+            "name": "MeshObject",
             "Has camera": false,
-            "Has mesh": false,
+            "Has mesh": true,
             "Has material": false,
-            "Has shape": true,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": 1.0,
-            "Max Y": 1.0,
-            "Max Z": 1.0,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
             "BBgen": false,
             "Physical": true,
             "Light": false,
             "Component": [
                 {
-                    "ID": 115697962,
-                    "Type": 4,
                     "Active": true,
-                    "Slices": 20,
-                    "Stacks": 20
+                    "ID": 880020460,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Wall.FBX"
                 }
             ]
         },
         {
-            "ID": 112573173,
-            "ParentID": 2262361894,
+            "ID": 2188679088,
+            "ParentID": 3732634749,
             "Is active": true,
             "Is static": true,
             "Bounding box painted": false,
-            "name": "New Object",
+            "name": "MeshObject",
             "Has camera": false,
-            "Has mesh": false,
+            "Has mesh": true,
             "Has material": false,
             "Has shape": false,
-            "Min X": -1.0,
-            "Min Y": -1.0,
-            "Min Z": -1.0,
-            "Max X": -1.0,
-            "Max Y": -1.0,
-            "Max Z": -1.0,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 659709094,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 1,
+                    "material": 0,
+                    "path": "./Assets/Wall.FBX"
+                }
+            ]
+        },
+        {
+            "ID": 2309840985,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -82.52242279052735,
+            "Min Y": -2359.530029296875,
+            "Min Z": -4958.263671875,
+            "Max X": 4956.6884765625,
+            "Max Y": 7.684663772583008,
+            "Max Z": 68.612060546875,
             "BBgen": false,
             "Physical": false,
             "Light": false,
             "Component": [
                 {
-                    "ID": 4164378912,
+                    "ID": 2029250386,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 299310616,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/PlanksDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 999002105,
                     "Type": 3,
                     "Active": false,
                     "object Moved": false,
                     "Position": [
-                        -4.630000114440918,
+                        0.0,
                         0.0,
                         0.0
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Transform matrix": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 2998112040,
+            "ParentID": 2309840985,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 235684499,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Floor.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 3249749750,
+            "ParentID": 2309840985,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 1127339831,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 1,
+                    "material": 1,
+                    "path": "./Assets/Floor.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 1232896651,
+            "ParentID": 2309840985,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 82345054,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 2,
+                    "material": 1,
+                    "path": "./Assets/Floor.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 1699623672,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -601.1292724609375,
+            "Min Y": 0.6881561279296875,
+            "Min Z": -593.8424072265625,
+            "Max X": 601.1292724609375,
+            "Max Y": 1367.788818359375,
+            "Max Z": 373.50982666015627,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2077701620,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 1343528364,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/DrawersDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 492445729,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        370.3699951171875,
+                        0.0,
+                        -1203.7039794921876
+                    ],
+                    "Rotation": [
+                        -5.239866709416674e-7,
+                        -1.5707963705062867,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0000994205474854,
+                        0.999993085861206,
+                        1.0001044273376465
+                    ],
+                    "Transform matrix": [
+                        -1.1922114140361374e-7,
+                        0.0,
+                        -1.000104546546936,
+                        370.3699951171875,
+                        5.240388532001816e-7,
+                        0.999993085861206,
+                        0.0,
+                        0.0,
+                        1.000099539756775,
+                        -5.23983146649698e-7,
+                        -1.1922173825951178e-7,
+                        -1203.7039794921876,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 197907597,
+            "ParentID": 1699623672,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 2619980167,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Drawers.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 494735213,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": 2083.0595703125,
+            "Min Y": -1.6269073486328126,
+            "Min Z": -880.9620971679688,
+            "Max X": 2422.88232421875,
+            "Max Y": 337.6552734375,
+            "Max Z": -634.7769775390625,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2981644198,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 896410552,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/ClockDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 3691675154,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        -1666.6669921875,
+                        0.0,
+                        -2037.0369873046876
+                    ],
+                    "Rotation": [
+                        0.0,
+                        -0.18413503468036652,
+                        0.0
+                    ],
+                    "Scale": [
+                        0.9999911785125732,
+                        1.0,
+                        0.9999911785125732
+                    ],
+                    "Transform matrix": [
+                        0.983086347579956,
+                        -0.0,
+                        -0.18309465050697328,
+                        -1666.6669921875,
+                        0.0,
+                        1.0,
+                        -0.0,
+                        0.0,
+                        0.18309465050697328,
+                        0.0,
+                        0.983086347579956,
+                        -2037.0369873046876,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 735893980,
+            "ParentID": 494735213,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 3508544413,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Clock.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 71497013,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -304.3537902832031,
+            "Min Y": -2.836273193359375,
+            "Min Z": -298.99072265625,
+            "Max X": 304.3538818359375,
+            "Max Y": 1054.16357421875,
+            "Max Z": 298.99072265625,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 43842145,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 2990287799,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/DollhouseDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 1178698722,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        2962.9619140625,
+                        0.0,
+                        -370.3699951171875
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Transform matrix": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        2962.9619140625,
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        -370.3699951171875,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 2427266241,
+            "ParentID": 71497013,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 1583882025,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Dollhouse.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 4217608564,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": 3069.349365234375,
+            "Min Y": -1.03948974609375,
+            "Min Z": -1541.6727294921876,
+            "Max X": 3469.510009765625,
+            "Max Y": 229.81710815429688,
+            "Max Z": -977.926025390625,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 560082472,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 664600534,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/FiretruckDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 1515763387,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        -2777.778076171875,
+                        0.0,
+                        -3518.51904296875
+                    ],
+                    "Rotation": [
+                        0.0,
+                        -0.3685545027256012,
+                        0.0
+                    ],
+                    "Scale": [
+                        0.9999959468841553,
+                        1.0,
+                        0.9999959468841553
+                    ],
+                    "Transform matrix": [
+                        0.9328453540802002,
+                        -0.0,
+                        -0.36026591062545779,
+                        -2777.778076171875,
+                        0.0,
+                        1.0,
+                        -0.0,
+                        0.0,
+                        0.36026591062545779,
+                        0.0,
+                        0.9328453540802002,
+                        -3518.51904296875,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 1945346313,
+            "ParentID": 4217608564,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 3114557017,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Firetruck.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 3497675359,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -102.79621887207031,
+            "Min Y": -0.00004348754737293348,
+            "Min Z": -324.2380676269531,
+            "Max X": 102.79621887207031,
+            "Max Y": 186.87110900878907,
+            "Max Z": 324.2380676269531,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2382790810,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 1603756024,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/HearseDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 2438682010,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        1574.073974609375,
+                        277.77801513671877,
+                        -2962.962890625
+                    ],
+                    "Rotation": [
+                        3.1019999980926515,
+                        -0.4366803765296936,
+                        -9.250887167411293e-9
+                    ],
+                    "Scale": [
+                        0.9999971389770508,
+                        1.0001273155212403,
+                        1.0001108646392823
+                    ],
+                    "Transform matrix": [
+                        0.9061580896377564,
+                        7.451529171476068e-9,
+                        -0.4229806065559387,
+                        1574.073974609375,
+                        -0.01674063503742218,
+                        -0.9993436336517334,
+                        -0.03587190434336662,
+                        277.77801513671877,
+                        -0.42260104417800906,
+                        0.039587344974279407,
+                        -0.9055509567260742,
+                        -2962.962890625,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 1739456650,
+            "ParentID": 3497675359,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 3221367764,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Hearse.FBX"
+                }
+            ]
+        },
+        {
+            "ID": 801598888,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -290.029052734375,
+            "Min Y": -0.6617431640625,
+            "Min Z": -286.1816711425781,
+            "Max X": 128.22744750976563,
+            "Max Y": 164.53408813476563,
+            "Max Z": 327.0084228515625,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2862575620,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 739419218,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/RobotDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 3880752885,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        1851.85205078125,
+                        0.0,
+                        -1084.5479736328126
                     ],
                     "Rotation": [
                         -0.0,
@@ -329,7 +1197,7 @@
                         1.0,
                         0.0,
                         0.0,
-                        -4.630000114440918,
+                        1851.85205078125,
                         0.0,
                         1.0,
                         0.0,
@@ -337,12 +1205,525 @@
                         0.0,
                         0.0,
                         1.0,
-                        0.0,
+                        -1084.5479736328126,
                         0.0,
                         0.0,
                         0.0,
                         1.0
                     ]
+                }
+            ]
+        },
+        {
+            "ID": 253008079,
+            "ParentID": 801598888,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 966601447,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Robot.FBX"
+                }
+            ]
+        },
+        {
+            "ID": 2796278754,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -100.39217376708985,
+            "Min Y": 0.159271240234375,
+            "Min Z": -1452.52197265625,
+            "Max X": 34.399322509765628,
+            "Max Y": 147.80194091796876,
+            "Max Z": -1297.49609375,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2075169896,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 3918808869,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/SpinningTopDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 2160539413,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        2777.778076171875,
+                        0.0,
+                        -925.926025390625
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Transform matrix": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        2777.778076171875,
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        -925.926025390625,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 2487324928,
+            "ParentID": 2796278754,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 3909926729,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/SpinningTop.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 2865157529,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -76.11719512939453,
+            "Min Y": -0.33393901586532595,
+            "Min Z": -35.7611083984375,
+            "Max X": 76.11719512939453,
+            "Max Y": 148.1706085205078,
+            "Max Z": 37.818817138671878,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 2902717171,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 2569510658,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/ZomBunnyDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 3405667182,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/ZomBunnyDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 2430702921,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        3148.14794921875,
+                        0.0,
+                        -4166.6669921875
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Transform matrix": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        3148.14794921875,
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        -4166.6669921875,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 1414946006,
+            "ParentID": 2865157529,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 2652357364,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Zombunny.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 1215660218,
+            "ParentID": 2865157529,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 774459878,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 1,
+                    "material": 0,
+                    "path": "./Assets/Zombunny.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 447608959,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": true,
+            "name": "Dropped object",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": true,
+            "Has shape": false,
+            "Min X": -76.11719512939453,
+            "Min Y": -0.33393901586532595,
+            "Min Z": -35.7611083984375,
+            "Max X": 76.11719512939453,
+            "Max Y": 148.1706085205078,
+            "Max Z": 37.818817138671878,
+            "BBgen": false,
+            "Physical": false,
+            "Light": false,
+            "Component": [
+                {
+                    "ID": 600724516,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": 0,
+                    "numMaterial": 0,
+                    "path": "",
+                    "isTexture": false,
+                    "Ambient color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Difuse color": [
+                        93.0,
+                        154.0,
+                        252.0,
+                        1.0
+                    ],
+                    "Specular color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Emissive color": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                },
+                {
+                    "ID": 405627430,
+                    "Type": 2,
+                    "Active": true,
+                    "numModel": -1,
+                    "numMaterial": 0,
+                    "path": "./Assets/ZomBunnyDiffuse.png",
+                    "isTexture": true
+                },
+                {
+                    "ID": 3054933962,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        6944.44287109375,
+                        0.0,
+                        -1944.4439697265626
+                    ],
+                    "Rotation": [
+                        -0.0,
+                        -1.5707963705062867,
+                        0.0
+                    ],
+                    "Scale": [
+                        31.48195457458496,
+                        20.3700008392334,
+                        29.630678176879884
+                    ],
+                    "Transform matrix": [
+                        -0.000003752941438506241,
+                        -0.0,
+                        -29.63068199157715,
+                        6944.44287109375,
+                        0.0,
+                        20.3700008392334,
+                        -0.0,
+                        0.0,
+                        31.481958389282228,
+                        0.0,
+                        -0.000003532252094373689,
+                        -1944.4439697265626,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": 3547995079,
+            "ParentID": 447608959,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 784405673,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 0,
+                    "material": 1,
+                    "path": "./Assets/Zombunny.fbx"
+                }
+            ]
+        },
+        {
+            "ID": 3803740048,
+            "ParentID": 447608959,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": false,
+            "name": "MeshObject",
+            "Has camera": false,
+            "Has mesh": true,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": true,
+            "Light": false,
+            "Component": [
+                {
+                    "Active": true,
+                    "ID": 1981974369,
+                    "Type": 1,
+                    "numModel": 4294967295,
+                    "numMesh": 1,
+                    "material": 0,
+                    "path": "./Assets/Zombunny.fbx"
                 }
             ]
         }
