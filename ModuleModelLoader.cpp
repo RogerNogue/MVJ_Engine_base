@@ -441,6 +441,21 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 	else if (newMesh->numModel == 3) {
 		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
+	
+	unsigned offset_acc = sizeof(math::float3);
+
+	if (scene->mMeshes[newMesh->numMesh]->HasTextureCoords(0))
+	{
+		newMesh->mesh.texCoordsOffset = offset_acc;
+		offset_acc += sizeof(math::float2);
+	}
+
+	if (scene->mMeshes[newMesh->numMesh]->HasNormals())
+	{
+		newMesh->mesh.normalsOffset = offset_acc;
+		offset_acc += sizeof(math::float3);
+		newMesh->mesh.normals = true;
+	}
 
 	//vbo
 	glGenBuffers(1, &newMesh->mesh.vbo);
