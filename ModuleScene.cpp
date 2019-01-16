@@ -18,7 +18,7 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Init() {
 	//creating quad tree of the scene
-	sceneBoundingBox = AABB(float3(-300 * sceneScale, -200 * sceneScale, -300 * sceneScale), float3(300 * sceneScale, 200 * sceneScale, 300 * sceneScale));
+	sceneBoundingBox = AABB(float3(-300 * sceneScale, -300 * sceneScale, -300 * sceneScale), float3(300 * sceneScale, 300 * sceneScale, 300 * sceneScale));
 	quadTree = new QuadTreeGnoblin();
 	quadTree->Create(sceneBoundingBox);
 
