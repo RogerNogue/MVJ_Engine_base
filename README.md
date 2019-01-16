@@ -7,8 +7,9 @@ gitHub: https://github.com/RogerNogue/MVJ_Engine_base
 things the engine can NOT do:
 -	have multiple lights.
 -	modify texts of ImGui.
--	for some reason if a scene is saved with a light and loaded, the light stops working.
--	since texts from ImGui can not be modified, multiple scenes can be saved but only one can be loaded.
+-	for some reason if a scene is saved with a light and loaded, the light stops working with the loaded scene.
+-	since texts from ImGui can not be modified, multiple scenes can be saved but only the first one
+	can be loaded (due to its name).
 
 
 MIT License
