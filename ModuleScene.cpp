@@ -65,9 +65,9 @@ void ModuleScene::setUpGameObjectMenu() {
 	ImGui::Checkbox("Draw scene quad tree", &drawQuadTree);
 	if (ImGui::Button("Un select object")) objectSelected = nullptr;
 	ImGui::Button("Create");
-
 	if (creating)
 	{
+		
 		if (ImGui::BeginPopupContextItem("create", 0))
 		{
 			if (ImGui::Button("Camera"))
@@ -75,14 +75,12 @@ void ModuleScene::setUpGameObjectMenu() {
 
 				creating = false;
 			}
-
 			if (ImGui::Button("Light"))
 			{
 				GameObject* obj = new GameObject("Light source", baseObject, 1, true);
 				allLights.push_back(obj);
 				creating = false;
 			}
-
 			if (ImGui::Button("Empty Object"))
 			{
 				GameObject* temp = new GameObject("New Object", baseObject);
@@ -103,12 +101,15 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 
 	if(objectSelected != nullptr && objectSelected->id == go->id) flags |= ImGuiTreeNodeFlags_Selected;
 
+	ImGui::PushID(go->id);
 	bool children = ImGui::TreeNodeEx(go->name, flags);
+	
 
 	if (ImGui::IsItemClicked(0))
 	{
 		objectSelected = go;
 	}
+	
 	if (ImGui::BeginPopupContextItem(go->name, 1))
 	{
 		if (ImGui::Button("Delete"))
@@ -122,7 +123,7 @@ void ModuleScene::paintGameObjectTree(GameObject* go) {
 		}
 		ImGui::EndPopup();
 	}
-
+	ImGui::PopID();
 	if (children) {
 		for (int i = 0; i < go->meshesOrShapes.size(); ++i) {
 			paintGameObjectTree(go->meshesOrShapes[i]);
