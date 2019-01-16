@@ -11,6 +11,7 @@ public:
 	ComponentTransform(JSON_Value* transfFile, GameObject* dad);
 	~ComponentTransform();
 	update_status Update() override;
+	void UpdateFromGuizmo();
 	void placeAt000();
 	void saveTransform(JSON_Value* val);
 	void setValues(math::float4x4 newMat);

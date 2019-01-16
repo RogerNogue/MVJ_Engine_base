@@ -66,7 +66,6 @@ update_status ComponentTransform::Update() {
 	if (objectMoved) {
 		//update all the sub objects
 		if (dad->parent != nullptr) {
-			//transformMatrix = transformMatrix * dad->parent->transform->transformMatrix;
 			float3 temporalRot = float3(rotationValues.x + dad->parent->transform->rotationValues.x,
 										rotationValues.y + dad->parent->transform->rotationValues.y,
 										rotationValues.z + dad->parent->transform->rotationValues.z);
@@ -88,6 +87,18 @@ update_status ComponentTransform::Update() {
 		objectMoved = false;
 	}
 	return UPDATE_CONTINUE;
+}
+
+void ComponentTransform::UpdateFromGuizmo() {
+	if (objectMoved) {
+		transformMatrix.Set(float4x4::FromTRS(positionValues, Quat::FromEulerXYZ(rotationValues.x, rotationValues.y, rotationValues.z), scaleValues));
+		dad->calculateAABB();
+		for (int i = 0; i < dad->children.size(); ++i) {
+			dad->children[i]->transform->objectMoved = true;
+			dad->children[i]->transform->Update();
+		}
+	}
+	objectMoved = false;
 }
 
 
@@ -131,6 +142,6 @@ void ComponentTransform::setValues(math::float4x4 newMat) {
 		rotationValues = newRot;
 		scaleValues = newScale;
 		objectMoved = true;
-		Update();
+		UpdateFromGuizmo();
 	}
 }
