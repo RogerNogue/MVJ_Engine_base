@@ -26,8 +26,8 @@ GameObject::GameObject(const char* n){
 	active = true;
 	id = App->generateID();
 	transform = new ComponentTransform(this);	
-	minX = minY = minZ = -1;
-	maxX = maxY = maxZ = 1;
+	minX = minY = minZ = -App->scene->sceneScale;
+	maxX = maxY = maxZ = App->scene->sceneScale;
 	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
@@ -45,8 +45,8 @@ GameObject::GameObject(const char* n, GameObject* parent):
 	parent->children.push_back(this);
 	id = App->generateID();
 	transform = new ComponentTransform(this);
-	minX = minY = minZ = -1;
-	maxX = maxY = maxZ = 1;
+	minX = minY = minZ = -App->scene->sceneScale;
+	maxX = maxY = maxZ = App->scene->sceneScale;
 	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	updateQuadTree();
@@ -69,8 +69,8 @@ GameObject::GameObject(const char* n, GameObject* parent, bool physical) :
 		parent->children.push_back(this);
 		transform = new ComponentTransform(this);
 	}
-	minX = minY = minZ = -1;
-	maxX = maxY = maxZ = 1;
+	minX = minY = minZ = -App->scene->sceneScale;
+	maxX = maxY = maxZ = App->scene->sceneScale;
 	id = App->generateID();
 	App->scene->allObjects.push_back(this);
 	parentId = parent->id;
@@ -85,8 +85,8 @@ GameObject::GameObject(const char* n, GameObject* parent, int signal, bool light
 	name = copyName;
 
 	active = true;
-	minX = minY = minZ = -1;
-	maxX = maxY = maxZ = 1;
+	minX = minY = minZ = -App->scene->sceneScale;
+	maxX = maxY = maxZ = App->scene->sceneScale;
 	id = App->generateID();
 	App->scene->allObjects.push_back(this);
 	parentId = parent->id;
@@ -173,28 +173,27 @@ void GameObject::deleteObject() {
 	if(!Physical){
 		for (int k = 0; k < meshesOrShapes.size();) {
 			//delete the mesh or shape from object and from AllMeshes and AllShapes
-			if (meshesOrShapes[k]->mesh != nullptr) {
-				for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
-					if (App->modelLoader->allMeshes[j]->id == meshesOrShapes[k]->mesh->id) {
-						App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
-					}
-				}
-
-			}
-			if (meshesOrShapes[k]->shape != nullptr) {
-				for (int j = 0; j < App->modelLoader->allShapes.size(); ++j) {
-					if (App->modelLoader->allShapes[j]->id == meshesOrShapes[k]->shape->id) {
-						App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
-					}
-				}
-			}
 			meshesOrShapes[k]->deleteObject();
 			//meshesOrShapes.erase(meshesOrShapes.begin()+k);
 		}
 		meshesOrShapes.clear();
 	}else {
-		if (mesh != nullptr) mesh->CleanUp();
-		if (shape != nullptr) shape->CleanUp();
+		if (mesh != nullptr) {
+			for (int j = 0; j < App->modelLoader->allMeshes.size(); ++j) {
+				if (App->modelLoader->allMeshes[j]->id == mesh->id) {
+					App->modelLoader->allMeshes.erase(App->modelLoader->allMeshes.begin() + j);
+				}
+			}
+			mesh->CleanUp();
+		}
+		if (shape != nullptr) {
+			for (int j = 0; j < App->modelLoader->allShapes.size(); ++j) {
+				if (App->modelLoader->allShapes[j]->id == shape->id) {
+					App->modelLoader->allShapes.erase(App->modelLoader->allShapes.begin() + j);
+				}
+			}
+			shape->CleanUp();
+		}
 		//delete parents reference to this
 		for (int i = 0; i < parent->meshesOrShapes.size(); ++i) {
 			if (parent->meshesOrShapes[i]->id == id) {
@@ -233,7 +232,6 @@ void GameObject::deleteObject() {
 			if (App->scene->allLights[i]->id == id) App->scene->allLights.erase(App->scene->allLights.begin() + i);
 	}
 	//delete object if is light
-	
 }
 
 void GameObject::deleteChild(unsigned idc) {

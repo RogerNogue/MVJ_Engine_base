@@ -1,8 +1,14 @@
-# Despacito 2
+# GNOBLIN engine
 
 Author: Roger Nogué Ballbé
 
 gitHub: https://github.com/RogerNogue/MVJ_Engine_base
+
+things the engine can NOT do:
+-	have multiple lights.
+-	modify texts of ImGui.
+-	for some reason if a scene is saved with a light and loaded, the light stops working.
+-	since texts from ImGui can not be modified, multiple scenes can be saved but only one can be loaded.
 
 
 MIT License

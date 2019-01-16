@@ -22,6 +22,7 @@ public:
 	~ModuleModelLoader();
 
 	void loadModel(unsigned model, GameObject* object);
+	void loadModelFromPath(const char* path);
 	void unloadModels();
 	void deleteVBO(unsigned vbo);
 	void deleteVIO(unsigned vio);
@@ -38,6 +39,7 @@ public:
 
 	void GenerateOneMeshData(ComponentMesh* newMesh);
 	void GenerateOneMaterialData(ComponentMaterial* newMaterial);
+	void loadDroppedFile(char* path);
 	
 	//variables
 	unsigned currentModel = 0;
@@ -47,9 +49,10 @@ public:
 	
 private:
 	//const aiScene* scene;
-	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel);
-	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i);
+	void GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel, const char* path);
+	void GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i, const char* path);
 	void generateShape(par_shapes_mesh* shape, ComponentShape* comp, ComponentMaterial* mat, bool isNew);
+	void LoadMaterialFromPath(const char* path, int model);
 	//variables
 	
 };

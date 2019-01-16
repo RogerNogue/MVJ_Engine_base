@@ -7,6 +7,7 @@
 #include "SDL/include/SDL.h"
 #include "Brofiler.h"
 #include "ModuleScene.h"
+#include "ModuleModelLoader.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -97,8 +98,16 @@ update_status ModuleInput::PreUpdate() {
 
 		case SDL_MOUSEWHEEL:
 			wheelScroll = sdlEvent.wheel.y;
+				break;
+
+		case SDL_DROPFILE:
+			App->modelLoader->loadDroppedFile(sdlEvent.drop.file);
+			int i = 1;
+			//App->modelLoader->loadModelFromPath(sdlEvent.drop.file);
+			break;
 		}
 	}
+	App;
 	return UPDATE_CONTINUE;
 }
 

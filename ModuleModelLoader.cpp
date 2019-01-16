@@ -16,6 +16,7 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "Brofiler.h"
+#include <string>
 
 #define PAR_SHAPES_IMPLEMENTATION
 #include "par_shapes.h"
@@ -49,15 +50,15 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 	currentModelTriangleCount = 0;
 	const char* modelName;
 	if (model == 1) {
-		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Baker House";
 	}
 	else if (model == 2) {
-		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Banana";
 	}
 	else if (model == 3) {
-		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 		modelName = "Shield";
 	}
 	if (scene == nullptr) {
@@ -88,14 +89,64 @@ void ModuleModelLoader::loadModel(unsigned model, GameObject* object) {
 
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
 	{
-		GenerateMeshData(scene->mMeshes[i], object, i, model);
+		GenerateMeshData(scene->mMeshes[i], object, i, model, "");
 		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices / 3;
 	}
 	object->calculateAABB();
 	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
 	{
-		GenerateMaterialData(scene->mMaterials[i], object, model, i);
+		GenerateMaterialData(scene->mMaterials[i], object, model, i, "");
 	}
+	aiReleaseImport(scene);
+	App->camera->mewModelLoaded();
+}
+
+void ModuleModelLoader::loadModelFromPath(const char* path) {
+	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_FixInfacingNormals);
+	
+	currentModel = -1;
+	char* b = new char[100];
+	sprintf(b, "Loading dropped model:\n");
+	App->menu->console.AddLog(b);
+	if (scene->mNumMeshes <= 0) {
+		sprintf(b, "The model loaded has no meshes:\n");
+		App->menu->console.AddLog(b);
+		sprintf(b, "\n\n");
+		App->menu->console.AddLog(b);
+		delete[] b;
+		return;
+	}
+	sprintf(b, "\n\n");
+	App->menu->console.AddLog(b);
+	delete[] b;
+
+	GameObject* object = App->scene->objectSelected;
+	//game object creation and fill of its mesh and material components
+	if (object == nullptr) {
+		object = new GameObject("Dropped object", App->scene->baseObject);
+		object->minX = object->maxX = scene->mMeshes[0]->mVertices[0].x;
+		object->minY = object->maxY = scene->mMeshes[0]->mVertices[0].y;
+		object->minZ = object->maxZ = scene->mMeshes[0]->mVertices[0].z;
+	}
+	else if (object->isPhysical()) {
+		object = object->parent;
+	}
+
+	ComponentMaterial* mat = new ComponentMaterial(object);
+	mat->isTexture = false;
+	object->materials.push_back(mat);
+
+	for (unsigned i = 0; i < scene->mNumMeshes; ++i)
+	{
+		GenerateMeshData(scene->mMeshes[i], object, i, -1, path);
+		currentModelTriangleCount += scene->mMeshes[i]->mNumVertices / 3;
+	}
+	object->calculateAABB();
+
+	/*for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+	{
+		GenerateMaterialData(scene->mMaterials[i], object, -1, i, path);
+	}*/
 	aiReleaseImport(scene);
 	App->camera->mewModelLoaded();
 }
@@ -104,11 +155,12 @@ void ModuleModelLoader::unloadModels() {
 	CleanUp();
 }
 
-void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel) {
+void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, int numMesh, int numModel, const char* path) {
 	GameObject* meshObject = new GameObject("MeshObject", Obj, true);
 	ComponentMesh* newMesh = new ComponentMesh(meshObject);
 	newMesh->numMesh = numMesh;
 	newMesh->numModel = numModel;
+	newMesh->setPath(path);
 
 	unsigned offset_acc = sizeof(math::float3);
 
@@ -184,7 +236,9 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, in
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	newMesh->mesh.material = mesh->mMaterialIndex;
+	if (path != "") {
+		newMesh->mesh.material = 0;
+	} else newMesh->mesh.material = mesh->mMaterialIndex;
 	newMesh->mesh.numIndices = mesh->mNumFaces*3;
 	newMesh->mesh.numVertices = mesh->mNumVertices;
 	meshObject->mesh = newMesh;
@@ -192,7 +246,7 @@ void ModuleModelLoader::GenerateMeshData(const aiMesh* mesh, GameObject* Obj, in
 	allMeshes.push_back(newMesh);
 }
 
-void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i) {
+void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* Obj, int model, int i, const char* path) {
 	ComponentMaterial* newMat = new ComponentMaterial(Obj);
 
 	aiString file;
@@ -201,12 +255,13 @@ void ModuleModelLoader::GenerateMaterialData(const aiMaterial* mat, GameObject* 
 	if (mat->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMat->material.texture0 = App->textures->Load(file.data, false, &newMat->material.sizeX, &newMat->material.sizeY);
 	}
-	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("Assets/models/banana/banana.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
-	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("Assets/models/shield/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
+	if (currentModel == 2) newMat->material.texture0 = App->textures->Load("Assets/banana.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
+	if(currentModel == 3) newMat->material.texture0 = App->textures->Load("Assets/tex.png", false, &newMat->material.sizeX, &newMat->material.sizeY);
 	
+	newMat->setPath(path);
+	newMat->numModel = model;
+	newMat->numMaterial = i;
 	Obj->materials.push_back(newMat);
-	Obj->materials[Obj->materials.size() - 1]->numModel = model;
-	Obj->materials[Obj->materials.size() - 1]->numMaterial = i;
 	Obj->hasmaterial = true;
 }
 
@@ -219,7 +274,6 @@ bool ModuleModelLoader::CreateSphere(GameObject* object) {
 	mat->isTexture = false;
 	newShape->material = newShape->dad->parent->materials.size();
 	newShape->dad->parent->materials.push_back(mat);
-	App;
 	LoadSphere(newShape, true);
 	return true;
 }
@@ -431,16 +485,17 @@ void ModuleModelLoader::generateShape(par_shapes_mesh* shape, ComponentShape* co
 }
 
 void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
-	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile("Assets/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	if (newMesh->numModel == 1) {
-		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMesh->numModel == 2) {
-		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMesh->numModel == 3) {
-		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
+	else if (newMesh->numModel == -1)scene = aiImportFile(newMesh->path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_FixInfacingNormals);
 	
 	unsigned offset_acc = sizeof(math::float3);
 
@@ -493,22 +548,26 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	newMesh->mesh.material = scene->mMeshes[newMesh->numMesh]->mMaterialIndex;
+	//newMesh->mesh.material = scene->mMeshes[newMesh->numMesh]->mMaterialIndex;
 	newMesh->mesh.numIndices = scene->mMeshes[newMesh->numMesh]->mNumFaces * 3;
 	newMesh->mesh.numVertices = scene->mMeshes[newMesh->numMesh]->mNumVertices;
 	allMeshes.push_back(newMesh);
 }
 
 void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) {
-	const aiScene* scene = aiImportFile("models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile("Assets/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	if (newMaterial->numModel == 1) {
-		scene = aiImportFile("Assets/models/baker_house/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/BakerHouse.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMaterial->numModel == 2) {
-		scene = aiImportFile("Assets/models/banana/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/banana.fbx", aiProcessPreset_TargetRealtime_MaxQuality);
 	}
 	else if (newMaterial->numModel == 3) {
-		scene = aiImportFile("Assets/models/shield/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+		scene = aiImportFile("Assets/Shield.FBX", aiProcessPreset_TargetRealtime_MaxQuality);
+	}
+	else if(newMaterial->numModel == -1){
+		newMaterial->material.texture0 = App->textures->Load(newMaterial->path, false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+		return;
 	}
 	aiString file;
 	aiTextureMapping mapping;
@@ -516,7 +575,60 @@ void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) 
 	if (scene->mMaterials[newMaterial->numMaterial]->GetTexture(aiTextureType_DIFFUSE, 0, &file, &mapping, &uvindex) == AI_SUCCESS) {
 		newMaterial->material.texture0 = App->textures->Load(file.data, false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
 	}
-	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("Assets/models/banana/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
-	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("Assets/models/shield/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("Assets/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
+	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("Assets/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
 
+}
+
+void ModuleModelLoader::loadDroppedFile(char* path) {
+
+	std::string pathString = path;
+
+	for (int i = 0; i < pathString.length(); i++)
+	{
+		if (pathString[i] == '\\')
+			pathString[i] = '/';
+	}
+
+	unsigned int pos_slash = pathString.find_last_of('/');
+	unsigned int pos_dot = pathString.find_last_of('.');
+
+	std::string extension = pathString.substr(pos_dot + 1);
+	std::string name = pathString.substr(pos_slash + 1, pos_dot - pos_slash - 1);
+
+	std::string relativePath = "./Assets/" + name + "." + extension;
+
+	const char* relativePathPointer = relativePath.c_str();
+
+	if (extension == "fbx" || extension == "FBX" || extension == "obj" || extension == "OBJ")
+	{
+		loadModelFromPath(relativePathPointer);
+	}
+
+	else if (extension == "png" || extension == "dds" || extension == "tga")
+	{
+		if (App->scene->objectSelected == nullptr) {
+			char* b = new char[100];
+			sprintf(b, "No object selected, please select an object before loading.\n");
+			App->menu->console.AddLog(b);
+			sprintf(b, "\n\n");
+			App->menu->console.AddLog(b);
+			delete[] b;
+			return;
+		}
+		if (!App->scene->objectSelected->isPhysical())
+			LoadMaterialFromPath(relativePathPointer, -1);
+	}
+}
+
+void ModuleModelLoader::LoadMaterialFromPath(const char* path, int model) {
+	ComponentMaterial* newMat = new ComponentMaterial(App->scene->objectSelected);
+
+	newMat->material.texture0 = App->textures->Load(path, false, &newMat->material.sizeX, &newMat->material.sizeY);
+
+	newMat->setPath(path);
+	newMat->numModel = model;
+	newMat->numMaterial = 0;
+	App->scene->objectSelected->materials.push_back(newMat);
+	App->scene->objectSelected->hasmaterial = true;
 }

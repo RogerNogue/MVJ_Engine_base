@@ -9,6 +9,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include "Brofiler.h"
+#include "ModuleScene.h"
 
 ModuleCamera::ModuleCamera()
 {
@@ -37,18 +38,19 @@ void ModuleCamera::updateCam() {
 }
 
 bool            ModuleCamera::Init() {
-	movementSpeed = 1.f;
+	float scale = App->scene->sceneScale;
+	movementSpeed = scale;
 	vrp = math::float3(0, 0, 0);
 	mouseRotSpeed = 0.001f;
 	//drawing matrices
 	model = math::float4x4::identity;
 	//projection matrix
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = math::float3(0, 4, -7);
+	frustum.pos = math::float3(0, 4, -7) * scale;
 	frustum.front = (vrp - frustum.pos).Normalized();
 	frustum.up = math::Cross(frustum.front, math::float3(1, 0, 0));
 	frustum.nearPlaneDistance = znear;
-	frustum.farPlaneDistance = zfar;
+	frustum.farPlaneDistance = zfar * scale;
 	frustum.verticalFov = math::pi / 4.0f;
 	screenWidth = SCREEN_WIDTH;
 	screenHeight = SCREEN_HEIGHT;
@@ -65,9 +67,9 @@ update_status   ModuleCamera::Update() {
 	if (App->input->rightclickPressed) {
 		//keyboard listeners
 		if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) {
-			movementSpeed = 5.;
+			movementSpeed = App->scene->sceneScale* 5.;
 		}
-		else movementSpeed = 0.5;
+		else movementSpeed = App->scene->sceneScale;
 
 		if (App->input->keyboard[SDL_SCANCODE_Q]) {
 			frustum.pos -= frustum.up * movementSpeed;
@@ -123,8 +125,9 @@ update_status   ModuleCamera::Update() {
 	}
 	//mousewheel
 	if (App->input->wheelScroll != 0) {
-		frustum.verticalFov -= 0.1f * App->input->wheelScroll;
-		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);
+		frustum.pos += frustum.front * App->input->wheelScroll;
+		/*frustum.verticalFov -= 0.1f * App->input->wheelScroll;
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) *aspectRatio);*/
 		App->input->wheelScroll = 0;
 		cameraChanged = true;
 	}

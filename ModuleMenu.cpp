@@ -195,7 +195,7 @@ update_status ModuleMenu::Update() {
 					else ImGui::Text("Parent is Dynamic");
 					
 
-					float movementSpeed = 50;
+					float movementSpeed = 50 * App->scene->sceneScale;
 					ImGui::Text("Position");
 					ImGui::PushID("1");
 					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->positionValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
@@ -219,16 +219,16 @@ update_status ModuleMenu::Update() {
 					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->rotationValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
 					ImGui::PopID();
 
-					movementSpeed = 2;
+					movementSpeed = 2 * App->scene->sceneScale;
 					ImGui::Text("Scale");
 					ImGui::PushID("7");
-					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->scaleValues.x, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					if (ImGui::SliderFloat("X", &App->scene->objectSelected->transform->scaleValues.x, 0, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
 					ImGui::PopID();
 					ImGui::PushID("8");
-					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->scaleValues.y, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					if (ImGui::SliderFloat("Y", &App->scene->objectSelected->transform->scaleValues.y, 0, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
 					ImGui::PopID();
 					ImGui::PushID("9");
-					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, -movementSpeed, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
+					if (ImGui::SliderFloat("Z", &App->scene->objectSelected->transform->scaleValues.z, 0, movementSpeed)) App->scene->objectSelected->transform->objectMoved = true;
 					ImGui::PopID();
 
 					if (ImGui::Button("Place at (0,0,0)")) {
@@ -241,25 +241,25 @@ update_status ModuleMenu::Update() {
 					{
 						for (int i = 0; i < App->scene->objectSelected->materials.size(); ++i) {
 							ImGui::Text("Material %d", i);
-							if (ImGui::Checkbox("Active", &App->scene->objectSelected->materials[i]->active)) {
-								ImGui::Text("SHITO");
-							}
+							ImGui::Checkbox("Active", &App->scene->objectSelected->materials[i]->active);
 							float matHeight = App->scene->objectSelected->materials[i]->material.sizeY;
 							float matWidth = App->scene->objectSelected->materials[i]->material.sizeX;
 							ImGui::Text("Material width = %f, height = %f", matWidth, matHeight);
 							ImVec2 imageSize = { matHeight *(menubarWidth/ matWidth), menubarWidth };
 							ImGui::Image((ImTextureID)App->scene->objectSelected->materials[i]->material.texture0, imageSize);
+							ImGui::BulletText(App->scene->objectSelected->materials[i]->path);
 						}
 					}
 				}
 				//App->scene->objectSelected->DrawMaterialCreator();
-				bool loadModule = true;
-				if(!App->scene->objectSelected->isPhysical() && !App->scene->objectSelected->IsLight()){
+				if (!App->scene->objectSelected->isPhysical() && !App->scene->objectSelected->IsLight()) {
+					//model loading button
+					bool loadModule = true;
 					ImGui::Button("Load model");
 
 					if (loadModule)
 					{
-						if (ImGui::BeginPopupContextItem("create", 0))
+						if (ImGui::BeginPopupContextItem("Create Mesh", 0))
 						{
 							if (ImGui::Button("House")) {
 								App->modelLoader->unloadModels();
@@ -276,36 +276,51 @@ update_status ModuleMenu::Update() {
 								App->modelLoader->loadModel(3, App->scene->objectSelected);
 								loadModule = false;
 							}
-							if (ImGui::Button("Sphere")) {
-								App->modelLoader->unloadModels();
-								App->modelLoader->CreateSphere(App->scene->objectSelected);
-								loadModule = false;
-							}
-							if (ImGui::Button("Cube")) {
-								App->modelLoader->unloadModels();
-								App->modelLoader->CreateCube(App->scene->objectSelected);
-								loadModule = false;
-							}
-							if (ImGui::Button("Cylinder")) {
-								App->modelLoader->unloadModels();
-								App->modelLoader->CreateCylinder(App->scene->objectSelected);
-								loadModule = false;
-							}
-							if (ImGui::Button("Torus")) {
-								App->modelLoader->unloadModels();
-								App->modelLoader->CreateTorus(App->scene->objectSelected);
-								loadModule = false;
-							}
 							ImGui::EndPopup();
 						}
 					}
 					else loadModule = true;
+
+					//shape loading button
+					ImGui::Button("Load shape");
+					bool loasShape = true;
+					if (loasShape)
+					{
+						if (ImGui::BeginPopupContextItem("Create Shape", 0))
+						{
+							if (ImGui::Button("Sphere")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateSphere(App->scene->objectSelected);
+								loasShape = false;
+							}
+							if (ImGui::Button("Cube")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateCube(App->scene->objectSelected);
+								loasShape = false;
+							}
+							if (ImGui::Button("Cylinder")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateCylinder(App->scene->objectSelected);
+								loasShape = false;
+							}
+							if (ImGui::Button("Torus")) {
+								App->modelLoader->unloadModels();
+								App->modelLoader->CreateTorus(App->scene->objectSelected);
+								loasShape = false;
+							}
+							ImGui::EndPopup();
+						}
+					}
+					else loasShape = true;
+
+
 				}
 				if (App->scene->objectSelected->isPhysical()) {
 					if (App->scene->objectSelected->mesh != nullptr && ImGui::CollapsingHeader("Meshes")) {
 						ImGui::Text("Mesh");
 						ImGui::Checkbox("Active", &App->scene->objectSelected->mesh->active);
 						ImGui::BulletText("Triangle count = %.d", App->scene->objectSelected->mesh->mesh.numVertices / 3);
+						ImGui::BulletText(App->scene->objectSelected->mesh->path);
 					}
 					else if (App->scene->objectSelected->shape != nullptr) {
 						App->scene->objectSelected->DrawShapeEditor();

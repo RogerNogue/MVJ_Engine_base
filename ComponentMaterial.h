@@ -12,6 +12,7 @@ public:
 	~ComponentMaterial();
 	bool CleanUp() override;
 	void saveMaterial(JSON_Value* val);
+	void setPath(const char* path);
 
 	//data structures
 	struct myMaterial {
@@ -38,5 +39,6 @@ public:
 	int numModel = 0;
 	int numMaterial = 0;
 	bool isTexture = true;
+	const char* path = "";
 };
 #endif

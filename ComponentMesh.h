@@ -12,6 +12,7 @@ public:
 	~ComponentMesh();
 	bool CleanUp() override;
 	void saveMesh(JSON_Value* val);
+	void setPath(const char* path);
 
 	//data structures
 	struct myMesh {
@@ -28,7 +29,8 @@ public:
 	//vars
 	myMesh mesh;
 	float ambient = 0.3f;
-	unsigned numModel = 0;
-	unsigned numMesh = 0;
+	int numModel = 0;
+	int numMesh = 0;
+	const char* path = "";
 };
 #endif

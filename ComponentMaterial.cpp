@@ -20,6 +20,7 @@ ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
 	id = matFile->getUint("ID");
 	numModel = matFile->getInt("numModel");
 	numMaterial = matFile->getInt("numMaterial");
+	path = matFile->getString("path");
 	isTexture = matFile->getBool("isTexture");
 	if (!isTexture) {
 		surface.ambientColor = matFile->getVector4("Ambient color");
@@ -50,6 +51,7 @@ void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	mat->addBool("Active", active);
 	mat->addInt("numModel", numModel);
 	mat->addInt("numMaterial", numMaterial);
+	mat->addString("path", path);
 	mat->addBool("isTexture", isTexture);
 	if (!isTexture) {
 		mat->addVector4("Ambient color", surface.ambientColor);
@@ -60,4 +62,10 @@ void ComponentMaterial::saveMaterial(JSON_Value* val) {
 	
 
 	val->addValue("Material", mat);
+}
+
+void ComponentMaterial::setPath(const char* path) {
+	char* copy = new char[strlen(path)];
+	strcpy(copy, path);
+	this->path = copy;
 }

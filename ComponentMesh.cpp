@@ -23,6 +23,8 @@ ComponentMesh::ComponentMesh(JSON_Value* meshFile, GameObject* dad) :
 	id = meshFile->getUint("ID");
 	numMesh = meshFile->getUint("numMesh");
 	numModel = meshFile->getUint("numModel");
+	path = meshFile->getString("path");
+	mesh.material = meshFile->getUint("material");
 	
 	App->modelLoader->GenerateOneMeshData(this);
 }
@@ -62,6 +64,14 @@ void ComponentMesh::saveMesh(JSON_Value* val) {
 	meshval->addInt("Type", type);
 	meshval->addUint("numModel", numModel);
 	meshval->addUint("numMesh", numMesh);
+	meshval->addUint("material", mesh.material);
+	meshval->addString("path", path);
 
 	val->addValue("Mesh", meshval);
+}
+
+void ComponentMesh::setPath(const char* path) {
+	char* copy = new char[strlen(path)];
+	strcpy(copy, path);
+	this->path = copy;
 }

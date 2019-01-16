@@ -273,8 +273,10 @@ void ModuleRender::Draw()
 
 	RenderShapes();
 
-	dd::xzSquareGrid(-40.0f, 40.0f, 0.0f, 1.0f, math::float3(0.65f, 0.65f, 0.65f));
-	dd::axisTriad(math::float4x4::identity, 5*0.125f, 5*1.25f, 0, false);
+	float scale = App->scene->sceneScale;
+
+	dd::xzSquareGrid(-40.0f*scale, 40.0f*scale, 0.0f, 1.0f*scale, math::float3(0.65f, 0.65f, 0.65f));
+	dd::axisTriad(math::float4x4::identity, 5*0.125f*scale, 5*1.25f*scale, 0, false);
 	//loop to paint all the bounding boxes
 	for (int i = 0; i < App->scene->allObjects.size(); ++i) {
 		if (App->scene->allObjects[i]->paintBB) {

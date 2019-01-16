@@ -173,8 +173,8 @@ void QuadNode::getIntersections(std::vector<GameObject*>& objects) {
 
 void QuadNode::drawTree() {
 	const ddVec3 treeColor = { 0.4f, 0.4f, 0.8f };
-	float3 minpoint(area.minPoint.x, -20, area.minPoint.z);
-	float3 maxpoint(area.maxPoint.x, 20, area.maxPoint.z);
+	float3 minpoint(area.minPoint.x, -200, area.minPoint.z);
+	float3 maxpoint(area.maxPoint.x, 200, area.maxPoint.z);
 	dd::aabb(minpoint, maxpoint, treeColor);
 
 	if (child1 != nullptr) child1->drawTree();

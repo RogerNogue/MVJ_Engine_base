@@ -45,7 +45,7 @@ Application::~Application()
 
 bool Application::Init()
 {
-	{ BROFILER_CATEGORY("Inits SHABALE", Profiler::Color::Peru)
+	{ BROFILER_CATEGORY("Inits", Profiler::Color::Peru)
 		bool ret = true;
 		pcg32_srandom_r(&random, time(NULL), (intptr_t)&random);
 

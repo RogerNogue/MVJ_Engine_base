@@ -34,7 +34,7 @@ public:
 	char* folderPath = "Scenes/";
 	math::LineSegment ray = LineSegment(float3(-100, -100, -100), float3(-100, -100, -100));
 	bool drawSegment = false;
-
+	float sceneScale = 200;
 
 private:
 	int sceneNum = 1;
