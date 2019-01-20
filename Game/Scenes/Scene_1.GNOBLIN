@@ -1726,6 +1726,68 @@
                     "path": "./Assets/Zombunny.fbx"
                 }
             ]
+        },
+        {
+            "ID": 2773629679,
+            "ParentID": 246421061,
+            "Is active": true,
+            "Is static": true,
+            "Bounding box painted": true,
+            "name": "Light source",
+            "Has camera": false,
+            "Has mesh": false,
+            "Has material": false,
+            "Has shape": false,
+            "Min X": -200.0,
+            "Min Y": -200.0,
+            "Min Z": -200.0,
+            "Max X": 200.0,
+            "Max Y": 200.0,
+            "Max Z": 200.0,
+            "BBgen": false,
+            "Physical": false,
+            "Light": true,
+            "Component": [
+                {
+                    "ID": 2277395155,
+                    "Type": 3,
+                    "Active": false,
+                    "object Moved": false,
+                    "Position": [
+                        2685.18603515625,
+                        2500.0,
+                        -2037.0369873046876
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Transform matrix": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        2685.18603515625,
+                        0.0,
+                        1.0,
+                        0.0,
+                        2500.0,
+                        0.0,
+                        0.0,
+                        1.0,
+                        -2037.0369873046876,
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -149,7 +149,8 @@ GameObject::GameObject(JSON_Value* objValue) {
 		}
 	}
 	if (!Physical) calculateAABB();
-	App->scene->allObjects.push_back(this);
+	if (light) App->scene->allLights.push_back(this);
+	else App->scene->allObjects.push_back(this);
 }
 
 GameObject::~GameObject()
