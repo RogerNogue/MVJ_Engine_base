@@ -497,6 +497,8 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 	}
 	else if (newMesh->numModel == -1)scene = aiImportFile(newMesh->path, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_FixInfacingNormals);
 	
+	int numVertices = scene->mMeshes[newMesh->numMesh]->mNumVertices;
+
 	unsigned offset_acc = sizeof(math::float3);
 
 	if (scene->mMeshes[newMesh->numMesh]->HasTextureCoords(0))
@@ -516,14 +518,20 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 	glGenBuffers(1, &newMesh->mesh.vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, newMesh->mesh.vbo);
 
-	glBufferData(GL_ARRAY_BUFFER, (sizeof(float) * 3 + sizeof(float) * 2)*scene->mMeshes[newMesh->numMesh]->mNumVertices, nullptr, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, scene->mMeshes[newMesh->numMesh]->mNumVertices * 3 * sizeof(float), scene->mMeshes[newMesh->numMesh]->mVertices);
+	glBufferData(GL_ARRAY_BUFFER, offset_acc*numVertices, nullptr, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, numVertices * 3 * sizeof(float), scene->mMeshes[newMesh->numMesh]->mVertices);
+
+	// Normals
+	if (scene->mMeshes[newMesh->numMesh]->HasNormals())
+	{
+		glBufferSubData(GL_ARRAY_BUFFER, newMesh->mesh.normalsOffset *numVertices, sizeof(float) * 3 * numVertices, scene->mMeshes[newMesh->numMesh]->mNormals);
+	}
 
 	//buffer for the faces (vio)
 	math::float2* textureCoords = (math::float2*) glMapBufferRange(GL_ARRAY_BUFFER, 
-		scene->mMeshes[newMesh->numMesh]->mNumVertices * 3 * sizeof(float),
-		scene->mMeshes[newMesh->numMesh]->mNumVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
-	for (unsigned i = 0; i < scene->mMeshes[newMesh->numMesh]->mNumVertices; ++i) {
+		numVertices * 3 * sizeof(float),
+		numVertices * 2 * sizeof(float), GL_MAP_WRITE_BIT);
+	for (unsigned i = 0; i < numVertices; ++i) {
 		textureCoords[i] = math::float2(scene->mMeshes[newMesh->numMesh]->mTextureCoords[0][i].x, scene->mMeshes[newMesh->numMesh]->mTextureCoords[0][i].y);
 		//i use this loop to update the bounding box values
 	}
@@ -550,7 +558,7 @@ void ModuleModelLoader::GenerateOneMeshData(ComponentMesh* newMesh) {
 
 	//newMesh->mesh.material = scene->mMeshes[newMesh->numMesh]->mMaterialIndex;
 	newMesh->mesh.numIndices = scene->mMeshes[newMesh->numMesh]->mNumFaces * 3;
-	newMesh->mesh.numVertices = scene->mMeshes[newMesh->numMesh]->mNumVertices;
+	newMesh->mesh.numVertices = numVertices;
 	allMeshes.push_back(newMesh);
 }
 
@@ -577,7 +585,6 @@ void ModuleModelLoader::GenerateOneMaterialData(ComponentMaterial* newMaterial) 
 	}
 	if (newMaterial->numModel == 2) newMaterial->material.texture0 = App->textures->Load("Assets/banana.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
 	if (newMaterial->numModel == 3) newMaterial->material.texture0 = App->textures->Load("Assets/tex.png", false, &newMaterial->material.sizeX, &newMaterial->material.sizeY);
-
 }
 
 void ModuleModelLoader::loadDroppedFile(char* path) {

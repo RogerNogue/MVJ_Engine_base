@@ -20,7 +20,7 @@ ComponentMaterial::ComponentMaterial(JSON_Value* matFile, GameObject* dad) :
 	id = matFile->getUint("ID");
 	numModel = matFile->getInt("numModel");
 	numMaterial = matFile->getInt("numMaterial");
-	path = matFile->getString("path");
+	setPath(matFile->getString("path"));
 	isTexture = matFile->getBool("isTexture");
 	if (!isTexture) {
 		surface.ambientColor = matFile->getVector4("Ambient color");

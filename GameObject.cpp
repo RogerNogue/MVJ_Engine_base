@@ -96,7 +96,6 @@ GameObject::GameObject(const char* n, GameObject* parent, int signal, bool light
 	calculateAABB();
 	App->scene->allObjects.push_back(this);
 	
-	parentId = parent->id;
 	paintBB = true;
 }
 
@@ -138,6 +137,7 @@ GameObject::GameObject(JSON_Value* objValue) {
 			case MATERIAL:
 				mat = new ComponentMaterial(componentData, this);
 				materials.push_back(mat);
+				hasmaterial = true;
 				break;
 			case TRANSFORM:
 				transform = new ComponentTransform(componentData, this);
@@ -148,6 +148,7 @@ GameObject::GameObject(JSON_Value* objValue) {
 			}
 		}
 	}
+	if (!Physical) calculateAABB();
 	App->scene->allObjects.push_back(this);
 }
 
