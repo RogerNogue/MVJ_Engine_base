@@ -160,7 +160,7 @@ GameObject::~GameObject()
 
 void GameObject::CleanUp() {
 	if (name != nullptr) delete name;
-	if (mesh != nullptr) delete name;
+	if (mesh != nullptr) delete mesh;
 	if (shape != nullptr) delete shape;
 	if (camera != nullptr) delete camera;
 	if (transform != nullptr) delete transform;
