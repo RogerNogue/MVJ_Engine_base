@@ -59,6 +59,7 @@ GLuint ModuleProgram::loadShaders(char* vertexFile, char* fragmentFile) {
 	glCompileShader(fs);
 	params = GL_TRUE;
 	maxLength = 0;
+	free(dataFragment);
 	//case compilation error fs
 	glGetShaderiv(fs, GL_COMPILE_STATUS, &params);
 	if (params == GL_FALSE) {
