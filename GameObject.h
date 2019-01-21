@@ -20,6 +20,7 @@ public:
 	GameObject(const char* n, GameObject* parent, int signal, bool light);
 	GameObject(JSON_Value* objValue);
 	~GameObject();
+	void CleanUp();
 	void deleteObject();
 	void deleteChild(unsigned idc);
 	void calculateAABB();

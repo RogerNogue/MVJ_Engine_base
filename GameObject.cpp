@@ -155,6 +155,15 @@ GameObject::GameObject(JSON_Value* objValue) {
 
 GameObject::~GameObject()
 {
+	CleanUp();
+}
+
+void GameObject::CleanUp() {
+	if (name != nullptr) delete name;
+	if (mesh != nullptr) delete name;
+	if (shape != nullptr) delete shape;
+	if (camera != nullptr) delete camera;
+	if (transform != nullptr) delete transform;
 }
 
 void GameObject::deleteObject() {
@@ -230,10 +239,12 @@ void GameObject::deleteObject() {
 			}
 	}
 	else {
+		//delete object if is light
 		for (int i = 0; i < App->scene->allLights.size(); ++i)
 			if (App->scene->allLights[i]->id == id) App->scene->allLights.erase(App->scene->allLights.begin() + i);
 	}
-	//delete object if is light
+	
+	CleanUp();//just in case somethings hanging
 }
 
 void GameObject::deleteChild(unsigned idc) {
