@@ -39,6 +39,7 @@ ComponentMaterial::~ComponentMaterial()
 
 bool ComponentMaterial::CleanUp() {
 	App->textures->Unload(material.texture0);
+	delete path;
 	return true;
 }
 

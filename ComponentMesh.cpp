@@ -52,6 +52,7 @@ bool ComponentMesh::CleanUp() {
 	{
 		glDeleteBuffers(1, &mesh.vio);
 	}
+	delete path;
 	return true;
 }
 
