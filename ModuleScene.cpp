@@ -218,6 +218,8 @@ void ModuleScene::loadScene(const char* name) {
 				baseObject = redObjects[i];
 			}
 		}
+		//clear the pointer since it's not gonna be used again
+		//for (int i = 0; i < redObjects.size(); ++i) delete redObjects[i];
 	}
 	json->closeFile();
 }
