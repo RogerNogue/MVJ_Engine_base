@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "Globals.h"
 #include "Brofiler.h"
+#include "vld.h"
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
