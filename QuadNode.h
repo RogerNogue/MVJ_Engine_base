@@ -14,6 +14,10 @@ public:
 	void getIntersections(std::vector<GameObject*>& objects);
 	void drawTree();
 	void CleanUp();
+	void deletechild1();
+	void deletechild2();
+	void deletechild3();
+	void deletechild4();
 
 	//variables
 	bool rootNode = false;

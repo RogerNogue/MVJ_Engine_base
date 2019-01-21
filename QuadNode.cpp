@@ -146,20 +146,20 @@ void QuadNode::deleteObject(GameObject* obj) {
 		belongings.clear();
 		switch (childNumber) {
 		case 1:
-			parent->child1 = nullptr;
 			CleanUp();
+			parent->deletechild1();
 			break;
 		case 2:
-			parent->child2 = nullptr;
 			CleanUp();
+			parent->deletechild2();
 			break;
 		case 3:
-			parent->child3 = nullptr;
 			CleanUp();
+			parent->deletechild3();
 			break;
 		case 4:
-			parent->child4 = nullptr;
 			CleanUp();
+			parent->deletechild4();
 			break;
 		}
 	}
@@ -181,4 +181,21 @@ void QuadNode::drawTree() {
 	if (child2 != nullptr) child2->drawTree();
 	if (child3 != nullptr) child3->drawTree();
 	if (child4 != nullptr) child4->drawTree();
+}
+
+void QuadNode::deletechild1() {
+	delete child1;
+	child1 = nullptr;
+}
+void QuadNode::deletechild2() {
+	delete child2;
+	child2 = nullptr;
+}
+void QuadNode::deletechild3() {
+	delete child3;
+	child3 = nullptr;
+}
+void QuadNode::deletechild4() {
+	delete child4;
+	child4 = nullptr;
 }
