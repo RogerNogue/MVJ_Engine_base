@@ -13,6 +13,7 @@ public:
 	update_status Update() override;
 	void UpdateFromGuizmo();
 	void placeAt000();
+	void placeAt1001000();
 	void saveTransform(JSON_Value* val);
 	void setValues(math::float4x4 newMat);
 

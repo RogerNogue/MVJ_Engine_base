@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Application.h"
 #include "Serializer.h"
+#include "GameplayLibrary.h"
 
 //local functions
 bool different(math::float3 a, math::float3 b) {
@@ -144,4 +145,11 @@ void ComponentTransform::setValues(math::float4x4 newMat) {
 		objectMoved = true;
 		UpdateFromGuizmo();
 	}
+}
+
+void ComponentTransform::placeAt1001000() {
+	positionValues = math::float3((float)number10(), (float)number10(), 0);
+	rotationValues = math::float3(0, 0, 0);
+	objectMoved = true;
+	Update();
 }

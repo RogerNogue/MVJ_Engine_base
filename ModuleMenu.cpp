@@ -234,6 +234,9 @@ update_status ModuleMenu::Update() {
 					if (ImGui::Button("Place at (0,0,0)")) {
 						App->scene->objectSelected->transform->placeAt000();
 					}
+					if (ImGui::Button("Place at (100,100,00)")) {
+						App->scene->objectSelected->transform->placeAt1001000();
+					}
 					App->scene->objectSelected->transform->Update();
 				}
 				if (App->scene->objectSelected->hasmaterial) {
